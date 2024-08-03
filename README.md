@@ -67,6 +67,17 @@
 - **ETL Pipeline**: Python
 - **Data Analytics Dashboard**: Power BI
 
+## File Strcuture
+
+- **NUMLPay/**: Contains the overall project files and directories.
+  - **Db/**: DB files with stored procedures.
+  - **Documentation/**: All the reports, UML diagrams, etc.
+  - **ETL Pipeline/**: ETL pipeline of NUMLPay from DB to warehouse.
+  - **NUMLPay-Api/**: Backend for mobile and web app.
+  - **NUMLPay-Mobile/**: Android app.
+  - **NUMLPay-WebApp/**: Web app of NUMLPay.
+  - **Testing/**: Test cases built in Python with Selenium.
+
 ## Technologies
 
 - **Frontend**: HTML, CSS, Bootstrap, JavaScript
@@ -94,11 +105,11 @@ The system underwent rigorous testing, employing Black Box techniques with Selen
 
 - **NUML Open House and Job Fair 2024**: NUMLPay won a prize at this event.  
 <div>
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/open-house.jpeg" alt="Open House Photo 1" width="190" style="display: inline-block; margin-right: 10px;" height="200">
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/prize-cer.jpeg" alt="Open House Photo 2" width="190" style="display: inline-block; margin-right: 10px;" height="200">
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/with-sir.jpeg" alt="Open House Photo 3" width="190" style="display: inline-block; margin-right: 10px;" height="200">
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/sheild.jpeg" alt="Open House Photo 4" width="190" style="display: inline-block; margin-right: 10px;" height="200">
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/cash%20prize.jpeg" alt="Open House Photo 5" width="190" style="display: inline-block;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/open-house.jpeg" alt="Open House Photo 1" width="150" style="display: inline-block; margin-right: 10px;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/prize-cer.jpeg" alt="Open House Photo 2" width="150" style="display: inline-block; margin-right: 10px;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/with-sir.jpeg" alt="Open House Photo 3" width="150" style="display: inline-block; margin-right: 10px;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/sheild.jpeg" alt="Open House Photo 4" width="150" style="display: inline-block; margin-right: 10px;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/cash%20prize.jpeg" alt="Open House Photo 5" width="150" style="display: inline-block;" height="200">
   </div>
   <br/>
   
@@ -119,15 +130,21 @@ The system underwent rigorous testing, employing Black Box techniques with Selen
 
 ## Gallery
 
-Below are some images of our team and the video of NUMLPay:
+Below are some images of our team:
 
   <div>
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/me-report.jpg" alt="Open House Photo 1" width="190" style="display: inline-block; margin-right: 10px;" height="200">
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/team1.jpeg" alt="Open House Photo 2" width="190" style="display: inline-block; margin-right: 10px;" height="200">
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/team2.jpeg" alt="Open House Photo 3" width="190" style="display: inline-block; margin-right: 10px;" height="200">
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/team3.jpeg" alt="Open House Photo 4" width="190" style="display: inline-block; margin-right: 10px;" height="200">
-    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/team4.jpeg" alt="Open House Photo 5" width="190" style="display: inline-block;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/me-report.jpg" alt="Open House Photo 1" width="150" style="display: inline-block; margin-right: 10px;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/team1.jpeg" alt="Open House Photo 2" width="150" style="display: inline-block; margin-right: 10px;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/team2.jpeg" alt="Open House Photo 3" width="150" style="display: inline-block; margin-right: 10px;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/team3.jpeg" alt="Open House Photo 4" width="150" style="display: inline-block; margin-right: 10px;" height="200">
+    <img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Images/team4.jpeg" alt="Open House Photo 5" width="150" style="display: inline-block;" height="200">
   </div>
+
+## Video
+
+Here is a video related to the NUMLPay:
+
+[![Watch the video](https://img.youtube.com/vi/nlD6mNDSlyk/0.jpg)](https://youtu.be/nlD6mNDSlyk)
 
 ---
 

@@ -3,7 +3,7 @@
 **NUMLPay** is a comprehensive fee payment system designed to streamline the payment process for students at the National University of Modern Languages (NUML). With over forty years of educational service in Pakistan, NUML continues to adapt to meet student needs, and NUMLPay is a testament to this commitment.
 <br/>
 <br/>
-<img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Logo/NUMLPAY.png?raw=true" alt="NUMLPay Logo" height="350" width="100%">
+<img src="https://github.com/Hanan-Nawaz/NUMLPay/blob/main/Documentation/Logo/NUMLPAY.png" alt="NUMLPay Logo" height="350" width="100%">
 
 ## Features
 

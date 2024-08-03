@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context=".fragments.account_book"
+android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginTop="1sp"
+        android:layout_height="600px"
+        android:background="@drawable/background"
+        android:text="Account Book"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20sp"
+        tools:ignore="RtlCompat" />
+
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_marginTop="100px"
+        android:layout_height="200px"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"
+        />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerViewChallanList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+</LinearLayout>

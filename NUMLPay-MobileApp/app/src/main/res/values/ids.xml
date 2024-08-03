@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="textViewChallanNo" type="id" />
+    <item name="textViewChallanType" type="id" />
+    <item name="textViewSemester" type="id" />
+    <item name="textViewInstallmentNo" type="id" />
+    <item name="textViewTotalFee" type="id" />
+    <item name="textViewDueDate" type="id" />
+</resources>

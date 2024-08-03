@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:foregroundTint="#090909"
+android:orientation="vertical"
+tools:context=".fragments.other_fee">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="600px"
+        android:layout_marginTop="1sp"
+        android:background="@drawable/background"
+        android:text="Generate Other Challans"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20sp"
+        tools:ignore="RtlCompat" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16sp">
+
+<Spinner
+    android:id="@+id/spinnerFeeFor"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/spinner_item_background"
+    android:minHeight="48dp"
+    android:prompt="@string/select_fee_type"
+    tools:ignore="HardcodedText" />
+
+<Button
+    android:id="@+id/buttonAddChallan"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/spinner_item_background"
+    android:backgroundTint="@color/sub_primary"
+    android:text="@string/add_challan"
+    android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,39 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/dashboard"
+        android:title="@string/dashboard"
+        android:textColor="@android:color/black" />
+
+    <item
+        android:id="@+id/generateChallan"
+        android:title="@string/generate_challan"
+        android:textColor="@android:color/black" />
+
+    <item
+        android:id="@+id/generateMChallan"
+        android:title="@string/generate_m_challan"
+        android:textColor="@android:color/black" />
+
+    <item
+        android:id="@+id/accountBook"
+        android:title="@string/account_book"
+        android:textColor="@android:color/black" />
+
+    <item
+        android:id="@+id/profile"
+        android:title="@string/profile"
+        android:textColor="@android:color/black" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"
+        android:textColor="@android:color/white" />
+
+    <item
+        android:id="@+id/exit"
+        android:title="@string/exit"
+        android:textColor="@android:color/black" />
+
+</menu>

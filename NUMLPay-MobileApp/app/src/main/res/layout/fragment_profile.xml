@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+tools:context=".fragments.profile">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1sp"
+    android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:orientation="vertical"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/background"
+            android:padding="15dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/iv_profile"
+                android:layout_gravity="center"
+                android:src="@drawable/loading"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enter_numl_id"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:id="@+id/tv_name"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="25dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="Email"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="7sp"
+                />
+
+            <EditText
+                android:id="@+id/tv_email"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:autofillHints=""
+                android:paddingLeft="5sp"
+                android:textColor="@color/sub_primary"
+                android:editable="false"
+                android:focusable="false"
+                android:inputType="none"                  android:background="@drawable/spinner_item_background"
+                android:hint="@string/enter_numl_id"
+                android:layout_marginBottom="20dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="Contact Number"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="7sp"
+                />
+            <EditText
+                android:id="@+id/tv_contact"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:autofillHints=""
+                android:layout_marginBottom="20dp"
+                android:paddingLeft="5sp"
+                android:textColor="@color/sub_primary"
+                android:editable="false"
+                android:focusable="false"
+                android:inputType="none"                  android:background="@drawable/spinner_item_background"
+                android:hint="@string/enter_numl_id"
+                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="CNIC"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="7sp"
+                />
+            <EditText
+                android:id="@+id/tv_cnic"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:autofillHints=""
+                android:layout_marginBottom="20dp"
+                android:paddingLeft="5sp"
+                android:textColor="@color/sub_primary"
+                android:editable="false"
+                android:focusable="false"
+                android:inputType="none"                  android:background="@drawable/spinner_item_background"
+                android:hint="@string/enter_numl_id"
+                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="DOB"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="7sp"
+                />
+            <EditText
+                android:id="@+id/tv_dob"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:autofillHints=""
+                android:textColor="@color/sub_primary"
+                android:editable="false"
+                android:focusable="false"
+                android:inputType="none"                  android:layout_marginBottom="20dp"
+                android:paddingLeft="5sp"
+                android:background="@drawable/spinner_item_background"
+                android:hint="@string/enter_numl_id"
+                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="NUML ID"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="7sp"
+                />
+            <EditText
+                android:id="@+id/tv_numl_id"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:autofillHints=""
+                android:layout_marginBottom="20dp"
+                android:paddingLeft="5sp"
+                android:textColor="@color/sub_primary"
+                android:editable="false"
+                android:focusable="false"
+                android:inputType="none"                  android:background="@drawable/spinner_item_background"
+                android:hint="@string/enter_numl_id"
+                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="Father Name"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="7sp"
+                />
+            <EditText
+                android:id="@+id/tv_father_name"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:autofillHints=""
+                android:layout_marginBottom="20dp"
+                android:paddingLeft="5sp"
+                android:textColor="@color/sub_primary"
+                android:editable="false"
+                android:focusable="false"
+                android:inputType="none"                android:background="@drawable/spinner_item_background"
+                android:hint="@string/enter_numl_id"
+                 />
+
+        </LinearLayout>
+
+
+
+</LinearLayout>
+
+</ScrollView>

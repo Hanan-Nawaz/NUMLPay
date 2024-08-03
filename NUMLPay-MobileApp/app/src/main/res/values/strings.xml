@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">NUMLPay</string>
+    <string name="enter_numl_id">Enter NUML ID</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="signup">SignUp</string>
+    <string name="login">Login</string>
+    <string name="todo">TODO</string>
+    <string name="url_static_api">https://www.example.com/</string>
+    <string name="url_static_web">https://localhost:44361</string>
+    <string name="generate_challan">Generate Challan</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="account_book">Account Book</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="generate_m_challan">Generate M Challan</string>
+    <string name="open">Open Navigation Drawer</string>
+    <string name="close">Close Navigation Drawer</string>
+    <string name="exit">Exit</string>
+    <string name="domain_url">http://192.168.1.100:8082</string>
+    <string name="add_challan">Add Challan</string>
+    <string name="select_fee_type">Select Fee Type</string>
+    <string name="select_session">Select Session</string>
+    <string name="select_bus_route">Select Bus Route</string>
+    <string name="select_installments">Select Installments</string>
+    <string name="download_recipt">Download Recipt</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_image">Select Image</string>
+    <string name="verify_challan">Verify Challan</string>
+
+
+</resources>

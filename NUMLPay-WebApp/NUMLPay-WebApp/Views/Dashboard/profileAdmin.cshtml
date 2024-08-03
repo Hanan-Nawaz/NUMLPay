@@ -60,14 +60,14 @@
                         <div class="col-md-6">
                             <label>Role *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.role, ViewBag.roles as SelectList, "Select Role", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.DropDownListFor(model => model.role, ViewBag.roles as SelectList, "Select Role", new { @class = "form-control", @disabled = "true" })
                                 @Html.ValidationMessageFor(model => model.role, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label>Campus </label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.campus_id, ViewBag.campusList as IEnumerable<SelectListItem>, "Select Campus", new { @class = "form-control", id = "campusDropdown", @readonly = "readonly" })
+                                @Html.DropDownListFor(model => model.campus_id, ViewBag.campusList as IEnumerable<SelectListItem>, "Select Campus", new { @class = "form-control", id = "campusDropdown", @disabled = "true" })
                                 @Html.ValidationMessageFor(model => model.campus_id, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                         <div class="col-md-6">
                             <label>Faculty</label>
                             <div class="form-group">
-                                <select id="facultyDdl" class="form-control" readonly = "readonly">
+                                <select id="facultyDdl" class="form-control" disabled>
                                     <option value="">Select Faculty</option>
                                     @{
                                         var facultyList = ViewBag.facultyList as IEnumerable<SelectListItem>;
@@ -100,7 +100,7 @@
                         <div class="col-md-6">
                             <label>Department</label>
                             <div class="form-group">
-                                <select id="deptDdl" class="form-control" readonly = "readonly">
+                                <select id="deptDdl" class="form-control" disabled>
                                     <option value="">Select Department</option>
                                     @{
                                         var deptList = ViewBag.deptList as IEnumerable<SelectListItem>;
@@ -132,7 +132,7 @@
                         <div class="col-md-6">
                             <label>Status *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control", @disabled = "true" })
                                 @Html.ValidationMessageFor(model => model.is_active, "", new { @class = "text-danger" })
                             </div>
                         </div>

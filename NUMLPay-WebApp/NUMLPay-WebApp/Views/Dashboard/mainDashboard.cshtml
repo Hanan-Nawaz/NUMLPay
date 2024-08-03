@@ -1,6 +1,104 @@
-﻿@{ 
+﻿@{
     Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
     ViewBag.Title = "Dashboard";
 }
 
-<h1>Dashboard</h1>
+<div class="container-fluid">
+
+    <div class="col-md-13">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <center>
+                            <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-tachometer-alt fa-fw me-3 "></i>Dashboard</label>
+                        </center>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <label>Total Campus</label>
+                        <ul class="list-group">
+                            @foreach (var faculty in ViewBag.campuses)
+                            {
+                                <li class="list-group-item">@faculty.FacultyName</li>
+                            }
+
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <canvas id="deptChart" width="600" height="600"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="hostelBusChart" width="600" height="600"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        function createBarChart(chartData, chartId, label) {
+            var campuses = [];
+            var fees = [];
+
+            chartData.forEach(function (item) {
+                campuses.push(item.CampusName);
+                fees.push(item.FeePaid);
+            });
+
+            var maxFee = Math.max(...fees);
+
+            var maxY = maxFee * 1.1;
+
+            var ctx = document.getElementById(chartId).getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: campuses,
+                    datasets: [{
+                        label: label,
+                        data: fees,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                suggestedMax: maxY
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+         $(document).ready(function () {
+             createBarChart(@Html.Raw(Json.Encode(ViewBag.FeePaidByCampusData)), 'hostelBusChart', 'Total Fee Paid By Campus');
+             createBarChart(@Html.Raw(Json.Encode(ViewBag.studentsincampusData)), 'deptChart', 'Total Students in Campus');
+ });
+
+    </script>
+
+}

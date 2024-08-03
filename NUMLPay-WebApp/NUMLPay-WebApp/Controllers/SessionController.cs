@@ -38,10 +38,23 @@ namespace NUMLPay_WebApp.Controllers
         //Logout
         public ActionResult Logout()
         {
-            Session.Clear();
-            Session.Abandon();
+            
+            if (Convert.ToInt32(Session["As"]) == 1)
+            {
+                Session.Clear();
+                Session.Abandon();
 
-            return RedirectToAction("Login", "Home");
+                return RedirectToAction("Login", "Home");
+
+            }
+            else
+            {
+                Session.Clear();
+                Session.Abandon();
+
+                return RedirectToAction("loginAdmin", "Home");
+            }
+
         }
     }
 }

@@ -2,7 +2,7 @@
     $('#campusDropdown').change(function () {
         $.getJSON('/Home/getFacultiesByCampusAsync?campusId=' + ($('#campusDropdown').val()), function (data) {
             $('#facultyDdl').empty();
-            var items = '<option>Select Faculty</option>';
+            var items = '<option value="">Select Faculty</option>';
             $.each(data, function (i, faculty) {
                 items += "<option value='" + faculty.Value + "'>" + faculty.Text + "</option>";
             });
@@ -11,7 +11,7 @@
     });
     $('#facultyDdl').change(function () {
         $.getJSON('/Home/getDeptsByFacultyAsync?facultyId=' + ($('#facultyDdl').val()), function (data) {
-            var items = '<option>Select Department</option>';
+            var items = '<option value="">Select Department</option>';
             $.each(data, function (i, dept) {
                 items += "<option value='" + dept.Value + "'>" + dept.Text + "</option>";
             });

@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 2 })]
+    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 2, 4 })]
     public class FeePlanController : SessionController
     {
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
@@ -126,7 +126,7 @@ namespace NUMLPay_WebApp.Controllers
             }
 
             List<FeePlan> listFeePlans = await feePlanService.getFeePlanAsync();
-            return View("viewFeePlans", listFeePlans);
+            return RedirectToAction("viewFeePlans", listFeePlans);
         }
 
         // Delete Fee Plan

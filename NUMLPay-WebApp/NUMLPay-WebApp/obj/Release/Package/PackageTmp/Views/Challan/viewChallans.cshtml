@@ -38,9 +38,6 @@
                                     Fee For Session
                                 </th>
                                 <th class="th-sm">
-                                    Admission Session
-                                </th>
-                                <th class="th-sm">
                                     Due Date
                                 </th>
                                 <th class="th-sm">
@@ -67,40 +64,31 @@
                                         <td>
                                             @if (item.SessionName == 1)
                                             {
-                                                <span class="text-primary">Fall </span> @item.SessionYear
+                                                <span >Fall </span> @item.SessionYear
                                             }
                                             else
                                             {
-                                                <span class="text-primary">Spring </span> @item.SessionYear
+                                                <span >Spring </span> @item.SessionYear
                                             }
                                         </td>
-                                        <td>
-                                            @if (item.AdmissionSessionName == 1)
-                                            {
-                                                <span class="text-primary">Fall </span> @item.AdmissionSessionYear
-                                            }
-                                            else
-                                            {
-                                                <span class="text-primary">Spring </span> @item.AdmissionSessionYear
-                                            }
-                                        </td>
+                                        
                                         <td>@item.due_date.ToString("MM/dd/yyyy")</td>
                                         <td>
                                             @if (item.fee_for == 1)
                                             {
-                                                <span class="text-primary">Tuition Fee</span>
+                                                <span >Tuition Fee</span>
                                             }
                                             else if (item.fee_for == 2)
                                             {
-                                                <span class="text-primary">Bus Fee</span>
+                                                <span >Bus Fee</span>
                                             }
                                             else if (item.fee_for == 3)
                                             {
-                                                <span class="text-primary">Hostel Fee</span>
+                                                <span >Hostel Fee</span>
                                             }
                                             else
                                             {
-                                                <span class="text-primary">Mess Fee</span>
+                                                <span >Mess Fee</span>
                                             }
                                         </td>
                                         <td>@item.valid_date.ToString("MM/dd/yyyy")</td>

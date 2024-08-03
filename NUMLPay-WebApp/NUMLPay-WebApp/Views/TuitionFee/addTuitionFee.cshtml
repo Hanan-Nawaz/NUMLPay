@@ -43,7 +43,7 @@
                         <div class="col-md-6">
                             <label>Admission Session *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.session, ViewBag.admissionSession as SelectList, "Select Fee Session", new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.session, ViewBag.admissionSession as SelectList, "Select Fee Session", new { @class = "form-control", @required = "true" })
                                 @Html.ValidationMessageFor(model => model.session, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="col-md-6">
                             <label>Fee For *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control", @required = "true" })
                                 @Html.ValidationMessageFor(model => model.fee_for, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -61,14 +61,14 @@
                         <div class="col-md-6">
                             <label>Total Fee *</label>
                             <div class="form-group">
-                                @Html.EditorFor(model => model.total_fee, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.total_fee, new { htmlAttributes = new { @class = "form-control", @readonly = "true", id = "total_fee", @required = "true" } })
                                 @Html.ValidationMessageFor(model => model.total_fee, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label>Campus *</label>
                             <div class="form-group">
-                                <select id="campusDropdown" class="form-control">
+                                <select id="campusDropdown" class="form-control" required>
                                     <option value="">Select Campus</option>
                                     @foreach (var campus in ViewBag.campusList)
                                     {
@@ -83,8 +83,8 @@
                         <div class="col-md-6">
                             <label>Faculty *</label>
                             <div class="form-group">
-                                <select id="facultyDdl" class="form-control">
-                                    <option>Select Faculty</option>
+                                <select id="facultyDdl" class="form-control" required>
+                                    <option value="">Select Faculty</option>
                                     @{
                                         var facultyList = ViewBag.facultyList as IEnumerable<SelectListItem>;
 
@@ -103,7 +103,7 @@
                         <div class="col-md-6">
                             <label>Department *</label>
                             <div class="form-group">
-                                <select id="deptDdl" class="form-control">
+                                <select id="deptDdl" class="form-control" required>
                                     <option value="">Select Department</option>
                                     @{
                                         var deptList = ViewBag.deptList as IEnumerable<SelectListItem>;
@@ -125,7 +125,7 @@
                         <div class="col-md-6">
                             <label>Academic Level *</label>
                             <div class="form-group">
-                                <select id="academicDdl" class="form-control">
+                                <select id="academicDdl" class="form-control" required>
                                     <option value="">Select Academic Level</option>
                                     @foreach (var level in ViewBag.academicLevels)
                                     {
@@ -138,7 +138,7 @@
                         <div class="col-md-6">
                             <label>Degree *</label>
                             <div class="form-group">
-                                <select id="degreeDdl" class="form-control">
+                                <select id="degreeDdl" class="form-control" required>
                                     <option value="">Select Degree</option>
                                 </select>
                                 @Html.ValidationMessageFor(model => model.shift_id, "", new { @class = "text-danger" })
@@ -151,13 +151,13 @@
                         <div class="col-md-6">
                             <label>Examination Fee *</label>
                             <div class="form-group">
-                                <input name="examFee" class="form-control" type="number" />
+                                <input name="examFee" class="form-control" type="number" onchange="calculateTotal()" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label>Maintainence Charges *</label>
                             <div class="form-group">
-                                <input name="maintainceFee" class="form-control" type="number" />
+                                <input name="maintainceFee" class="form-control" type="number" onchange="calculateTotal()"required/>
                             </div>
                         </div>
                     </div>
@@ -166,13 +166,13 @@
                         <div class="col-md-6">
                             <label>Magazine Fund *</label>
                             <div class="form-group">
-                                <input name="magazineFee" class="form-control" type="number" />
+                                <input name="magazineFee" class="form-control" type="number" onchange="calculateTotal()"required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label>Computer Lab Charges *</label>
                             <div class="form-group">
-                                <input name="computerLabFee" class="form-control" type="number" />
+                                <input name="computerLabFee" class="form-control" type="number" onchange="calculateTotal()"required/>
                             </div>
                         </div>
                     </div>
@@ -181,13 +181,13 @@
                         <div class="col-md-6">
                             <label>Admission Fee *</label>
                             <div class="form-group">
-                                <input name="admissionFee" class="form-control" type="number" />
+                                <input name="admissionFee" class="form-control" type="number" onchange="calculateTotal()" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label>Medical Facility </label>
+                            <label>Medical Facility *</label>
                             <div class="form-group">
-                                <input name="medicalFee" class="form-control" type="number" />
+                                <input name="medicalFee" class="form-control" type="number" onchange="calculateTotal()" required/>
                             </div>
                         </div>
                     </div>
@@ -196,13 +196,13 @@
                         <div class="col-md-6">
                             <label>Sports Fund *</label>
                             <div class="form-group">
-                                <input name="sportsFee" class="form-control" type="number" />
+                                <input name="sportsFee" class="form-control" type="number" onchange="calculateTotal()" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label>Audio Visual Aids Fund & I.T Services  *</label>
                             <div class="form-group">
-                                <input name="audioFee" class="form-control" type="number" />
+                                <input name="audioFee" class="form-control" type="number" onchange="calculateTotal()" required/>
                             </div>
                         </div>
                     </div>
@@ -211,13 +211,13 @@
                         <div class="col-md-6">
                             <label>Library Security (Refundable) *</label>
                             <div class="form-group">
-                                <input name="librarySecFee" class="form-control" type="number" />
+                                <input name="librarySecFee" class="form-control" type="number" onchange="calculateTotal()" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label>Tuition Fee *</label>
                             <div class="form-group">
-                                <input name="tuitionFee" class="form-control" type="number" />
+                                <input name="tuitionFee" class="form-control" type="number" onchange="calculateTotal()" required/>
                             </div>
                         </div>
                     </div>
@@ -226,13 +226,13 @@
                         <div class="col-md-6">
                             <label>Registration Fee *</label>
                             <div class="form-group">
-                                <input name="registrationFee" class="form-control" type="number" />
+                                <input name="registrationFee" class="form-control" type="number" onchange="calculateTotal()" required/>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label>Library Subscription *</label>
                             <div class="form-group">
-                                <input name="libraryFee" class="form-control" type="number" />
+                                <input name="libraryFee" class="form-control" type="number" onchange="calculateTotal()" required/>
                             </div>
                         </div>
                     </div>
@@ -258,7 +258,7 @@
 
     $('#academicDdl').change(function () {
         $.getJSON('/Home/getDegrees?deptId=' + $('#deptDdl').val() + '&levelId=' + $('#academicDdl').val(), function (data) {
-            var items = '<option>Select Degree</option>';
+            var items = '<option value="">Select Degree</option>';
             $.each(data, function (i, degree) {
                 items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
             });
@@ -271,9 +271,33 @@
 
         $("input[name='shift_id']").val(selectedValueDegree);
     });
+
+        function calculateTotal() {
+            // Get all the input elements by their names and sum up their values
+            var examFee = parseFloat(document.getElementsByName("examFee")[0].value) || 0;
+        var maintainceFee = parseFloat(document.getElementsByName("maintainceFee")[0].value) || 0;
+        var magazineFee = parseFloat(document.getElementsByName("magazineFee")[0].value) || 0;
+        var computerLabFee = parseFloat(document.getElementsByName("computerLabFee")[0].value) || 0;
+        var admissionFee = parseFloat(document.getElementsByName("admissionFee")[0].value) || 0;
+        var medicalFee = parseFloat(document.getElementsByName("medicalFee")[0].value) || 0;
+        var sportsFee = parseFloat(document.getElementsByName("sportsFee")[0].value) || 0;
+        var audioFee = parseFloat(document.getElementsByName("audioFee")[0].value) || 0;
+        var librarySecFee = parseFloat(document.getElementsByName("librarySecFee")[0].value) || 0;
+        var tuitionFee = parseFloat(document.getElementsByName("tuitionFee")[0].value) || 0;
+        var registrationFee = parseFloat(document.getElementsByName("registrationFee")[0].value) || 0;
+        var libraryFee = parseFloat(document.getElementsByName("libraryFee")[0].value) || 0;
+
+        // Calculate the total fee
+        var totalFee = examFee + maintainceFee + magazineFee + computerLabFee +
+        admissionFee + medicalFee + sportsFee + audioFee + librarySecFee +
+                tuitionFee + registrationFee + libraryFee;
+            console.log(totalFee)
+            // Display the total fee in the text field
+            document.getElementById("total_fee").value = totalFee.toFixed(2);
+        }
 </script>
 
-@if (ViewBag.adminRole == "2")
+@if (ViewBag.adminRole == "2" || ViewBag.adminRole == "4")
 {
     <script src="~/js/cascadingDropdown.js"></script>
 

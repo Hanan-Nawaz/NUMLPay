@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<NUMLPay_WebApp.ViewModel.ReportFee>
+
+@{
     ViewBag.Title = "Download Summer Fee Reports";
     Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
 }
@@ -33,6 +35,45 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                 <div class="row">
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Campus *</label>
+                        <div class="form-group">
+                            <select id="campusDropdown" class="form-control" required>
+                                <option value="">Select Campus</option>
+                                @if (ViewBag.campusList != null)
+                                {
+                                    foreach (var level in ViewBag.campusList)
+                                    {
+                                        <option value="@level.Value">@level.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Faculty *</label>
+                        <div class="form-group">
+                            <select id="facultyDdl" class="form-control" required>
+                                <option value="">Select faculty</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="display: @ViewBag.adminRoles">
+                        <label>Department *</label>
+                        <div class="form-group">
+                            <select id="deptDdl" class="form-control" required>
+                                <option value="">Select department</option>
+
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-md-12">
                         <label>For Session *</label>
                         <div class="form-group">
@@ -48,6 +89,13 @@
                 </div>
 
                 <div class="row mt-5">
+                    <div class="col-md-6 mx-auto">
+                        <center>
+                            <div class="form-group">
+                                <input type="submit" id="viewReportBtn" value="View Data" class="btnLogin" />
+                            </div>
+                        </center>
+                    </div>
                     <div class="col-md-4 mx-auto">
                         <center>
                             <div class="form-group">
@@ -55,6 +103,53 @@
                             </div>
                         </center>
                     </div>
+                </div>
+
+                <div class="table-responsive mt-5">
+                    <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="th-sm">
+                                    NUML ID
+                                </th>
+                                <th class="th-sm">
+                                    Name
+                                </th>
+                                <th class="th-sm">
+                                    Semester
+                                </th>
+                                <th class="th-sm">
+                                    Degree Name
+                                </th>
+                                
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.numl_id)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.semester)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.degree_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.fee_status)</td>
+
+
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center text-danger">No data found.</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
@@ -66,14 +161,40 @@
 
 <script>
     $(document).ready(function () {
+        $('#downloadReportBtn').click(function (event) {
+            var selectedValueCampus = $("#sessionDropdown").val();
+            var campus = $('#deptDdl').val();
 
-        $('#downloadReportBtn').click(function () {
+            var campusVisible = $('#deptDdl').closest('.col-md-12').is(':visible');
+            // Check if the selected value is empty or the department dropdown is set to the default option
+            if (!selectedValueCampus || (campusVisible && (!campus || campus === '' || campus === 'Select Department'))) {
+                event.preventDefault();
+                alert("Please select all fields.");
+                return false;
+            } else {
+                // Proceed with form submission if all fields are selected
+                window.location.href = '/DownloadReport/downloadSummerFeeReport?year=' + selectedValueCampus + '&deptId=' + campus;
+            }
+        });
 
+        $('#viewReportBtn').click(function (event) {
+            var selectedValueCampus = $("#sessionDropdown").val();
+            var campus = $('#deptDdl').val();
 
-            window.location.href = '/DownloadReport/downloadSummerFeeReport?year=' + $('#sessionDropdown').val();
-
-            
+            var campusVisible = $('#deptDdl').closest('.col-md-12').is(':visible');
+            // Check if the selected value is empty or the department dropdown is set to the default option
+            if (!selectedValueCampus || (campusVisible && (!campus || campus === '' || campus === 'Select Department'))) {
+                event.preventDefault();
+                alert("Please select all fields.");
+                return false;
+            } else {
+                // Proceed with form submission if all fields are selected
+                window.location.href = '/DownloadReport/viewSummerFeeReport?year=' + selectedValueCampus + '&deptId=' + campus;
+            }
         });
     });
-
 </script>
+
+
+
+<script src="~/js/cascadingDropdown.js"></script>

@@ -18,7 +18,7 @@ namespace NUMLPay_WebApp.Models
 
         [Required(ErrorMessage = "Name is required.")]
         [Column(TypeName = "varchar")]
-        [StringLength(50)]
+        [StringLength(200)]
         public string name { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]

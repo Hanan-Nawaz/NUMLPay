@@ -56,45 +56,45 @@
                                         <td>
                                             @if (item.mode == 1)
                                             {
-                                                <span class="text-success">No Installment</span>
+                                                <span >No Installment</span>
                                             }
                                             else if (item.mode == 2)
                                             {
-                                                <span class="text-primary">2 Installment</span>
+                                                <span >2 Installment</span>
                                             }
                                             else if (item.mode == 3)
                                             {
-                                                <span class="text-primary">3 Installment</span>
+                                                <span >3 Installment</span>
                                             }
                                             else if (item.mode == 4)
                                             {
-                                                <span class="text-primary">4 Installment</span>
+                                                <span >4 Installment</span>
                                             }
                                             else
                                             {
-                                                <span class="text-primary">5 Installment</span>
+                                                <span >5 Installment</span>
                                             }
                                         </td>
                                         <td>
                                             @if (item.fee_for == 1)
                                             {
-                                                <span class="text-success">Tuition Fee</span>
+                                                <span >Tuition Fee</span>
                                             }
                                             else if (item.fee_for == 2)
                                             {
-                                                <span class="text-primary">Bus Fee</span>
+                                                <span >Bus Fee</span>
                                             }
                                             else if (item.fee_for == 3)
                                             {
-                                                <span class="text-primary">Hostel Fee</span>
+                                                <span >Hostel Fee</span>
                                             }
                                             else if (item.fee_for == 4)
                                             {
-                                                <span class="text-primary">Mess Fee</span>
+                                                <span >Mess Fee</span>
                                             }
                                             else
                                             {
-                                                <span class="text-primary">Other Fee</span>
+                                                <span>Other Fee</span>
                                             }
                                         </td>
                                         <td>@Html.DisplayFor(modelItem => item.added_by)</td>

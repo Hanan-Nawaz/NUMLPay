@@ -59,7 +59,7 @@
                         <label>Faculty *</label>
                         <div class="form-group">
                             <select id="facultyDdl" class="form-control">
-                                <option>Select Faculty</option>
+                                <option value="">Select Faculty</option>
                                 @{
                                     var facultyList = ViewBag.facultyList as IEnumerable<SelectListItem>;
 
@@ -81,7 +81,7 @@
                         <label>Department *</label>
                         <div class="form-group">
                             <select id="deptDdl" class="form-control">
-                                <option>Select Department</option>
+                                <option value="">Select Department</option>
                                 @{
                                     var deptList = ViewBag.deptList as IEnumerable<SelectListItem>;
 
@@ -101,7 +101,7 @@
                         <label>Degree *</label>
                         <div class="form-group">
                             <select id="degreeDdl" class="form-control">
-                                <option>Select Degree</option>
+                                <option value="">Select Degree</option>
                             </select>
                             @Html.ValidationMessageFor(model => model.degree_id, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.degree_id) <!-- Add a hidden input field -->
@@ -113,7 +113,7 @@
                     <div class="col-md-6">
                         <label>Academic Level *</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(model => model.academic_id, ViewBag.academicLevels as SelectList, "Select Academic Level", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.academic_id, ViewBag.academicLevels as SelectList, "Select Academic Level", new { @class = "form-control", @required="true" })
                             @Html.ValidationMessageFor(model => model.academic_id, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                     <div class="col-md-6">
                         <label>Shift *</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(model => model.shift, ViewBag.shiftLevel as SelectList, "Select Shift", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.shift, ViewBag.shiftLevel as SelectList, "Select Shift", new { @class = "form-control", @required = "true" })
                             @Html.ValidationMessageFor(model => model.shift, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -155,7 +155,7 @@
 
     $('#deptDdl').change(function () {
         $.getJSON('/Degree/getDegrees?deptId=' + $('#deptDdl').val(), function (data) {
-            var items = '<option>Select Degree</option>';
+            var items = '<option value="">Select Degree</option>';
             $.each(data, function (i, degree) {
                 items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
             });
@@ -164,6 +164,44 @@
     });
 
     $("form").submit(function () {
+
+        var selectedValueCampus = $("#campusDropdown").val();
+
+        // Check if the selected value is empty
+        if (!selectedValueCampus) {
+            event.preventDefault();
+            alert("Please select a campus.");
+            return false;
+        }
+
+        var facultyDdl = $("#facultyDdl").val();
+
+        // Check if the selected value is empty
+        if (!facultyDdl) {
+            event.preventDefault();
+            alert("Please select a Faculty.");
+            return false;
+        }
+
+        var deptDdl = $("#deptDdl").val();
+
+        // Check if the selected value is empty
+        if (!deptDdl) {
+            event.preventDefault();
+            alert("Please select a Department.");
+            return false;
+        }
+
+
+        var degreeDdl = $("#degreeDdl").val();
+
+        // Check if the selected value is empty
+        if (!degreeDdl) {
+            event.preventDefault();
+            alert("Please select a Degree.");
+            return false;
+        }
+
         var selectedValueDegree = $("#degreeDdl").val();
 
         $("input[name='degree_id']").val(selectedValueDegree);

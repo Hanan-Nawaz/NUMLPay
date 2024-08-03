@@ -117,7 +117,7 @@
                         <div class="col-md-6">
                             <label>Campus *</label>
                             <div class="form-group">
-                                <select id="campusDropdown" class="form-control" readonly="readonly">
+                                <select id="campusDropdown" class="form-control" disabled>
                                     <option value="">Select Campus</option>
                                     @foreach (var campus in ViewBag.campusList)
                                     {
@@ -129,7 +129,7 @@
                         <div class="col-md-6">
                             <label>Faculty *</label>
                             <div class="form-group">
-                                <select id="facultyDdl" class="form-control" readonly="readonly">
+                                <select id="facultyDdl" class="form-control" disabled>
                                     <option>Select Faculty</option>
                                     @foreach (var faculty in ViewBag.facultyList)
                                     {
@@ -144,7 +144,7 @@
                         <div class="col-md-6">
                             <label>Department *</label>
                             <div class="form-group">
-                                <select id="deptDdl" class="form-control" readonly="readonly">
+                                <select id="deptDdl" class="form-control" disabled>
                                     <option value="">Select Department</option>
                                     @foreach (var dept in ViewBag.deptList)
                                     {
@@ -158,7 +158,7 @@
                         <div class="col-md-6">
                             <label>Academic Level *</label>
                             <div class="form-group">
-                                <select id="academicDdl" class="form-control" readonly="readonly">
+                                <select id="academicDdl" class="form-control" disabled>
                                     <option value="">Select Academic Level</option>
                                     @foreach (var level in ViewBag.academicLevels)
                                     {
@@ -173,7 +173,7 @@
                         <div class="col-md-6">
                             <label>Degree *</label>
                             <div class="form-group">
-                                <select id="degreeDdl" class="form-control" readonly="readonly">
+                                <select id="degreeDdl" class="form-control" disabled>
                                     <option value="">Select Degree</option>
                                     @foreach (var degree in ViewBag.degreeList)
                                     {
@@ -204,7 +204,7 @@
                         <div class="col-md-6">
                             <label>Fee Plan *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.fee_plan, ViewBag.feePlan as SelectList, "Select Fee Plan", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.DropDownListFor(model => model.fee_plan, ViewBag.feePlan as SelectList, "Select Fee Plan", new { @class = "form-control", @disabled = "true" })
                                 @Html.ValidationMessageFor(model => model.fee_plan, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -214,7 +214,7 @@
                         <div class="col-md-6">
                             <label>Semester Fee *</label>
                             <div class="form-group">
-                                <select name="semDdl" class="form-control" readonly="readonly">
+                                <select name="semDdl" class="form-control" disabled>
                                     <option>Select Semester Fees</option>
                                     @foreach (var sem in ViewBag.semFee)
                                     {
@@ -226,7 +226,7 @@
                         <div class="col-md-6">
                             <label>Bus Fee *</label>
                             <div class="form-group">
-                                <select name="busDdl" class="form-control" readonly="readonly">
+                                <select name="busDdl" class="form-control" disabled>
                                     <option>Select Bus Fees</option>
                                     @foreach (var bus in ViewBag.busFee)
                                     {
@@ -241,7 +241,7 @@
                         <div class="col-md-6">
                             <label>Hostel Fee *</label>
                             <div class="form-group">
-                                <select name="hostelDdl" class="form-control" readonly="readonly">
+                                <select name="hostelDdl" class="form-control" disabled>
                                     <option>Select Hostel Fees</option>
                                     @foreach (var hostel in ViewBag.hostelFee)
                                     {
@@ -253,7 +253,7 @@
                         <div class="col-md-6">
                             <label>Status of Degree *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.status_of_degree, ViewBag.statusDegree as SelectList, "Select Status", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.DropDownListFor(model => model.status_of_degree, ViewBag.statusDegree as SelectList, "Select Status", new { @class = "form-control", @disabled = "true" })
                                 @Html.ValidationMessageFor(model => model.status_of_degree, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -264,7 +264,7 @@
                         <div class="col-md-6">
                             <label>Status *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control", @disabled = "true" })
                                 @Html.ValidationMessageFor(model => model.is_active, "", new { @class = "text-danger" })
                             </div>
                         </div>

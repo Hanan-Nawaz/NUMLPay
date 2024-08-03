@@ -29,6 +29,54 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Campus *</label>
+                        <div class="form-group">
+                            <select id="campusDropdown" class="form-control" required>
+                                <option value="">Select Campus</option>
+                                @if (ViewBag.campusList != null)
+                                {
+                                    foreach (var level in ViewBag.campusList)
+                                    {
+                                        <option value="@level.Value">@level.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Faculty *</label>
+                        <div class="form-group">
+                            <select id="facultyDdl" class="form-control" required>
+                                <option value="">Select faculty</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Department *</label>
+                        <div class="form-group">
+                            <select id="deptDdl" class="form-control" required>
+                                <option value="">Select department</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label> </label>
+                        <div class="form-group">
+                            <button id="navigateButton" class="btnLogin">Search</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="table-responsive mt-2">
                     <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                         <thead>
@@ -66,7 +114,7 @@
                                         <td>@Html.DisplayFor(modelItem => item.status)</td>
 
                                         <td class="d-flex justify-content-center" style="padding-top: 21px; padding-bottom: 21px;">
-                                            <button type="button" class="btn btn-primary btn-sm delete-btn me-2" title="Print" data-id="@item.fI_Id,@item.fee_type">
+                                            <button type="button" class="btn btn-primary btn-sm delete-btn me-2" title="Print" data-id="@item.fI_Id,@item.semester,@item.fee_type">
                                                 Verify
                                             </button>
                                         </td>
@@ -112,6 +160,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         var rowIdToVerify;
         var rowfeeTypeToVerify;
+        var rowSemToVerify;
 
         var showDeleteConfirmation = function () {
             var deleteConfirmationModal = document.getElementById("deleteConfirmationModal");
@@ -124,8 +173,9 @@
         deleteBtns.forEach(function (deleteBtn) {
             deleteBtn.addEventListener("click", function () {
                 var dataIds = this.getAttribute("data-id").split(",");
-                rowIdToVerify = dataIds[0]; 
-                rowfeeTypeToVerify = dataIds[1];
+                rowIdToVerify = dataIds[0];
+                rowSemToVerify = dataIds[1];
+                rowfeeTypeToVerify = dataIds[2];
 
                 showDeleteConfirmation();
             });
@@ -133,7 +183,7 @@
 
         var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
         confirmDeleteBtn.addEventListener("click", function () {
-            var deleteUrl = "/ChallanVerification/verifyChallan?Id=" + rowIdToVerify + "&feeType=" + rowfeeTypeToVerify;
+            var deleteUrl = "/ChallanVerification/verifyChallan?Id=" + rowIdToVerify + "&sem=" + rowSemToVerify  +"&feeType=" + rowfeeTypeToVerify;
             window.location.href = deleteUrl;
 
             var deleteConfirmationModal = document.getElementById("deleteConfirmationModal");
@@ -142,7 +192,7 @@
             deleteConfirmationModal.setAttribute("aria-hidden", "true");
         });
 
-        
+
         var closeModalBtns = document.querySelectorAll(".modal .close");
         closeModalBtns.forEach(function (closeModalBtn) {
             closeModalBtn.addEventListener("click", function () {
@@ -153,7 +203,28 @@
             });
         });
     });
+
+    $(document).ready(function () {
+        $('#navigateButton').click(function () {
+            var selectedDept = $('#deptDdl').val();
+
+            if (selectedDept != "Select Department" && selectedDept) {
+                console.log(selectedDept);
+                var url = '/ChallanVerification/sessionGenerator?dept=' + selectedDept;
+
+                window.location.href = url;
+            }
+            else {
+                alert("Please Select Campus, Faculty and Department.");
+            }
+
+           
+        });
+    });
 </script>
+
+<script src="~/js/cascadingDropdown.js"></script>
+
 
 
 

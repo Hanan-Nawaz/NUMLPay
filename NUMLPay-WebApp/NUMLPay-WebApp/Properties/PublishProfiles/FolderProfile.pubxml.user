@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>E:\web_app</_PublishTargetUrl>
-    <History>True|2024-02-26T12:39:26.8783379Z;True|2024-02-26T17:25:42.0971107+05:00;True|2024-02-26T17:24:25.8541017+05:00;True|2024-02-26T16:04:44.2502241+05:00;False|2024-02-26T16:03:56.0710173+05:00;</History>
+    <_PublishTargetUrl>E:\University\FYP\Code\Deployment\WebApps</_PublishTargetUrl>
+    <History>True|2024-05-14T20:09:50.2725583Z;True|2024-05-12T15:07:31.5614563+05:00;True|2024-05-10T04:20:48.2913390+05:00;True|2024-05-10T03:15:14.4378379+05:00;True|2024-05-10T03:07:42.9305999+05:00;True|2024-05-08T18:35:42.2731072+05:00;True|2024-05-08T18:33:50.8244913+05:00;True|2024-05-08T17:29:33.3628466+05:00;True|2024-05-08T17:16:53.1170824+05:00;True|2024-05-08T05:26:21.9477147+05:00;True|2024-05-07T00:02:02.9560185+05:00;True|2024-05-06T23:08:03.8717357+05:00;True|2024-05-06T23:06:05.4546461+05:00;True|2024-05-03T16:01:05.8189349+05:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -265,10 +265,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/18/2017 14:03:54</publishTime>
     </File>
     <File Include="bin/NUMLPay-WebApp.dll">
-      <publishTime>02/26/2024 17:39:26</publishTime>
+      <publishTime>05/17/2024 18:16:35</publishTime>
     </File>
     <File Include="bin/NUMLPay-WebApp.pdb">
-      <publishTime>02/26/2024 17:39:26</publishTime>
+      <publishTime>05/17/2024 18:16:35</publishTime>
     </File>
     <File Include="bin/NumToWords.Standard.dll">
       <publishTime>09/01/2020 14:45:36</publishTime>
@@ -609,14 +609,29 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="css/alerts.css">
       <publishTime>07/15/2023 19:47:28</publishTime>
     </File>
+    <File Include="css/all.min.css">
+      <publishTime>05/10/2024 02:44:10</publishTime>
+    </File>
+    <File Include="css/bootstrap.home.min.css">
+      <publishTime>05/12/2024 15:18:44</publishTime>
+    </File>
     <File Include="css/bootstrap.min.css">
-      <publishTime>07/03/2023 11:49:28</publishTime>
+      <publishTime>05/10/2024 02:55:25</publishTime>
     </File>
     <File Include="css/dashboard.css">
       <publishTime>07/16/2023 13:36:28</publishTime>
     </File>
+    <File Include="css/dataTables.bootstrap5.min.css">
+      <publishTime>05/10/2024 02:49:11</publishTime>
+    </File>
+    <File Include="css/font.css">
+      <publishTime>05/10/2024 02:45:25</publishTime>
+    </File>
     <File Include="css/jquery.mCustomScrollbar.min.css">
       <publishTime>07/02/2023 18:53:18</publishTime>
+    </File>
+    <File Include="css/mdb.min.css">
+      <publishTime>05/10/2024 02:45:52</publishTime>
     </File>
     <File Include="css/owl.carousel.min.css">
       <publishTime>07/02/2023 18:53:18</publishTime>
@@ -763,19 +778,34 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/03/2023 11:49:28</publishTime>
     </File>
     <File Include="js/cascadingDropdown.js">
-      <publishTime>08/02/2023 16:28:37</publishTime>
+      <publishTime>05/12/2024 18:13:04</publishTime>
     </File>
     <File Include="js/custom.js">
       <publishTime>07/24/2023 15:59:24</publishTime>
     </File>
+    <File Include="js/dataTables.bootstrap5.min.js">
+      <publishTime>05/10/2024 02:51:43</publishTime>
+    </File>
     <File Include="js/jquery-3.0.0.min.js">
       <publishTime>07/02/2023 18:53:18</publishTime>
+    </File>
+    <File Include="js/jquery-3.7.0.js">
+      <publishTime>05/10/2024 02:50:33</publishTime>
+    </File>
+    <File Include="js/jquery.dataTables.min.js">
+      <publishTime>05/10/2024 02:51:03</publishTime>
     </File>
     <File Include="js/jquery.mCustomScrollbar.concat.min.js">
       <publishTime>07/02/2023 18:53:18</publishTime>
     </File>
     <File Include="js/jquery.min.js">
       <publishTime>07/02/2023 18:53:18</publishTime>
+    </File>
+    <File Include="js/jquery.validate.min.js">
+      <publishTime>05/10/2024 02:48:14</publishTime>
+    </File>
+    <File Include="js/mdb.min.js">
+      <publishTime>05/10/2024 02:46:40</publishTime>
     </File>
     <File Include="js/plugin.js">
       <publishTime>07/03/2023 11:49:28</publishTime>
@@ -871,133 +901,148 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/07/2023 16:54:00</publishTime>
     </File>
     <File Include="Views/AccountBook/viewAccountBook.cshtml">
-      <publishTime>02/03/2024 01:21:19</publishTime>
+      <publishTime>02/26/2024 23:25:58</publishTime>
     </File>
     <File Include="Views/Admin/addAdmin.cshtml">
-      <publishTime>07/27/2023 13:43:13</publishTime>
+      <publishTime>05/08/2024 02:44:34</publishTime>
     </File>
     <File Include="Views/Admin/updateAdmin.cshtml">
-      <publishTime>07/27/2023 13:44:00</publishTime>
+      <publishTime>05/12/2024 19:13:06</publishTime>
     </File>
     <File Include="Views/Admin/ViewAdmins.cshtml">
-      <publishTime>08/09/2023 14:06:40</publishTime>
+      <publishTime>05/08/2024 02:56:52</publishTime>
     </File>
     <File Include="Views/AdmissionSession/addSession.cshtml">
-      <publishTime>07/26/2023 14:44:55</publishTime>
+      <publishTime>05/12/2024 18:31:27</publishTime>
     </File>
     <File Include="Views/AdmissionSession/updateSession.cshtml">
-      <publishTime>07/26/2023 15:46:17</publishTime>
+      <publishTime>05/12/2024 18:32:20</publishTime>
     </File>
     <File Include="Views/AdmissionSession/viewSessions.cshtml">
       <publishTime>07/26/2023 16:01:15</publishTime>
     </File>
     <File Include="Views/BusRoute/addBusRoute.cshtml">
-      <publishTime>02/06/2024 18:41:36</publishTime>
+      <publishTime>05/12/2024 18:41:23</publishTime>
     </File>
     <File Include="Views/BusRoute/updateBusRoute.cshtml">
-      <publishTime>02/06/2024 18:47:32</publishTime>
+      <publishTime>05/12/2024 18:41:45</publishTime>
     </File>
     <File Include="Views/BusRoute/viewBusRoutes.cshtml">
-      <publishTime>02/06/2024 19:17:28</publishTime>
+      <publishTime>05/08/2024 04:14:12</publishTime>
     </File>
     <File Include="Views/Campus/addCampus.cshtml">
-      <publishTime>07/17/2023 16:28:48</publishTime>
+      <publishTime>05/12/2024 18:30:11</publishTime>
     </File>
     <File Include="Views/Campus/updateCampus.cshtml">
-      <publishTime>07/19/2023 17:22:07</publishTime>
+      <publishTime>05/12/2024 18:31:12</publishTime>
     </File>
     <File Include="Views/Campus/viewCampuses.cshtml">
       <publishTime>07/26/2023 14:20:38</publishTime>
     </File>
     <File Include="Views/Challan/addChallan.cshtml">
-      <publishTime>08/08/2023 14:48:05</publishTime>
+      <publishTime>05/12/2024 17:50:33</publishTime>
     </File>
     <File Include="Views/Challan/updateChallan.cshtml">
-      <publishTime>08/07/2023 14:56:32</publishTime>
+      <publishTime>05/12/2024 17:51:55</publishTime>
     </File>
     <File Include="Views/Challan/viewChallans.cshtml">
-      <publishTime>08/07/2023 14:47:28</publishTime>
+      <publishTime>05/08/2024 02:29:45</publishTime>
     </File>
     <File Include="Views/ChallanVerification/verifyChallan.cshtml">
-      <publishTime>02/06/2024 23:25:53</publishTime>
+      <publishTime>05/08/2024 01:25:41</publishTime>
     </File>
     <File Include="Views/ChallanVerification/viewUnverifiedChallans.cshtml">
-      <publishTime>08/13/2023 12:20:09</publishTime>
+      <publishTime>05/08/2024 04:17:41</publishTime>
+    </File>
+    <File Include="Views/Dashboard/accountantDashboard.cshtml">
+      <publishTime>05/03/2024 14:46:09</publishTime>
+    </File>
+    <File Include="Views/Dashboard/campusDashboard.cshtml">
+      <publishTime>05/01/2024 20:08:21</publishTime>
+    </File>
+    <File Include="Views/Dashboard/deptDashboard.cshtml">
+      <publishTime>05/15/2024 01:31:54</publishTime>
     </File>
     <File Include="Views/Dashboard/mainDashboard.cshtml">
-      <publishTime>07/17/2023 13:52:58</publishTime>
+      <publishTime>05/03/2024 15:06:37</publishTime>
     </File>
     <File Include="Views/Dashboard/profileAdmin.cshtml">
-      <publishTime>07/29/2023 21:02:54</publishTime>
+      <publishTime>05/13/2024 01:43:18</publishTime>
     </File>
     <File Include="Views/Degree/addDegree.cshtml">
-      <publishTime>07/28/2023 15:15:05</publishTime>
+      <publishTime>05/12/2024 18:20:24</publishTime>
     </File>
     <File Include="Views/Degree/addLevelShift.cshtml">
-      <publishTime>07/28/2023 16:24:43</publishTime>
+      <publishTime>05/12/2024 16:29:37</publishTime>
     </File>
     <File Include="Views/Degree/updateDegree.cshtml">
-      <publishTime>07/28/2023 17:23:15</publishTime>
+      <publishTime>05/12/2024 16:31:49</publishTime>
     </File>
     <File Include="Views/Degree/viewDegrees.cshtml">
-      <publishTime>08/09/2023 15:04:46</publishTime>
+      <publishTime>05/08/2024 01:19:11</publishTime>
+    </File>
+    <File Include="Views/DeleteChallan/DeleteChallan.cshtml">
+      <publishTime>05/10/2024 04:15:26</publishTime>
     </File>
     <File Include="Views/Department/addDepartment.cshtml">
-      <publishTime>07/27/2023 13:45:00</publishTime>
+      <publishTime>05/12/2024 18:06:41</publishTime>
     </File>
     <File Include="Views/Department/updateDepartment.cshtml">
-      <publishTime>07/27/2023 13:45:10</publishTime>
+      <publishTime>05/12/2024 18:08:54</publishTime>
     </File>
     <File Include="Views/Department/viewDepartments.cshtml">
-      <publishTime>08/09/2023 15:42:57</publishTime>
+      <publishTime>05/14/2024 23:02:36</publishTime>
     </File>
     <File Include="Views/Description/addDescription.cshtml">
-      <publishTime>08/02/2023 18:52:17</publishTime>
+      <publishTime>05/12/2024 17:41:38</publishTime>
     </File>
     <File Include="Views/Description/updateDescription.cshtml">
-      <publishTime>08/02/2023 19:30:15</publishTime>
+      <publishTime>05/12/2024 17:41:54</publishTime>
     </File>
     <File Include="Views/Description/viewDescriptions.cshtml">
-      <publishTime>08/02/2023 19:24:53</publishTime>
+      <publishTime>05/12/2024 17:43:21</publishTime>
     </File>
     <File Include="Views/DownloadReport/downloadHMBreport.cshtml">
-      <publishTime>02/07/2024 22:44:40</publishTime>
+      <publishTime>05/15/2024 01:05:23</publishTime>
+    </File>
+    <File Include="Views/DownloadReport/downloadRepeatReport.cshtml">
+      <publishTime>05/15/2024 01:05:18</publishTime>
     </File>
     <File Include="Views/DownloadReport/downloadReport.cshtml">
-      <publishTime>02/07/2024 16:28:23</publishTime>
+      <publishTime>05/15/2024 01:04:39</publishTime>
     </File>
     <File Include="Views/DownloadReport/downloadSummerReport.cshtml">
-      <publishTime>02/07/2024 17:19:12</publishTime>
+      <publishTime>05/15/2024 01:05:55</publishTime>
     </File>
     <File Include="Views/Faculty/addFaculty.cshtml">
-      <publishTime>07/17/2023 16:29:04</publishTime>
+      <publishTime>05/12/2024 18:03:35</publishTime>
     </File>
     <File Include="Views/Faculty/updateFaculty.cshtml">
-      <publishTime>08/03/2023 14:01:15</publishTime>
+      <publishTime>05/12/2024 18:03:44</publishTime>
     </File>
     <File Include="Views/Faculty/viewFaculties.cshtml">
-      <publishTime>08/09/2023 16:22:48</publishTime>
+      <publishTime>05/08/2024 03:15:29</publishTime>
     </File>
     <File Include="Views/FeePlan/addFeePlan.cshtml">
-      <publishTime>07/26/2023 15:57:13</publishTime>
+      <publishTime>05/12/2024 17:39:40</publishTime>
     </File>
     <File Include="Views/FeePlan/updateFeePlan.cshtml">
-      <publishTime>07/26/2023 15:58:29</publishTime>
+      <publishTime>05/12/2024 17:40:26</publishTime>
     </File>
     <File Include="Views/FeePlan/viewFeePlans.cshtml">
       <publishTime>07/26/2023 16:12:16</publishTime>
     </File>
     <File Include="Views/Fine/addFine.cshtml">
-      <publishTime>08/13/2023 18:25:55</publishTime>
+      <publishTime>05/12/2024 17:47:08</publishTime>
     </File>
     <File Include="Views/Fine/updateFine.cshtml">
-      <publishTime>08/13/2023 18:25:48</publishTime>
+      <publishTime>05/12/2024 17:49:00</publishTime>
     </File>
     <File Include="Views/Fine/viewFines.cshtml">
-      <publishTime>08/13/2023 18:54:55</publishTime>
+      <publishTime>05/08/2024 02:28:16</publishTime>
     </File>
     <File Include="Views/GenerateChallan/generateChallan.cshtml">
-      <publishTime>02/06/2024 21:00:24</publishTime>
+      <publishTime>05/08/2024 01:03:17</publishTime>
     </File>
     <File Include="Views/GenerateChallan/generateMChallan.cshtml">
       <publishTime>08/11/2023 16:36:17</publishTime>
@@ -1005,95 +1050,110 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/Home/addUsers.cshtml">
       <publishTime>07/14/2023 21:52:29</publishTime>
     </File>
+    <File Include="Views/Home/forgotPasswordAdmin.cshtml">
+      <publishTime>03/25/2024 07:10:11</publishTime>
+    </File>
+    <File Include="Views/Home/forgotPasswordUser.cshtml">
+      <publishTime>03/25/2024 06:38:25</publishTime>
+    </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>02/07/2024 18:39:26</publishTime>
+      <publishTime>05/10/2024 03:17:52</publishTime>
     </File>
     <File Include="Views/Home/Login.cshtml">
-      <publishTime>07/19/2023 17:13:27</publishTime>
+      <publishTime>03/25/2024 01:51:42</publishTime>
     </File>
     <File Include="Views/Home/loginAdmin.cshtml">
-      <publishTime>07/19/2023 17:13:18</publishTime>
+      <publishTime>03/25/2024 07:09:15</publishTime>
     </File>
     <File Include="Views/Home/Register.cshtml">
-      <publishTime>09/21/2023 01:23:40</publishTime>
+      <publishTime>05/13/2024 01:33:46</publishTime>
+    </File>
+    <File Include="Views/Home/resetPasswordAdmin.cshtml">
+      <publishTime>03/25/2024 06:41:05</publishTime>
+    </File>
+    <File Include="Views/Home/resetPasswordUser.cshtml">
+      <publishTime>03/25/2024 07:34:15</publishTime>
     </File>
     <File Include="Views/InstallmentManagement/addInstallment.cshtml">
-      <publishTime>08/05/2023 17:18:46</publishTime>
+      <publishTime>05/12/2024 17:53:25</publishTime>
     </File>
     <File Include="Views/InstallmentManagement/updateInstallment.cshtml">
-      <publishTime>08/05/2023 17:28:25</publishTime>
+      <publishTime>05/12/2024 17:55:14</publishTime>
     </File>
     <File Include="Views/InstallmentManagement/viewInstallments.cshtml">
-      <publishTime>08/05/2023 17:25:56</publishTime>
+      <publishTime>05/08/2024 02:32:34</publishTime>
     </File>
     <File Include="Views/Main/Dashboard.cshtml">
-      <publishTime>02/06/2024 23:27:23</publishTime>
+      <publishTime>02/28/2024 00:18:00</publishTime>
     </File>
     <File Include="Views/Main/payByBankMethod.cshtml">
-      <publishTime>08/12/2023 19:40:07</publishTime>
+      <publishTime>05/08/2024 01:05:27</publishTime>
     </File>
     <File Include="Views/Main/profileUser.cshtml">
-      <publishTime>07/29/2023 20:53:04</publishTime>
+      <publishTime>05/13/2024 01:45:08</publishTime>
     </File>
     <File Include="Views/Main/successPage.cshtml">
       <publishTime>08/12/2023 14:44:15</publishTime>
     </File>
     <File Include="Views/MiscellaneousFee/addMiscellaneousFee.cshtml">
-      <publishTime>08/03/2023 13:36:23</publishTime>
+      <publishTime>05/12/2024 17:44:26</publishTime>
     </File>
     <File Include="Views/MiscellaneousFee/updateMiscellaneousFee.cshtml">
-      <publishTime>08/03/2023 14:24:01</publishTime>
+      <publishTime>05/12/2024 17:46:40</publishTime>
     </File>
     <File Include="Views/MiscellaneousFee/viewMiscellaneousFees.cshtml">
       <publishTime>08/07/2023 15:47:12</publishTime>
     </File>
     <File Include="Views/OtherFee/addOtherFee.cshtml">
-      <publishTime>02/06/2024 20:44:56</publishTime>
+      <publishTime>05/08/2024 05:18:04</publishTime>
     </File>
     <File Include="Views/OtherFee/updateOtherFee.cshtml">
-      <publishTime>02/06/2024 20:58:01</publishTime>
+      <publishTime>05/12/2024 17:45:50</publishTime>
     </File>
     <File Include="Views/OtherFee/viewOtherFees.cshtml">
-      <publishTime>02/06/2024 20:49:10</publishTime>
+      <publishTime>05/12/2024 17:43:12</publishTime>
+    </File>
+    <File Include="Views/RepeatCourseFee/AddRepeatCourse.cshtml">
+      <publishTime>05/14/2024 23:54:48</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>07/03/2023 11:49:29</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>09/21/2023 01:17:12</publishTime>
+      <publishTime>05/12/2024 15:18:58</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutPageDashboard.cshtml">
-      <publishTime>02/26/2024 17:24:13</publishTime>
+      <publishTime>05/15/2024 00:58:01</publishTime>
     </File>
     <File Include="Views/Subject/addSubject.cshtml">
-      <publishTime>01/24/2024 21:26:57</publishTime>
+      <publishTime>05/12/2024 17:05:44</publishTime>
     </File>
     <File Include="Views/Subject/updateSubject.cshtml">
-      <publishTime>01/28/2024 18:40:55</publishTime>
+      <publishTime>05/12/2024 17:06:49</publishTime>
     </File>
     <File Include="Views/Subject/viewSubjects.cshtml">
-      <publishTime>02/01/2024 23:50:36</publishTime>
+      <publishTime>05/08/2024 04:36:20</publishTime>
     </File>
     <File Include="Views/SummerEnrollment/addSummerEnrollment.cshtml">
-      <publishTime>02/01/2024 23:21:30</publishTime>
+      <publishTime>05/14/2024 23:44:23</publishTime>
     </File>
     <File Include="Views/SummerEnrollment/viewSummerEnrollments.cshtml">
-      <publishTime>02/02/2024 01:11:35</publishTime>
+      <publishTime>05/14/2024 23:44:18</publishTime>
     </File>
     <File Include="Views/SummerFee/addSummerFee.cshtml">
-      <publishTime>01/30/2024 19:43:42</publishTime>
+      <publishTime>05/14/2024 23:43:49</publishTime>
     </File>
     <File Include="Views/SummerFee/updateSummerFee.cshtml">
-      <publishTime>01/30/2024 20:27:08</publishTime>
+      <publishTime>05/14/2024 23:43:36</publishTime>
     </File>
     <File Include="Views/SummerFee/viewSummerFees.cshtml">
-      <publishTime>01/30/2024 20:17:49</publishTime>
+      <publishTime>05/14/2024 23:43:44</publishTime>
     </File>
     <File Include="Views/TuitionFee/addTuitionFee.cshtml">
-      <publishTime>08/13/2023 17:47:22</publishTime>
+      <publishTime>05/13/2024 01:07:22</publishTime>
     </File>
     <File Include="Views/TuitionFee/updateTuitionFee.cshtml">
-      <publishTime>08/13/2023 17:48:15</publishTime>
+      <publishTime>05/12/2024 16:44:02</publishTime>
     </File>
     <File Include="Views/TuitionFee/viewTuitionFee.cshtml">
       <publishTime>08/13/2023 17:49:06</publishTime>
@@ -1101,14 +1161,17 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/TuitionFee/viewTuitionFees.cshtml">
       <publishTime>08/13/2023 17:49:24</publishTime>
     </File>
+    <File Include="Views/Users/UpdateStatus.cshtml">
+      <publishTime>05/13/2024 02:11:28</publishTime>
+    </File>
     <File Include="Views/Users/updateUser.cshtml">
-      <publishTime>08/12/2023 18:16:06</publishTime>
+      <publishTime>05/13/2024 01:09:22</publishTime>
     </File>
     <File Include="Views/Users/viewUser.cshtml">
       <publishTime>08/10/2023 17:34:48</publishTime>
     </File>
     <File Include="Views/Users/viewUsers.cshtml">
-      <publishTime>02/08/2024 00:18:11</publishTime>
+      <publishTime>05/08/2024 03:33:57</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>07/02/2023 17:30:43</publishTime>
@@ -1117,7 +1180,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/11/2023 14:54:26</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/26/2024 17:25:41</publishTime>
+      <publishTime>05/03/2024 15:37:38</publishTime>
     </File>
   </ItemGroup>
 </Project>

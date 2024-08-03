@@ -38,10 +38,49 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div class="row">
+                        <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                            <label>Campus *</label>
+                            <div class="form-group">
+                                <select id="campusDropdown" class="form-control">
+                                    <option value="">Select Campus</option>
+                                    @if (ViewBag.campusList != null)
+                                    {
+                                        foreach (var level in ViewBag.campusList)
+                                        {
+                                            <option value="@level.Value">@level.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                            <label>Faculty *</label>
+                            <div class="form-group">
+                                <select id="facultyDdl" class="form-control">
+                                    <option value="">Select faculty</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12" style="display: @ViewBag.adminRoles">
+                            <label>Department *</label>
+                            <div class="form-group">
+                                <select id="deptDdl" name="deptddl" class="form-control">
+                                    <option value="">Select department</option>
+
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-md-12">
                             <label>Name of Subject *</label>
                             <div class="form-group">
-                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                 @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -62,3 +101,22 @@
         </div>
     </div>
 }
+
+
+<script src="~/js/cascadingDropdown.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $("form").submit(function (event) {
+            var deptDdlVisible = $('#deptDdl').closest('.col-md-12').is(':visible');
+            var selectedValueDept = $("#deptDdl").val();
+
+            if (deptDdlVisible && (!selectedValueDept || selectedValueDept == "Select Department")) {
+                event.preventDefault(); // Prevent form submission
+                alert("Please select a Department."); // Log error message
+                return false; // Prevent default action
+            }
+        });
+    });
+</script>

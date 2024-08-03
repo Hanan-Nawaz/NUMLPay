@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireAdmin: true, requiredRole:new int[] {3})]
+    [CustomAuthorizationFilter(requireAdmin: true, requiredRole:new int[] {3, 4})]
     public class ChallanVerificationController : SessionController
     {
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
@@ -58,13 +58,38 @@ namespace NUMLPay_WebApp.Controllers
             Admin admin = userAccessAdmin();
             ViewBag.Display = "none;";
 
-            List<ChllanVerificationView> listUnverifiedFees = await getUnpaidFee(admin.dept_id);
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+                admin.dept_id = Convert.ToInt32(Session["dept"]);
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                admin.dept_id = Convert.ToInt32(admin.dept_id);
+            }
+
+            List<ChllanVerificationView> listUnverifiedFees = await getUnpaidFees(admin.dept_id);
 
             return View(listUnverifiedFees);
         }
 
+        public async Task<List<ChllanVerificationView>> getUnpaidFees(int? id)
+        {
+            List<ChllanVerificationView> listBusRoutes = await getUnpaidFee(id); ;
+            return listBusRoutes;
+        }
+
+        public async Task<ActionResult> sessionGenerator(int dept)
+        {
+            Session["dept"] = dept;
+
+            return RedirectToAction("viewUnverifiedChallans");
+        }
+
         //Verify Challan 
-        public async Task<ActionResult> verifyChallan(int Id, int feeType)
+        public async Task<ActionResult> verifyChallan(int Id,int feeType)
         {
             Admin admin = userAccessAdmin();
             ViewBag.Display = "none;";
@@ -97,6 +122,15 @@ namespace NUMLPay_WebApp.Controllers
             Admin admin = userAccessAdmin();
             ViewBag.Display = "none;";
 
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+            }
+
             int Id = Convert.ToInt32(Session["Id"]);
             int feeType = Convert.ToInt32(Session["feeType"]);
             string reason = Request.Form["disapproved"].ToString();
@@ -122,7 +156,7 @@ namespace NUMLPay_WebApp.Controllers
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
-                    if(newFeeAndAccount.status == 4)
+                    if(newFeeAndAccount.status == 3)
                     {
                         string body = $"Dear {challanData.name},\r\n\r\n" +
                           "We hope this email finds you well. We regret to inform you that your recent fee verification request through NUMLPay has been rejected.\r\n\r\n" +
@@ -193,7 +227,7 @@ namespace NUMLPay_WebApp.Controllers
         {
             JoinedDataChallan listFee = null;
 
-            HttpResponseMessage responseMessage = await apiServices.GetAsync($"GetChallan/{id}/{feeType}");
+            HttpResponseMessage responseMessage = await apiServices.GetAsync($"GetChallan/GetChallan/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 string responseData = responseMessage.Content.ReadAsStringAsync().Result;

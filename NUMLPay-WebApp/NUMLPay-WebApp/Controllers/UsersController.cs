@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
+using Newtonsoft.Json;
 using NUMLPay_WebApp.Models;
 using NUMLPay_WebApp.Services;
 using NUMLPay_WebApp.ViewModel;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -80,6 +82,93 @@ namespace NUMLPay_WebApp.Controllers
             Users userId = userTuple.Item2;
 
             return View(userId);
+        }
+
+        public async Task<ActionResult> updateStatus()
+        {
+            Admin admin = userAccessAdmin();
+            ViewBag.adminRoles = "none;";
+
+            ViewBag.AlertType = TempData["AlertType"]?.ToString() ?? "";
+            ViewBag.AlertMessage = TempData["AlertMessage"]?.ToString() ?? "";
+            ViewBag.Display = TempData["Display"] ?? "none;";
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                ViewBag.DeptId = admin.dept_id;
+            }
+
+            ViewBag.admissionSession = await sessionServices.addSessiontoListAsync(null);
+
+            ViewBag.feeFor = new SelectList(StatusService.getFeeForTuition(null), "value", "text");
+
+            ViewBag.academicLevels = levelService.getLevel(null);
+
+            ViewBag.is_active = StatusService.getStatusUsers(null);
+
+            ViewBag.statusDegree = new SelectList(StatusService.getStatusDegree(null), "Value", "Text");
+
+            return View();
+        }
+
+        public async Task<ActionResult> UpdateUserStatus(int statDegree, int isActive, int sessionId, int shiftId, int deptId)
+        {
+            Admin admin = userAccessAdmin();
+            ViewBag.adminRoles = "none;";
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+            }
+
+            ViewBag.admissionSession = await sessionServices.addSessiontoListAsync(null);
+
+            ViewBag.feeFor = new SelectList(StatusService.getFeeForTuition(null), "value", "text");
+
+            ViewBag.academicLevels = levelService.getLevel(null);
+
+            ViewBag.is_active = StatusService.getStatusUsers(null);
+
+            ViewBag.statusDegree = new SelectList(StatusService.getStatusDegree(null), "Value", "Text");
+
+
+            
+                string url = $"Users/UpdateStatus/{statDegree}/{isActive}/{sessionId}/{shiftId}/{deptId}";
+
+                HttpResponseMessage responseMessage = await apiServices.GetAsync(url); 
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    string responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                    ViewBag.AlertMessage = responseData;
+                    ViewBag.AlertType = "alert-success";
+                    ViewBag.Display = "block;";
+                }
+                else
+                {
+                    string responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                    ViewBag.AlertMessage = responseData;
+                    ViewBag.AlertType = "alert-danger";
+                    ViewBag.Display = "block;";
+                }
+            
+
+
+            TempData["AlertType"] = ViewBag.AlertType;
+            TempData["AlertMessage"] = ViewBag.AlertMessage;
+            TempData["Display"] = ViewBag.AlertMessage;
+
+            return RedirectToAction("updateStatus");
         }
 
         public async Task<ActionResult> updateUser(string Id)

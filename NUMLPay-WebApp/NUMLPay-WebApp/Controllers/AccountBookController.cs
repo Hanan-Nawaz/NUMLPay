@@ -16,7 +16,6 @@ using System.Web.Mvc;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireUser: true)]
     public class AccountBookController : SessionController
     {
 
@@ -53,6 +52,7 @@ namespace NUMLPay_WebApp.Controllers
             apiServices = new apiService(baseAddress.ToString());
         }
 
+        [CustomAuthorizationFilter(requireUser: true)]
         // View Account Book
         public async Task<ActionResult> viewAccountBook()
         {
@@ -144,6 +144,77 @@ namespace NUMLPay_WebApp.Controllers
             }
         }
 
+        //Print Challan
+        public async Task<ActionResult> DownloadPdf(int Id, int feeType)
+        {
+            try
+            {
+                JoinedDataChallan challanData = await FetchChallanData(Id);
+
+                float number = challanData.total_fee + challanData.fine;
+
+                int integerPart = (int)Math.Floor(number);
+                string integerWords = integerPart.ToWords();
+
+                int decimalPart = (int)Math.Round((number - integerPart) * 100);
+                string decimalWords = decimalPart.ToWords();
+
+                string englishWords = $"{integerWords} only";
+
+
+                var parameters = new ReportParameterCollection
+                {
+                    new ReportParameter("challanNumber", challanData.challan_no.ToString()),
+                    new ReportParameter("issueDate", Convert.ToDateTime(challanData.issue_date).ToString("dd/MMM/yyyy")),
+                    new ReportParameter("dueDate", Convert.ToDateTime(challanData.due_date).ToString("dd/MMM/yyyy")),
+                    new ReportParameter("validDate", Convert.ToDateTime(challanData.paid_date).ToString("dd/MMM/yyyy")),
+                    new ReportParameter("degreeName", challanData.degree_name.ToString()),
+                    new ReportParameter("currentSession", challanData.Session.ToString()),
+                    new ReportParameter("currentSemester", challanData.currentSem.ToString()),
+                    new ReportParameter("systemId", challanData.numl_id.ToString()),
+                    new ReportParameter("stdName", challanData.name.ToString()),
+                    new ReportParameter("sonOf", challanData.father_name.ToString()),
+                    new ReportParameter("feeSemester", challanData.feeSem.ToString()),
+                    new ReportParameter("feeplan", challanData.fee_plan.ToString()),
+                    new ReportParameter("installmentNo", challanData.installment_no.ToString()),
+                    new ReportParameter("amountBeforeDueDate", challanData.total_fee.ToString()),
+                    new ReportParameter("lateFine", challanData.fine.ToString()),
+                    new ReportParameter("totalFee", number.ToString()),
+                    new ReportParameter("feeFor", challanData.FeeFor.ToString()),
+                    new ReportParameter("feeInEnglish", englishWords),
+                };
+
+                List<SubFeeView> subChallanData = await FetchSubChallanData(challanData.fee_id, feeType, challanData.feeSem, challanData.numl_id, challanData.fee_for);
+
+                if (feeType == 6)
+                {
+                    subChallanData = new List<SubFeeView>();
+
+                    SubFeeView subFeeView = new SubFeeView();
+                    subFeeView.Description = "Repeat Course";
+                    subFeeView.Amount = Convert.ToInt32(challanData.total_fee);
+
+                    subChallanData.Add(subFeeView);
+                }
+
+                var reportViewer = new Microsoft.Reporting.WebForms.ReportViewer();
+                reportViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
+                reportViewer.LocalReport.ReportPath = Server.MapPath("~/Challans/PaidChallan.rdlc");
+                reportViewer.LocalReport.SetParameters(parameters);
+                reportViewer.LocalReport.DataSources.Add(new ReportDataSource("UnPaidChallan", subChallanData));
+
+                byte[] pdfBytes = reportViewer.LocalReport.Render("PDF");
+
+                // Return the PDF file for download
+                return File(pdfBytes, "application/pdf", challanData.name.ToString() + "_" + challanData.FeeFor + "_FeePaidChallan.pdf");
+            }
+            catch (Exception ex)
+            {
+                return null;
+                
+            }
+        }
+
         //Fetch Main Chllan Data
         private async Task<JoinedDataChallan> FetchChallanData(int id)
         {
@@ -186,6 +257,7 @@ namespace NUMLPay_WebApp.Controllers
             return listFee;
         }
 
+        [CustomAuthorizationFilter(requireUser: true)]
         private async Task<List<UnPaidFeeView>> getAccountBook(Users user)
         {
             ViewBag.name = user.name;

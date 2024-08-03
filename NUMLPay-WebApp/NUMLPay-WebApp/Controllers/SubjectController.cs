@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3 })]
+    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
     public class SubjectController : SessionController
     {
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
@@ -21,6 +21,7 @@ namespace NUMLPay_WebApp.Controllers
         subjectService subjectService;
         statusService StatusService;
         apiService apiServices;
+        CampusService campusService;
 
         public SubjectController()
         {
@@ -29,12 +30,25 @@ namespace NUMLPay_WebApp.Controllers
             subjectService = new subjectService(baseAddress);
             StatusService = new statusService();
             apiServices = new apiService(baseAddress.ToString());
+            campusService = new CampusService(baseAddress);
         }
 
         // Add Subject
         public async Task<ActionResult> addSubject()
         {
-            userAccessAdmin();
+            Admin admin = userAccessAdmin();
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                ViewBag.DeptId = admin.dept_id;
+            }
+
             ViewBag.Display = "none;";
             return View();
         }
@@ -45,9 +59,20 @@ namespace NUMLPay_WebApp.Controllers
         {
             Admin admin = userAccessAdmin();
 
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+                subject.dept_id = Convert.ToInt32(Request.Form["deptDdl"]);
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                subject.dept_id = admin.dept_id;
+            }
+
             subject.is_active = 1;
             subject.added_by = admin.email_id;
-            subject.dept_id = admin.dept_id;
 
             HttpResponseMessage responseMessage = await apiServices.PostAsync("Subject", subject);
 
@@ -67,13 +92,27 @@ namespace NUMLPay_WebApp.Controllers
                 ViewBag.Display = "block;";
             }
 
-            return View("viewSubjects");
+            return View();
         }
 
         // View all Subjects
         public async Task<ActionResult> viewSubjects()
         {
            Admin admin = userAccessAdmin();
+
+
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+                admin.dept_id = Convert.ToInt32(Session["dept"]);
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                admin.dept_id = Convert.ToInt32(admin.dept_id);
+            }
 
             List<Subjects> listSubjects = await subjectService.getSubjectsAsync(admin.dept_id);
 
@@ -84,14 +123,33 @@ namespace NUMLPay_WebApp.Controllers
             return View(listSubjects);
         }
 
+        public async Task<ActionResult> sessionGenerator(int dept)
+        {
+            Session["dept"] = dept;
+
+            return RedirectToAction("viewSubjects");
+        }
+
         // Update Subject
         public async Task<ActionResult> updateSubject(int Id)
         {
-            userAccessAdmin();
+           Admin admin = userAccessAdmin();
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+            }
+
             Subjects subject = await subjectService.getSubjectAsync(Id);
             ViewBag.Display = "none;";
 
             int? selectedValue = subject.is_active;
+
+            Session["deptId_Sub"] = subject.dept_id;
 
             ViewBag.IsActive = StatusService.getStatus(selectedValue);
 
@@ -106,6 +164,18 @@ namespace NUMLPay_WebApp.Controllers
 
             ViewBag.Display = "none;";
             subject.added_by = admin.added_by;
+            
+
+            if (admin.role == 4)
+            {
+                subject.dept_id = Convert.ToInt32(Session["deptId_Sub"]);
+                ViewBag.adminRoles = "block;";
+            }
+            else
+            {
+                subject.dept_id = admin.dept_id;
+                ViewBag.adminRoles = "none;";
+            }
 
             HttpResponseMessage responseMessage = await apiServices.PutAsync($"Subject/updateSubject/{subject.id}", subject);
 

@@ -36,6 +36,9 @@
                                     Installment Name
                                 </th>
                                 <th class="th-sm">
+                                    Fee For
+                                </th>
+                                <th class="th-sm">
                                     Added By
                                 </th>
                                 <th class="th-sm">
@@ -53,23 +56,45 @@
                                         <td>
                                             @if (item.mode == 1)
                                             {
-                                                <span class="text-success">No Installment</span>
+                                                <span >No Installment</span>
                                             }
                                             else if (item.mode == 2)
                                             {
-                                                <span class="text-primary">2 Installment</span>
+                                                <span >2 Installment</span>
                                             }
                                             else if (item.mode == 3)
                                             {
-                                                <span class="text-primary">3 Installment</span>
+                                                <span >3 Installment</span>
                                             }
                                             else if (item.mode == 4)
                                             {
-                                                <span class="text-primary">4 Installment</span>
+                                                <span >4 Installment</span>
                                             }
                                             else
                                             {
-                                                <span class="text-primary">5 Installment</span>
+                                                <span >5 Installment</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.fee_for == 1)
+                                            {
+                                                <span >Tuition Fee</span>
+                                            }
+                                            else if (item.fee_for == 2)
+                                            {
+                                                <span >Bus Fee</span>
+                                            }
+                                            else if (item.fee_for == 3)
+                                            {
+                                                <span >Hostel Fee</span>
+                                            }
+                                            else if (item.fee_for == 4)
+                                            {
+                                                <span >Mess Fee</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Other Fee</span>
                                             }
                                         </td>
                                         <td>@Html.DisplayFor(modelItem => item.added_by)</td>

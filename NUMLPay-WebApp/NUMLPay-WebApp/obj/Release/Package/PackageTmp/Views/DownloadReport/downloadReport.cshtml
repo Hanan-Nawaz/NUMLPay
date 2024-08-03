@@ -1,4 +1,7 @@
-﻿@{
+﻿@model IEnumerable<NUMLPay_WebApp.ViewModel.ReportFee>
+
+
+@{
     ViewBag.Title = "Download Tuition Fee Reports";
     Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
 }
@@ -31,6 +34,47 @@
                     </div>
                 </div>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Campus *</label>
+                        <div class="form-group">
+                            <select id="campusDropdown" class="form-control" required>
+                                <option value="">Select Campus</option>
+                                @if (ViewBag.campusList != null)
+                                {
+                                    foreach (var level in ViewBag.campusList)
+                                    {
+                                        <option value="@level.Value">@level.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Faculty *</label>
+                        <div class="form-group">
+                            <select id="facultyDdl" class="form-control" required>
+                                <option value="">Select faculty</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="display: @ViewBag.adminRoles">
+                        <label>Department *</label>
+                        <div class="form-group">
+                            <select id="deptDdl" class="form-control" required>
+                                <option value="">Select department</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -84,10 +128,64 @@
                     <div class="col-md-4 mx-auto">
                         <center>
                             <div class="form-group">
+                                <input type="submit" id="viewReportBtn" value="View Data" class="btnLogin" />
+                            </div>
+                        </center>
+                    </div>
+                    <div class="col-md-4 mx-auto">
+                        <center>
+                            <div class="form-group">
                                 <input type="submit" id="downloadReportBtn" value="Download Report" class="btnLogin" />
                             </div>
                         </center>
                     </div>
+                </div>
+
+                <div class="table-responsive mt-5">
+                    <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="th-sm">
+                                    NUML ID
+                                </th>
+                                <th class="th-sm">
+                                    Name
+                                </th>
+                                <th class="th-sm">
+                                    Semester
+                                </th>
+                                <th class="th-sm">
+                                    Degree Name
+                                </th>
+                               
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.numl_id)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.semester)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.degree_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.fee_status)</td>
+
+
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center text-danger">No data found.</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
@@ -100,43 +198,93 @@
 <script>
     $(document).ready(function () {
         var deptIdFromViewBag = '@ViewBag.departmentId';
-        $('#academicDdl').change(function () {
-            $.getJSON('/Home/getDegrees?deptId=' + deptIdFromViewBag + '&levelId=' + $('#academicDdl').val(), function (data) {
-                var items = '<option>Select Degree</option>';
-                $.each(data, function (i, degree) {
-                    items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+        if (deptIdFromViewBag) {
+            $('#academicDdl').change(function () {
+                $.getJSON('/Home/getDegrees?deptId=' + deptIdFromViewBag + '&levelId=' + $('#academicDdl').val(), function (data) {
+                    var items = '<option>Select Degree</option>';
+                    $.each(data, function (i, degree) {
+                        items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+                    });
+                    $('#degreeDdl').html(items);
                 });
-                $('#degreeDdl').html(items);
+
+                var selectedAcademicLevel = $('#academicDdl').val();
+                var semesterDropdown = $("#semDdl");
+
+                semesterDropdown.empty();
+
+                semesterDropdown.append($("<option>").val("").text("Select Semester"));
+
+                if (selectedAcademicLevel === "1") {
+                    for (var i = 1; i <= 8; i++) {
+                        semesterDropdown.append($("<option>").val(i).text(i));
+                    }
+                } else if (selectedAcademicLevel === "2" || selectedAcademicLevel === "3") {
+                    for (var i = 1; i <= 4; i++) {
+                        semesterDropdown.append($("<option>").val(i).text(i));
+                    }
+                }
             });
+        }
+        else {
+            $('#academicDdl').change(function () {
+                $.getJSON('/Home/getDegrees?deptId=' + $('#deptDdl').val()  + '&levelId=' + $('#academicDdl').val(), function (data) {
+                    var items = '<option>Select Degree</option>';
+                    $.each(data, function (i, degree) {
+                        items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+                    });
+                    $('#degreeDdl').html(items);
+                });
 
-            var selectedAcademicLevel = $('#academicDdl').val();
-            var semesterDropdown = $("#semDdl");
+                var selectedAcademicLevel = $('#academicDdl').val();
+                var semesterDropdown = $("#semDdl");
 
-            semesterDropdown.empty();
+                semesterDropdown.empty();
 
-            semesterDropdown.append($("<option>").val("").text("Select Semester"));
+                semesterDropdown.append($("<option>").val("").text("Select Semester"));
 
-            if (selectedAcademicLevel === "1") {
-                for (var i = 1; i <= 8; i++) {
-                    semesterDropdown.append($("<option>").val(i).text(i));
+                if (selectedAcademicLevel === "1") {
+                    for (var i = 1; i <= 8; i++) {
+                        semesterDropdown.append($("<option>").val(i).text(i));
+                    }
+                } else if (selectedAcademicLevel === "2" || selectedAcademicLevel === "3") {
+                    for (var i = 1; i <= 4; i++) {
+                        semesterDropdown.append($("<option>").val(i).text(i));
+                    }
                 }
-            } else if (selectedAcademicLevel === "2" || selectedAcademicLevel === "3") {
-                for (var i = 1; i <= 4; i++) {
-                    semesterDropdown.append($("<option>").val(i).text(i));
-                }
-            }
-        });
+            });
+        }
+
 
         $('#downloadReportBtn').click(function () {
 
             var academicLevel = $('#academicDdl').val();
             var shiftId = $('#degreeDdl').val();
             var sessionId = $('#sessionDropdown').val();
+            var deptId = $('#deptDdl').val();
 
-            if (academicLevel && shiftId && sessionId) {
+
+            if (academicLevel && shiftId && sessionId && shiftId != "Select Degree") {
                 console.log(shiftId);
                 window.location.href = '/DownloadReport/downloadTuitionReport?shiftId=' + $('#degreeDdl').val() + '&semester=' + $('#semDdl').val() + '&session=' + $('#sessionDropdown').val();
-                   
+
+            } else {
+                window.alert('Please select Academic Level and Degree and Session');
+            }
+        });
+
+        $('#viewReportBtn').click(function () {
+
+            var academicLevel = $('#academicDdl').val();
+            var shiftId = $('#degreeDdl').val();
+            var sessionId = $('#sessionDropdown').val();
+            var deptId = $('#deptDdl').val();
+
+            console.log("hello");
+            if (academicLevel && shiftId && sessionId && shiftId != "Select Degree") {
+                console.log(shiftId);
+                window.location.href = '/DownloadReport/viewTuitionReport?shiftId=' + $('#degreeDdl').val() + '&semester=' + $('#semDdl').val() + '&session=' + $('#sessionDropdown').val();
+
             } else {
                 window.alert('Please select Academic Level and Degree and Session');
             }
@@ -144,3 +292,6 @@
     });
 
 </script>
+
+<script src="~/js/cascadingDropdown.js"></script>
+

@@ -18,17 +18,68 @@
                 <div class="row">
                     <div class="col">
                         <center>
-                            <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-list fa-fw "></i>View Summer Fees</label>
+                            <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-list fa-fw "></i>View Summer Semester Enrollments</label>
                         </center>
                     </div>
                 </div>
+
+
 
                 <div class="row">
                     <div class="col">
                         <hr>
                     </div>
                 </div>
-                <div class="table-responsive">
+
+                <div class="row">
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Campus *</label>
+                        <div class="form-group">
+                            <select id="campusDropdown" class="form-control" required>
+                                <option value="">Select Campus</option>
+                                @if (ViewBag.campusList != null)
+                                {
+                                    foreach (var level in ViewBag.campusList)
+                                    {
+                                        <option value="@level.Value">@level.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Faculty *</label>
+                        <div class="form-group">
+                            <select id="facultyDdl" class="form-control" required>
+                                <option value="">Select faculty</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Department *</label>
+                        <div class="form-group">
+                            <select id="deptDdl" class="form-control" required>
+                                <option value="">Select department</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label> </label>
+                        <div class="form-group">
+                            <button id="navigateButton" class="btnLogin">Search</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mt-5">
                     <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -143,4 +194,23 @@
             });
         });
     });
+
+    $(document).ready(function () {
+        $('#navigateButton').click(function () {
+            var selectedDept = $('#deptDdl').val();
+
+            if (selectedDept != "Select Department" && selectedDept) {
+                console.log(selectedDept);
+                var url = '/SummerEnrollment/sessionGenerator?dept=' + selectedDept;
+
+                window.location.href = url;
+            }
+            else {
+                alert("Please Select Campus, Faculty and Department.");
+            }            
+
+        });
+    });
 </script>
+
+<script src="~/js/cascadingDropdown.js"></script>

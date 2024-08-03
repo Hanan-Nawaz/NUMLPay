@@ -28,16 +28,63 @@
                         <hr>
                     </div>
                 </div>
-                <div class="table-responsive">
+
+                <div class="row">
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Campus *</label>
+                        <div class="form-group">
+                            <select id="campusDropdown" class="form-control" required>
+                                <option value="">Select Campus</option>
+                                @if (ViewBag.campusList != null)
+                                {
+                                    foreach (var level in ViewBag.campusList)
+                                    {
+                                        <option value="@level.Value">@level.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Faculty *</label>
+                        <div class="form-group">
+                            <select id="facultyDdl" class="form-control" required>
+                                <option value="">Select faculty</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label>Department *</label>
+                        <div class="form-group">
+                            <select id="deptDdl" class="form-control" required>
+                                <option value="">Select department</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                        <label> </label>
+                        <div class="form-group">
+                            <button id="navigateButton" class="btnLogin">Search</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mt-5">
                     <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th class="th-sm">
                                     Subject Name
                                 </th>
-                                <th class="th-sm">
-                                    Department Id
-                                </th>
+                               
                                 <th class="th-sm">
                                     Added By
                                 </th>
@@ -55,7 +102,6 @@
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.name)</td>
                                         <td>@Html.DisplayFor(modelItem => item.added_by)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.dept_id)</td>
                                         <td>
                                             @if (item.is_active == 1)
                                             {
@@ -67,10 +113,11 @@
                                             }
                                         </td>
                                         <td class="d-flex justify-content-center">
+
                                             <button type="button" class="btn btn-danger btn-sm delete-btn me-2" title="Delete" data-id="@item.id">
                                                 <i class="fas fa-trash"></i>
                                             </button>
-
+                                            
                                             <button type="button" class="btn btn-primary btn-sm update-btn" title="Update" data-id="@item.id">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </button>
@@ -200,4 +247,23 @@
             });
         });
     });
+
+    $(document).ready(function () {
+        $('#navigateButton').click(function () {
+
+            var selectedDept = $('#deptDdl').val();
+
+            if (selectedDept != "Select Department" && selectedDept) {
+                console.log(selectedDept);
+                var url = '/Subject/sessionGenerator?dept=' + selectedDept;
+
+                window.location.href = url;
+            }
+            else {
+                alert("Please Select Campus, Faculty and Department.");
+            }
+        });
+    });
 </script>
+
+<script src="~/js/cascadingDropdown.js"></script>

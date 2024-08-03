@@ -293,7 +293,7 @@ namespace NUMLPay_WebApp.Controllers
         {
             SelectList allCampusesSelectList = await campusService.addCampustoListAsync();
 
-            if (admin.campus_id != null)
+            if (admin.role != 4)
             {
                 int campusId = (int)admin.campus_id;
                 var selectedCampus = allCampusesSelectList

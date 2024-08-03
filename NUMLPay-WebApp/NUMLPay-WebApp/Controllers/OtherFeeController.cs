@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 2 })]
+    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 2, 4 })]
     public class OtherFeeController : SessionController
     {
 
@@ -77,9 +77,12 @@ namespace NUMLPay_WebApp.Controllers
 
             FeeSecurity newfeeSecurity = new FeeSecurity();
             feeStructure.added_by = admin.email_id;
-            int securityFee = 0, busRoute, campus;
+            int securityFee = 0, busRoute = 0, campus;
 
-            busRoute = Convert.ToInt32(Request.Form["routeDropdown"]);
+            if(feeStructure.fee_for == 2)
+            {
+                busRoute = Convert.ToInt32(Request.Form["routeDropdown"]);
+            }
             campus = Convert.ToInt32(Request.Form["campusDropdown"]);
 
             if (feeStructure.fee_for != 2)
@@ -199,15 +202,15 @@ namespace NUMLPay_WebApp.Controllers
         {
             Admin admin = userAccessAdmin();
 
-            ViewBag.admissionSession = await sessionServices.addSessiontoListAsync(null);
+            ViewBag.admissionSession = await sessionServices.addSessiontoListAsync(feeStructure.session);
 
-            ViewBag.feeFor = new SelectList(StatusService.getFeeFor(null), "value", "text");
+            ViewBag.feeFor = new SelectList(StatusService.getFeeFor(feeStructure.fee_for), "value", "text");
 
             FeeSecurity newfeeSecurity = new FeeSecurity();
             feeStructure.added_by = admin.email_id;
             int securityFee;
 
-            if (!int.TryParse(Request.Form["securityFee"], out securityFee))
+            if (!int.TryParse(Request.Form["securityFee"], out securityFee) && (feeStructure.fee_for == 3 || feeStructure.fee_for == 4))
             {
                 ViewBag.AlertMessage = "Please Enter Complete Fee Data";
                 ViewBag.AlertType = "alert-danger";

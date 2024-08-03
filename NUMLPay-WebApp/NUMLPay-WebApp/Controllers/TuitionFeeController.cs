@@ -14,7 +14,7 @@ using System.Web.UI.WebControls;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 2, 3 })]
+    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 2, 3, 4 })]
     public class TuitionFeeController : SessionController
     {
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
@@ -101,21 +101,25 @@ namespace NUMLPay_WebApp.Controllers
 
             //getting subFeeStructure
             int examFee, maintainceFee, magazineFee, computerLabFee, admissionFee, medicalFee, sportsFee,
-                audioFee, librarySecFee, tuitionFee, registrationFee, libraryFee;
+               audioFee, librarySecFee, tuitionFee, registrationFee, libraryFee;
 
-                if (!int.TryParse(Request.Form["examFee"], out examFee) ||
-                     !int.TryParse(Request.Form["maintainceFee"], out maintainceFee) ||
-                     !int.TryParse(Request.Form["magazineFee"], out magazineFee) ||
-                     !int.TryParse(Request.Form["computerLabFee"], out computerLabFee) ||
-                     !int.TryParse(Request.Form["admissionFee"], out admissionFee) ||
-                     !int.TryParse(Request.Form["medicalFee"], out medicalFee) ||
-                     !int.TryParse(Request.Form["sportsFee"], out sportsFee) ||
-                     !int.TryParse(Request.Form["audioFee"], out audioFee) ||
-                     !int.TryParse(Request.Form["librarySecFee"], out librarySecFee) ||
-                     !int.TryParse(Request.Form["tuitionFee"], out tuitionFee) ||
-                     !int.TryParse(Request.Form["registrationFee"], out registrationFee) ||
-                     !int.TryParse(Request.Form["libraryFee"], out libraryFee))
-                {
+            float total_fee;
+
+
+            if (!int.TryParse(Request.Form["examFee"], out examFee) ||
+             !int.TryParse(Request.Form["maintainceFee"], out maintainceFee) ||
+             !int.TryParse(Request.Form["magazineFee"], out magazineFee) ||
+             !int.TryParse(Request.Form["computerLabFee"], out computerLabFee) ||
+             !int.TryParse(Request.Form["admissionFee"], out admissionFee) ||
+             !int.TryParse(Request.Form["medicalFee"], out medicalFee) ||
+             !int.TryParse(Request.Form["sportsFee"], out sportsFee) ||
+             !int.TryParse(Request.Form["audioFee"], out audioFee) ||
+             !int.TryParse(Request.Form["librarySecFee"], out librarySecFee) ||
+             !int.TryParse(Request.Form["tuitionFee"], out tuitionFee) ||
+             !int.TryParse(Request.Form["registrationFee"], out registrationFee) ||
+             !int.TryParse(Request.Form["libraryFee"], out libraryFee) ||
+            !float.TryParse(Request.Form["total_fee"], out total_fee))
+            {
                     ViewBag.AlertMessage = "Please Enter Complete Fee Data";
                     ViewBag.AlertType = "alert-danger";
                     ViewBag.Display = "block;";
@@ -135,6 +139,9 @@ namespace NUMLPay_WebApp.Controllers
                     subFeeStructure.admission_fee = admissionFee;
                     subFeeStructure.library_security = librarySecFee;
                     subFeeStructure.registration_fee = registrationFee;
+
+                feeStructure.total_fee = Convert.ToInt32(total_fee);
+
 
                 HttpResponseMessage responseMessageFees = await apiServices.PostAsync("FeeStructure", feeStructure);
 
@@ -168,7 +175,7 @@ namespace NUMLPay_WebApp.Controllers
             ViewBag.AlertMessage = TempData["AlertMessage"]?.ToString() ?? "";
             ViewBag.Display = TempData["Display"] ?? "none;";
 
-            if(admin.role == 2)
+            if(admin.role == 2 || admin.role == 4)
             {
                 listFee = await giveRealtiveData(null);
             }
@@ -232,6 +239,7 @@ namespace NUMLPay_WebApp.Controllers
             int examFee, maintainceFee, magazineFee, computerLabFee, admissionFee, medicalFee, sportsFee,
                 audioFee, librarySecFee, tuitionFee, registrationFee, libraryFee;
 
+            float total_fee;
 
                 if (!int.TryParse(Request.Form["examFee"], out examFee) ||
                  !int.TryParse(Request.Form["maintainceFee"], out maintainceFee) ||
@@ -244,7 +252,8 @@ namespace NUMLPay_WebApp.Controllers
                  !int.TryParse(Request.Form["librarySecFee"], out librarySecFee) ||
                  !int.TryParse(Request.Form["tuitionFee"], out tuitionFee) ||
                  !int.TryParse(Request.Form["registrationFee"], out registrationFee) ||
-                 !int.TryParse(Request.Form["libraryFee"], out libraryFee))
+                 !int.TryParse(Request.Form["libraryFee"], out libraryFee) || 
+                !float.TryParse(Request.Form["total_fee"], out total_fee))
             {
                 ViewBag.AlertMessage = "Please Enter valid numeric Data";
                 ViewBag.AlertType = "alert-danger";
@@ -266,6 +275,8 @@ namespace NUMLPay_WebApp.Controllers
                 subFeeStructure.admission_fee = admissionFee;
                 subFeeStructure.library_security = librarySecFee;
                 subFeeStructure.registration_fee = registrationFee;
+
+                feeStructure.total_fee = Convert.ToInt32(total_fee);
 
                 HttpResponseMessage responseMessageFees = await apiServices.PutAsync("FeeStructure", feeStructure);
 

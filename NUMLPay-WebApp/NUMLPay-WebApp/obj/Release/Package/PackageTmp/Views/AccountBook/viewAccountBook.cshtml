@@ -99,7 +99,16 @@
                                                 <p>@item.semester</p>
                                             }
                                         </td>
-                                        <td>@Html.DisplayFor(modelItem => item.installment_no)</td>
+                                        <td>
+                                            @if (item.installment_no == "1")
+                                            {
+                                                <p>No Installment</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@item.installment_no</p>
+                                            }
+                                        </td>
                                         <td>@Html.DisplayFor(modelItem => item.total_fee)</td>
                                         <td>@Html.DisplayFor(modelItem => item.fine)</td>
                                         <td>@(item.fine + item.total_fee)</td>
@@ -119,7 +128,7 @@
                                             }
                                         </td>
 
-                                        
+
                                     </tr>
                                 }
                             }

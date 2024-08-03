@@ -71,7 +71,6 @@
                             <div class="form-group">
                                 <select name="installmentsDropDown" id="installmentsDropDown" class="form-control" required>
                                     <option value="">Select Installments</option>
-                                    
                                 </select>
                             </div>
                         </div>
@@ -81,9 +80,14 @@
                             <div class="form-group">
                                 <select id="routeDropdown" name="routeDropdown" class="form-control">
                                     <option value="">Select Bus Route</option>
-                                    @foreach (var method in ViewBag.routes)
-                                    {
-                                        <option value="@method.Value">@method.Text</option>
+                                    @{
+                                        if (ViewBag.routes != null)
+                                        {
+                                            foreach (var method in ViewBag.routes)
+                                            {
+                                                <option value="@method.Value">@method.Text</option>
+                                            }
+                                        }
                                     }
                                 </select>
                             </div>
@@ -120,11 +124,23 @@
 <script>
     $('#challanDropDown').change(function () {
         $.getJSON('/GenerateChallan/getInstallments?fee_for=' + $('#challanDropDown').val(), function (data) {
-            var items = '<option>Select Installment</option>';
+            var items = '<option value="">Select Installment</option>';
             $.each(data, function (i, degree) {
                 items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
             });
             $('#installmentsDropDown').html(items);
+            $('#installmentsDropDown').setAttribute('required', 'required');
         });
+    });
+
+    document.getElementById('challanDropDown').addEventListener('change', function () {
+        var challanType = this.value; 
+        var routeDropdown = document.getElementById('routeDropdown');
+
+        if (challanType === '2' && routeDropdown.value === '') {
+            routeDropdown.setAttribute('required', 'required');
+        } else {
+            routeDropdown.removeAttribute('required');
+        }
     });
 </script>

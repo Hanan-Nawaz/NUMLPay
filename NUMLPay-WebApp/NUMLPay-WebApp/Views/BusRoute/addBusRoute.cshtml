@@ -37,28 +37,64 @@
                     </div>
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label>Name of Bus Route *</label>
-                            <div class="form-group">
-                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
-                            </div>
+                <div class="row">
+
+                    <div class="col-md-12" style="display: @ViewBag.adminRoles">
+                        <label>Campus *</label>
+                        <div class="form-group">
+                            <select name="campusDdl" id="campusDdl" class="form-control">
+                                <option value="">Select Campus</option>
+                                @if (ViewBag.campusList != null)
+                                {
+                                    foreach (var level in ViewBag.campusList)
+                                    {
+                                        <option value="@level.Value">@level.Text</option>
+                                    }
+                                }
+                            </select>
                         </div>
                     </div>
 
-                    <div class="row mt-5">
-                        <div class="col-md-4 mx-auto">
-                            <center>
-                                <div class="form-group">
-                                    <input type="submit" value="Add BusRoute" class="btnLogin" />
-                                </div>
-                            </center>
+                    <div class="col-md-12">
+                        <label>Name of Bus Route *</label>
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
+                            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                 </div>
-            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-md-4 mx-auto">
+                                    <center>
+                                        <div class="form-group">
+                                            <input type="submit" value="Add BusRoute" class="btnLogin" />
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
         </div>
     </div>
 }
+<script>
+
+    $(document).ready(function () {
+        $(document).on('submit', 'form', function (event) {
+            var deptDdlVisible = $('#campusDdl').closest('.col-md-12').is(':visible');
+            var selectedValueDept = $("#campusDdl").val();
+
+            console.log(deptDdlVisible);
+
+            // Check if the department dropdown is visible and has no selected value
+            if (deptDdlVisible && (!selectedValueDept)) {
+                event.preventDefault(); // Prevent form submission
+                alert("Please select campus."); // Log error message
+                return false; // Prevent default action
+            }
+        });
+    });
+
+</script>

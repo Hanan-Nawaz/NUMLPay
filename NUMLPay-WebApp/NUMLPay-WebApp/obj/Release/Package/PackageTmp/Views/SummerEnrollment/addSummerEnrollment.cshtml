@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col">
                             <center>
-                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Summer Enrollment</label>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Summer Semester Enrollment</label>
                             </center>
                         </div>
                     </div>
@@ -38,20 +38,62 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div class="row">
-                        <div class="col-md-12">
-                            <label>Subject *</label>
+                        <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                            <label>Campus *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.summer_fee_id, ViewBag.Subjects as SelectList, "Select Subject", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.summer_fee_id, "", new { @class = "text-danger" })
+                                <select id="campusDropdown" class="form-control">
+                                    <option value="">Select Campus</option>
+                                    @if (ViewBag.campusList != null)
+                                    {
+                                        foreach (var level in ViewBag.campusList)
+                                        {
+                                            <option value="@level.Value">@level.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                            <label>Faculty *</label>
+                            <div class="form-group">
+                                <select id="facultyDdl" class="form-control">
+                                    <option value="">Select faculty</option>
+
+                                </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="display: @ViewBag.adminRoles">
+                            <label>Department *</label>
+                            <div class="form-group">
+                                <select id="deptDdl" name="deptddl" class="form-control">
+                                    <option value="">Select department</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Subject *</label>
+                            <div class="form-group">
+                                <select id="subDdl" name="subDdl" class="form-control" required>
+                                    <option value="">Select subjects</option>
+
+                                </select>
+                                @Html.ValidationMessageFor(model => model.summer_fee_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
                             <label>NUMLID *</label>
                             <div class="form-group">
-                                @Html.EditorFor(model => model.std_numl_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.std_numl_id, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                 @Html.ValidationMessageFor(model => model.std_numl_id, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -72,3 +114,52 @@
         </div>
     </div>
 }
+
+<script>
+    $(document).ready(function () {
+
+        var deptIdFromViewBag = '@ViewBag.DeptId';
+
+        if (deptIdFromViewBag) {
+            $.getJSON('/SummerEnrollment/getSubject?DeptDdl=' + deptIdFromViewBag, function (data) {
+                var items = '<option value="">Select Subject</option>';
+                $.each(data, function (i, subject) {
+                    items += "<option value='" + subject.Value + "'>" + subject.Text + "</option>";
+                });
+                $('#subDdl').html(items);
+            });
+        }
+
+        $('#deptDdl').change(function () {
+
+
+
+            $.getJSON('/SummerEnrollment/getSubject?DeptDdl=' + $('#deptDdl').val(), function (data) {
+                    var items = '<option value="">Select Subject</option>';
+                    $.each(data, function (i, subject) {
+                        items += "<option value='" + subject.Value + "'>" + subject.Text + "</option>";
+                    });
+                $('#subDdl').html(items); 
+                });
+
+
+        });
+
+        $("form").submit(function (event) {
+            var deptDdlVisible = $('#deptDdl').closest('.col-md-6').is(':visible');
+            var selectedValueDept = $("#deptDdl").val();
+
+            // Check if the department dropdown is visible and has no selected value
+            if (deptDdlVisible && (!selectedValueDept || selectedValueDept === "Select Department")) {
+                event.preventDefault(); // Prevent form submission
+                alert("Please select campus, Faculty, and Department."); // Log error message
+                return false; // Prevent default action
+            }
+
+
+        });
+    });
+</script>
+
+<script src="~/js/cascadingDropdown.js"></script>
+

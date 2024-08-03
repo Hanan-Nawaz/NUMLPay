@@ -54,7 +54,7 @@ namespace NUMLPay_WebApp.Controllers
             ViewBag.challanType = new SelectList(await fService.getFeeForUser(user), "value", "text");
 
 
-            ViewBag.Session = await sessionServices.addSessiontoListAsync(null);
+            ViewBag.Session = await sessionServices.addSessiontoListAsyncWithEligibility(user.admission_session);
             ViewBag.routes = await busRouteService.GetSelectedBusRoute(null, user.dept_id);
 
 
@@ -70,7 +70,7 @@ namespace NUMLPay_WebApp.Controllers
             ViewBag.Display = "none;";
 
             ViewBag.challanType = new SelectList(await fService.getFeeForUser(user), "value", "text");
-            ViewBag.Session = await sessionServices.addSessiontoListAsync(null);
+            ViewBag.Session = await sessionServices.addSessiontoListAsyncWithEligibility(user.admission_session);
             ViewBag.routes = await busRouteService.GetSelectedBusRoute(null, user.dept_id);
 
             int sessionId = Convert.ToInt32(Request.Form["sessionDropdown"]);
@@ -90,8 +90,19 @@ namespace NUMLPay_WebApp.Controllers
 
             if (feeFor == 2)
             {
-                int route = Convert.ToInt32(Request.Form["routeDropdown"]);
-                responseMessage = await apiServices.PostAsync($"GenerateChallan/{sessionId}/{feeFor}/{mode}/{user.degree_id}/{user.admission_session}/{user.fee_plan}/{route}", unpaidFee);
+                int route = 0;
+                if (int.TryParse(Request.Form["routeDropdown"], out route)){
+                    responseMessage = await apiServices.PostAsync($"GenerateChallan/{sessionId}/{feeFor}/{mode}/{user.degree_id}/{user.admission_session}/{user.fee_plan}/{route}", unpaidFee);
+                }
+                else
+                {
+                    string responseData = "Bus Route is required!";
+                    ViewBag.AlertMessage = responseData;
+                    ViewBag.AlertType = "alert-danger";
+                    ViewBag.Display = "block;";
+                    ViewBag.gernerate = "none;";
+                }
+
             }
             else
             {

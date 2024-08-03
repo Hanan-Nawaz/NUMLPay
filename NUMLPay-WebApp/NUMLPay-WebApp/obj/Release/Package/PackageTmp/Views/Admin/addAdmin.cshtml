@@ -101,7 +101,7 @@
                         <div class="col-md-6">
                             <label>Role *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.role, ViewBag.roles as SelectList, "Select Role", new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.role, ViewBag.roles as SelectList, "Select Role", new { @class = "form-control", @id="roleDdl" })
                                 @Html.ValidationMessageFor(model => model.role, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                             <div class="form-group">
                                 <select id="facultyDdl" class="form-control">
                                 </select>
-                                @Html.ValidationMessageFor(model => model.faculty_id, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.faculty_id, "", new { @class = "text-danger", @id = "faculty" })
                                 @Html.HiddenFor(model => model.faculty_id) <!-- Add a hidden input field -->
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                             <div class="form-group">
                                 <select id="deptDdl" class="form-control">
                                 </select>
-                                @Html.ValidationMessageFor(model => model.dept_id, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.dept_id, "", new { @class = "text-danger", @id = "dept" })
                                 @Html.HiddenFor(model => model.dept_id) <!-- Add a hidden input field -->
                             </div>
                         </div>
@@ -183,6 +183,8 @@
             }
         });
     });
+
+    
 </script>
 
 <script src="~/js/cascadingDropdown.js"></script>

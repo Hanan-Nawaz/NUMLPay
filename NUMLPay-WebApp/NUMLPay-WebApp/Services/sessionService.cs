@@ -95,6 +95,31 @@ namespace NUMLPay_WebApp.Services
             return new SelectList(sessionOptions, "Value", "Text");
         }
 
+        // Add Session to SelectList
+        public async Task<SelectList> addSessiontoListAsyncWithEligibility(int sessionId)
+        {
+            List<SeesionView> listSession = null;
+            using (var response = await apiServices.GetAsync($"{_apiBaseUrl}Session/GetforEligibleDdl/{sessionId}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = await response.Content.ReadAsStringAsync();
+                    listSession = JsonConvert.DeserializeObject<List<SeesionView>>(data);
+                }
+            }
+
+            List<SelectListItem> sessionOptions = new List<SelectListItem>();
+
+            foreach (var session in listSession)
+            {
+                sessionOptions.Add(new SelectListItem { Value = session.id.ToString(), Text = session.session.ToString() });
+            }
+
+            
+
+            return new SelectList(sessionOptions, "Value", "Text");
+        }
+
         // Get Session by Id
         public async Task<Session> getSessionAsync(int Id)
         {

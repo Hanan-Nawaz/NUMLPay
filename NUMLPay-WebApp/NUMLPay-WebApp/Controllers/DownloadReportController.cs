@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
 using Microsoft.Reporting.WebForms;
 using Newtonsoft.Json;
 using NUMLPay_WebApp.Models;
@@ -20,6 +21,7 @@ namespace NUMLPay_WebApp.Controllers
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
         HttpClient httpClient;
         academicLevelService levelService;
+        CampusService campusService;
         sessionService sessionService;
         statusService StatusService;
         apiService apiServices;
@@ -30,15 +32,27 @@ namespace NUMLPay_WebApp.Controllers
             httpClient = new HttpClient();
             httpClient.BaseAddress = baseAddress;
             levelService = new academicLevelService();
+            campusService = new CampusService(baseAddress);
             sessionService = new sessionService(baseAddress);
             StatusService = new statusService();
             apiServices = new apiService(baseAddress.ToString());
         }
 
-        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3 })]
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
         public async Task<ActionResult> downloadReport()
         {
             Admin admin = userAccessAdmin();
+            List<ReportFee> reportfee = Session["data_table"] as List<ReportFee>;
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                ViewBag.departmentId = admin.dept_id;
+            }
 
             ViewBag.AlertType = TempData["AlertType"]?.ToString() ?? "";
             ViewBag.AlertMessage = TempData["AlertMessage"]?.ToString() ?? "";
@@ -48,10 +62,43 @@ namespace NUMLPay_WebApp.Controllers
             ViewBag.academicLevels = new SelectList(levelService.getLevel(null), "Value", "Text");
             ViewBag.Session = await sessionService.addSessiontoListAsync(null);
 
-            return View();
+            return View(reportfee);
         }
 
-        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3 })]
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
+        public async Task<ActionResult> viewTuitionReport(int? shiftId, int? semester, int? session)
+        {
+            ViewBag.Display = "none;";
+
+            Admin admin = userAccessAdmin();
+
+                List<ReportFee> listFee = null;
+                if (semester.HasValue)
+                {
+                    var response = await apiServices.GetAsync($"FeeReport/GetReportofTutionFee/{shiftId}/{semester}/{session}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string data = await response.Content.ReadAsStringAsync();
+                        listFee = JsonConvert.DeserializeObject<List<ReportFee>>(data);
+                    }
+                }
+                else
+                {
+                    var response = await apiServices.GetAsync($"FeeReport/GetReportofTutionFee/{shiftId}/{session}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string data = await response.Content.ReadAsStringAsync();
+                        listFee = JsonConvert.DeserializeObject<List<ReportFee>>(data);
+                    }
+                }
+            Session["data_table"] = listFee;
+
+            return RedirectToAction("downloadReport");
+
+        }
+
+
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
         public async Task<ActionResult> downloadTuitionReport(int? shiftId, int? semester, int? session)
         {
             ViewBag.Display = "none;";
@@ -107,6 +154,7 @@ namespace NUMLPay_WebApp.Controllers
                     reportViewer.LocalReport.DataSources.Add(new ReportDataSource("ReportFee", listFee));
                     byte[] pdfBytes = reportViewer.LocalReport.Render("PDF");
 
+                    Session["data_table"] = listFee;
 
                     return File(pdfBytes, "application/pdf", sem + "_FeeDeafaultersList.pdf");
                 }
@@ -134,10 +182,24 @@ namespace NUMLPay_WebApp.Controllers
 
         }
 
-        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3 })]
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
         public async Task<ActionResult> downloadSummerReport()
         {
             Admin admin = userAccessAdmin();
+
+            List<ReportFee> reportfee = Session["data_table"] as List<ReportFee>;
+
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                ViewBag.departmentId = admin.dept_id;
+            }
 
             ViewBag.AlertType = TempData["AlertType"]?.ToString() ?? "";
             ViewBag.AlertMessage = TempData["AlertMessage"]?.ToString() ?? "";
@@ -146,15 +208,47 @@ namespace NUMLPay_WebApp.Controllers
             ViewBag.sessionYear = new SelectList(sessionService.getYearsFrom1990ToCurrent(), "Value", "Text");
 
 
-            return View();
+            return View(reportfee);
         }
 
-        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3 })]
-        public async Task<ActionResult> downloadSummerFeeReport(int year)
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
+        public async Task<ActionResult> viewSummerFeeReport(int year, int? deptId)
         {
             ViewBag.Display = "none;";
 
             Admin admin = userAccessAdmin();
+
+            List<ReportFee> listFee = null;
+            var response = await apiServices.GetAsync($"FeeReport/SummerFee/{Convert.ToInt32(admin.dept_id)}/{year}");
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                listFee = JsonConvert.DeserializeObject<List<ReportFee>>(data);
+            }
+
+            Session["data_table"] = listFee;
+
+            return RedirectToAction("downloadSummerReport");
+
+        }
+
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
+        public async Task<ActionResult> downloadSummerFeeReport(int year, int? deptId)
+        {
+            ViewBag.Display = "none;";
+
+            Admin admin = userAccessAdmin();
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                admin.dept_id = deptId;
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+            }
+
             try
             {
                 List<ReportFee> listFee = null;
@@ -186,7 +280,10 @@ namespace NUMLPay_WebApp.Controllers
 
                 byte[] pdfBytes = reportViewer.LocalReport.Render("PDF");
 
-                return File(pdfBytes, "application/pdf", sem + "_FeeDeafaultersList.pdf");
+                    Session["data_table"] = listFee;
+
+
+                    return File(pdfBytes, "application/pdf", sem + "_FeeDeafaultersList.pdf");
 
                 }
                 else
@@ -211,29 +308,73 @@ namespace NUMLPay_WebApp.Controllers
 
         }
 
-        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 1 })]
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 1, 4 })]
         public async Task<ActionResult> downloadHMBReport()
         {
             Admin admin = userAccessAdmin();
+            List<ReportFee> reportfee = Session["data_table"] as List<ReportFee>;
 
             ViewBag.AlertType = TempData["AlertType"]?.ToString() ?? "";
             ViewBag.AlertMessage = TempData["AlertMessage"]?.ToString() ?? "";
             ViewBag.Display = TempData["Display"] ?? "none;";
 
+            ViewBag.adminRoles = "none;";
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+           
+
             ViewBag.feeFor = new SelectList(StatusService.getOtherFeeFor(null), "value", "text");
             ViewBag.Session = await sessionService.addSessiontoListAsync(null);
 
-            return View();
+            return View(reportfee);
         }
 
-        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 1 })]
-        public async Task<ActionResult> downloadHMBFeeReport(int? feefor, int? session)
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 1, 4 })]
+        public async Task<ActionResult> viewHMBFeeReport(int? feefor, int? session, int? campus)
         {
             ViewBag.Display = "none;";
 
             Admin admin = userAccessAdmin();
+
+            List<ReportFee> listFee = null;
+            var response = await apiServices.GetAsync($"FeeReport/HMBFee/{Convert.ToInt32(admin.campus_id)}/{feefor}/{session}");
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                listFee = JsonConvert.DeserializeObject<List<ReportFee>>(data);
+            }
+
+            Session["data_table"] = listFee;
+
+            return RedirectToAction("downloadHMBReport");
+
+        }
+
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 1, 4 })]
+        public async Task<ActionResult> downloadHMBFeeReport(int? feefor, int? session, int? campus)
+        {
+            ViewBag.Display = "none;"; 
+            ViewBag.adminRoles = "none";
+
+            Admin admin = userAccessAdmin();
             try
             {
+                if (admin.role == 4)
+                {
+                    ViewBag.adminRoles = "block";
+                    ViewBag.campusList = await campusService.addCampustoListAsync();
+
+                    admin.campus_id = campus;
+
+
+                }
+                
+
+
                 List<ReportFee> listFee = null;
                 var response = await apiServices.GetAsync($"FeeReport/HMBFee/{Convert.ToInt32(admin.campus_id)}/{feefor}/{session}");
                 if (response.IsSuccessStatusCode)
@@ -278,6 +419,9 @@ namespace NUMLPay_WebApp.Controllers
 
                     byte[] pdfBytes = reportViewer.LocalReport.Render("PDF");
 
+                    Session["data_table"] = listFee;
+
+
                     return File(pdfBytes, "application/pdf", sem + "_FeeDeafaultersList.pdf");
 
                 }
@@ -303,26 +447,73 @@ namespace NUMLPay_WebApp.Controllers
 
         }
 
-        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3 })]
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
         public async Task<ActionResult> downloadRepeatReport()
         {
             Admin admin = userAccessAdmin();
+            List<ReportFee> reportfee = Session["data_table"] as List<ReportFee>;
 
             ViewBag.AlertType = TempData["AlertType"]?.ToString() ?? "";
             ViewBag.AlertMessage = TempData["AlertMessage"]?.ToString() ?? "";
             ViewBag.Display = TempData["Display"] ?? "none;";
 
-            ViewBag.departmentId = admin.dept_id;
+            ViewBag.adminRoles = "none;";
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+            else
+            {
+                ViewBag.departmentId = admin.dept_id;
+            }
+
             ViewBag.academicLevels = new SelectList(levelService.getLevel(null), "Value", "Text");
             ViewBag.Session = await sessionService.addSessiontoListAsync(null);
 
-            return View();
+            return View(reportfee);
         }
 
-        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3 })]
+
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
+        public async Task<ActionResult> viewRepeatReports(int? shiftId, int? semester, int? session)
+        {
+            ViewBag.Display = "none;";
+
+            Admin admin = userAccessAdmin();
+
+            List<ReportFee> listFee = null;
+            if (semester.HasValue)
+            {
+                var response = await apiServices.GetAsync($"FeeReport/GetReportofRepeatFee/{shiftId}/{semester}/{session}");
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = await response.Content.ReadAsStringAsync();
+                    listFee = JsonConvert.DeserializeObject<List<ReportFee>>(data);
+                }
+            }
+            else
+            {
+                var response = await apiServices.GetAsync($"FeeReport/GetReportofRepeatFee/{shiftId}/{session}");
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = await response.Content.ReadAsStringAsync();
+                    listFee = JsonConvert.DeserializeObject<List<ReportFee>>(data);
+                }
+            }
+
+            Session["data_table"] = listFee;
+
+            return RedirectToAction("downloadRepeatReport");
+
+        }
+
+        [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
         public async Task<ActionResult> downloadRepeatReports(int? shiftId, int? semester, int? session)
         {
             ViewBag.Display = "none;";
+            ViewBag.adminRoles = "none;";
 
             Admin admin = userAccessAdmin();
             try
@@ -375,6 +566,7 @@ namespace NUMLPay_WebApp.Controllers
                     reportViewer.LocalReport.DataSources.Add(new ReportDataSource("ReportFee", listFee));
                     byte[] pdfBytes = reportViewer.LocalReport.Render("PDF");
 
+                    Session["data_table"] = listFee;
 
                     return File(pdfBytes, "application/pdf", sem + "_FeeDeafaultersList.pdf");
                 }

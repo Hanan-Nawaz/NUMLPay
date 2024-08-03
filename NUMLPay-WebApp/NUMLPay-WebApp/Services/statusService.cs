@@ -78,7 +78,7 @@ namespace NUMLPay_WebApp.Services
                 new SelectListItem { Value = "1", Text = "InComplete" },
                 new SelectListItem { Value = "2", Text = "Complete" },
                 new SelectListItem { Value = "3", Text = "Freeze" },
-                new SelectListItem { Value = "4", Text = "Siezed" }
+                new SelectListItem { Value = "4", Text = "Ceased" }
             };
 
             if (selectedValue.HasValue)

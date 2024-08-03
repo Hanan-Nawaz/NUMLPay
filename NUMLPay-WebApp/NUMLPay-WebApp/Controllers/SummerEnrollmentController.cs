@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3 })]
+    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
     public class SummerEnrollmentController : SessionController
     {
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
@@ -20,6 +20,7 @@ namespace NUMLPay_WebApp.Controllers
         summerFeeService summerFeeService;
         apiService apiServices;
         summerEnrollmentService summerEnrollmentService;
+        CampusService campusService;
 
         public SummerEnrollmentController()
         {
@@ -27,6 +28,7 @@ namespace NUMLPay_WebApp.Controllers
             httpClient.BaseAddress = baseAddress;
             summerFeeService = new summerFeeService(baseAddress);
             summerEnrollmentService = new summerEnrollmentService(baseAddress);
+            campusService = new CampusService(baseAddress);
             apiServices = new apiService(baseAddress.ToString());
         }
 
@@ -35,10 +37,36 @@ namespace NUMLPay_WebApp.Controllers
         {
             Admin admin = userAccessAdmin();
 
-            ViewBag.Subjects = new SelectList(await summerFeeService.GetActiveSummerFeesForYearAsync(Convert.ToInt32(admin.dept_id)), "id", "subject_name");
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                ViewBag.DeptId = admin.dept_id;
+            }
+
 
             ViewBag.Display = "none;";
             return View();
+        }
+
+        public async Task<ActionResult> getSubject(int? DeptDdl)
+        {
+            List<SummerFeeView> subjects = await summerFeeService.GetActiveSummerFeesForYearAsync(Convert.ToInt32(DeptDdl));
+            List<SelectListItem> subOptions = new List<SelectListItem>();
+
+            if (subjects != null)
+            {
+                foreach (var sub in subjects)
+                {
+                    subOptions.Add(new SelectListItem { Value = sub.id.ToString(), Text = sub.subject_name.ToString() });
+                }
+            }
+
+            return Json(subOptions, JsonRequestBehavior.AllowGet);
         }
 
         // Add SummerEnrollment Post
@@ -47,9 +75,20 @@ namespace NUMLPay_WebApp.Controllers
         {
             Admin admin = userAccessAdmin();
 
-            ViewBag.Subjects = new SelectList(await summerFeeService.GetActiveSummerFeesForYearAsync(Convert.ToInt32(admin.dept_id)), "id", "subject_name");
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+                admin.dept_id = Convert.ToInt32(Request.Form["deptDdl"]);
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                
+            }
 
             summerEnrollment.added_by = admin.email_id;
+            summerEnrollment.summer_fee_id = Convert.ToInt32(Request.Form["subDdl"]);
 
             HttpResponseMessage responseMessage = await apiServices.PostAsync($"SummerEnrollment/{admin.dept_id}", summerEnrollment);
 
@@ -77,6 +116,18 @@ namespace NUMLPay_WebApp.Controllers
         {
             Admin admin = userAccessAdmin();
 
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+                admin.dept_id = Convert.ToInt32(Session["dept"]);
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                admin.dept_id = Convert.ToInt32(admin.dept_id);
+            }
+
             List<SummerEnrollmentView> listSummerEnrollment = await summerEnrollmentService.getSummerEnrollmentsAsync(Convert.ToInt32(admin.dept_id));
 
             ViewBag.AlertType = TempData["AlertType"]?.ToString() ?? "";
@@ -85,6 +136,14 @@ namespace NUMLPay_WebApp.Controllers
 
             return View(listSummerEnrollment);
         }
+
+        public async Task<ActionResult> sessionGenerator(int dept)
+        {
+            Session["dept"] = dept;
+
+            return RedirectToAction("viewSummerEnrollments");
+        }
+
 
         // Delete SummerEnrollment
         public async Task<ActionResult> deleteSummerEnrollment(int? Id)

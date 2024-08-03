@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col">
                             <center>
-                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Summer Fee</label>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Summer Semester Fee</label>
                             </center>
                         </div>
                     </div>
@@ -38,47 +38,138 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div class="row">
-                        <div class="col-md-12">
-                            <label>Fee *</label>
+                        <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                            <label>Campus *</label>
                             <div class="form-group">
-                                @Html.EditorFor(model => model.fee, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.fee, "", new { @class = "text-danger" })
+                                <select id="campusDropdown" class="form-control">
+                                    <option value="">Select Campus</option>
+                                    @if (ViewBag.campusList != null)
+                                    {
+                                        foreach (var level in ViewBag.campusList)
+                                        {
+                                            <option value="@level.Value">@level.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                            <label>Faculty *</label>
+                            <div class="form-group">
+                                <select id="facultyDdl" class="form-control">
+                                    <option value="">Select faculty</option>
+
+                                </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
-                            <label>Subject *</label>
+                        <div class="col-md-12" style="display: @ViewBag.adminRoles">
+                            <label>Department *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.subject_id, ViewBag.Subject as SelectList, "Select Subject", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.subject_id, "", new { @class = "text-danger" })
+                                <select id="deptDdl" name="deptddl" class="form-control">
+                                    <option value="">Select department</option>
+
+                                </select>
                             </div>
                         </div>
-                    </div>
+                       
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label>Session *</label>
-                            <div class="form-group">
-                                @Html.DropDownListFor(model => model.session_year, ViewBag.Session as SelectList, "Select Session", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.session_year, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-5">
-                        <div class="col-md-4 mx-auto">
-                            <center>
+                            <div class="col-md-12">
+                                <label>Subject *</label>
                                 <div class="form-group">
-                                    <input type="submit" value="Add Summer Fee" class="btnLogin" />
+                                    <select id="subDdl" name="subDdl" class="form-control" required>
+                                        <option value="">Select subjects</option>
+
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.subject_id, "", new { @class = "text-danger" })
                                 </div>
-                            </center>
-                        </div>
+                            </div>
+
                     </div>
 
-                </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Fee *</label>
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.fee, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
+                                        @Html.ValidationMessageFor(model => model.fee, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <label>Session *</label>
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(model => model.session_year, ViewBag.Session as SelectList, "Select Session", new { @class = "form-control", @required = "true" })
+                                        @Html.ValidationMessageFor(model => model.session_year, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-md-4 mx-auto">
+                                    <center>
+                                        <div class="form-group">
+                                            <input type="submit" value="Add Summer Fee" class="btnLogin" />
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+
+                        </div>
             </div>
         </div>
     </div>
 }
+
+<script>
+    $(document).ready(function () {
+
+        var deptIdFromViewBag = '@ViewBag.DeptId';
+
+        if (deptIdFromViewBag) {
+            $.getJSON('/SummerFee/getSubject?DeptDdl=' + deptIdFromViewBag, function (data) {
+                var items = '<option value="">Select Subject</option>';
+                $.each(data, function (i, subject) {
+                    items += "<option value='" + subject.Value + "'>" + subject.Text + "</option>";
+                });
+                $('#subDdl').html(items);
+            });
+        }
+
+        $('#deptDdl').change(function () {
+
+
+
+            $.getJSON('/SummerFee/getSubject?DeptDdl=' + $('#deptDdl').val(), function (data) {
+                    var items = '<option value="">Select Subject</option>';
+                    $.each(data, function (i, subject) {
+                        items += "<option value='" + subject.Value + "'>" + subject.Text + "</option>";
+                    });
+                $('#subDdl').html(items);
+                });
+
+
+        });
+
+            $("form").submit(function (event) {
+                var deptDdlVisible = $('#deptDdl').closest('.col-md-6').is(':visible');
+                var selectedValueDept = $("#deptDdl").val();
+
+                // Check if the department dropdown is visible and has no selected value
+                if (deptDdlVisible && (!selectedValueDept || selectedValueDept === "Select Department")) {
+                    event.preventDefault(); // Prevent form submission
+                    alert("Please select campus, Faculty, and Department."); // Log error message
+                    return false; // Prevent default action
+                }
+
+
+            });
+    });
+</script>
+
+<script src="~/js/cascadingDropdown.js"></script>

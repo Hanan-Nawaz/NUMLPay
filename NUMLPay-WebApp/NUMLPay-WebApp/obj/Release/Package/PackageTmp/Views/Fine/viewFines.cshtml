@@ -59,33 +59,41 @@
                                         <td>
                                             @if (item.name == 1)
                                             {
-                                                <span class="text-primary">Fall </span> @item.year
+                                                <span>Fall </span> @item.year
                                             }
                                             else
                                             {
-                                                <span class="text-primary">Spring </span> @item.year
+                                                <span>Spring </span> @item.year
                                             }
                                         </td>
                                         <td>
                                             @if (item.fine_for == 1)
                                             {
-                                                <span class="text-primary">Tuition Fee</span>
+                                                <span>Tuition Fee</span>
                                             }
                                             else if (item.fine_for == 2)
                                             {
-                                                <span class="text-primary">Bus Fee</span>
+                                                <span >Bus Fee</span>
                                             }
                                             else if (item.fine_for == 3)
                                             {
-                                                <span class="text-primary">Hostel Fee</span>
+                                                <span >Hostel Fee</span>
                                             }
                                             else if (item.fine_for == 4)
                                             {
-                                                <span class="text-primary">Mess Fee</span>
+                                                <span >Mess Fee</span>
+                                            }
+                                            else if (item.fine_for == 6)
+                                            {
+                                                <span >Summer Fee</span>
+                                            }
+                                            else if (item.fine_for == 7)
+                                            {
+                                                <span >Repeat Course Fee</span>
                                             }
                                             else
                                             {
-                                                <span class="text-primary">Other Fee</span>
+                                                <span >Other Fee</span>
                                             }
                                         </td>
                                         <td>@item.fine_after_10_days </td>

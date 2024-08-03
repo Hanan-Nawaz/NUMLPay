@@ -42,7 +42,7 @@
                     <div class="col-md-6">
                         <label>Name of Faculty *</label>
                         <div class="form-group">
-                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                             @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                     <div class="col-md-6">
                         <label>Campus *</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(model => model.campus_id, ViewBag.campusList as SelectList, "Select Campus", new { @class = "form-control", id = "campusDropdown" })
+                            @Html.DropDownListFor(model => model.campus_id, ViewBag.campusList as SelectList, "Select Campus", new { @class = "form-control", id = "campusDropdown", @required = "true" })
                             @Html.ValidationMessageFor(model => model.campus_id, "", new { @class = "text-danger" })
                         </div>
                     </div>

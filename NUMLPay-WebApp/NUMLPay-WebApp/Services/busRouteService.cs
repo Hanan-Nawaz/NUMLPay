@@ -25,7 +25,9 @@ namespace NUMLPay_WebApp.Services
         public async Task<List<SelectListItem>> GetSelectedBusRoute(int? selectedValue, int id)
         {
             List<BusRoute> busRoutes = await GetBusRoutesActiveAsync(id);
-            List<SelectListItem> busRouteOptions = busRoutes
+            if(busRoutes != null)
+            {
+                List<SelectListItem> busRouteOptions = busRoutes
                 .Select(busRoute => new SelectListItem
                 {
                     Value = busRoute.id.ToString(),
@@ -33,15 +35,23 @@ namespace NUMLPay_WebApp.Services
                 })
                 .ToList();
 
-            if (selectedValue.HasValue)
-            {
-                foreach (var option in busRouteOptions)
+                if (selectedValue.HasValue)
                 {
-                    option.Selected = option.Value == selectedValue.Value.ToString();
+                    foreach (var option in busRouteOptions)
+                    {
+                        option.Selected = option.Value == selectedValue.Value.ToString();
+                    }
                 }
+
+                return busRouteOptions;
+
+            }
+            else
+            {
+                return null;
             }
 
-            return busRouteOptions;
+
         }
 
         public async Task<List<SelectListItem>> GetSelectedBusRouteAdmin(int? selectedValue, int id)

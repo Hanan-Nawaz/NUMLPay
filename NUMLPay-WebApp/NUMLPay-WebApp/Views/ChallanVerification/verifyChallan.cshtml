@@ -112,7 +112,7 @@
                         <div class="col-md-6">
                             <label>Decision *</label>
                             <div class="form-group">
-                                <select name="decision" class="form-control" required>
+                                <select name="decision" id="decision" class="form-control" required>
                                     <option value="">Select Decision</option>
                                     <option value="1">Approve</option>
                                     <option value="3">Dis-Approve</option>
@@ -125,7 +125,7 @@
                         <div class="col-md-12">
                             <label>Reason if Disapproved</label>
                             <div class="form-group">
-                                <textarea class="form-control" name="disapproved" rows="5" ></textarea>
+                                <textarea class="form-control" name="disapproved" id="disapproved" rows="5"></textarea>
                             </div>
                         </div>
                     </div>
@@ -158,3 +158,15 @@
     </div>
 </div>
 }
+
+<script>
+    $(function() {
+        $("#decision").change(function() {
+            if ($(this).val() === "3") {
+                $("#disapproved").prop("required", true);
+            } else {
+                $("#disapproved").prop("required", false);
+            }
+        });
+    });
+</script>

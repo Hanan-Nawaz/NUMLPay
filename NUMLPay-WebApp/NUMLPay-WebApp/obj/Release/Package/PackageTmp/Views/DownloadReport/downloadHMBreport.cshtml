@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<NUMLPay_WebApp.ViewModel.ReportFee>
+
+@{
     ViewBag.Title = "Download Hostel / Mess/ Bus Fee Reports";
     Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
 }
@@ -32,42 +34,117 @@
                 </div>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="row">
-                <div class="col-md-6">
-                    <label>For Session *</label>
-                    <div class="form-group">
-                        <select name="sessionDropdown" class="form-control" id="sessionDropdown" required>
-                            <option value="">Select Session</option>
-                            @foreach (var session in ViewBag.Session)
-                            {
-                                <option value="@session.Value">@session.Text</option>
-                            }
-                        </select>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>For Session *</label>
+                        <div class="form-group">
+                            <select name="sessionDropdown" class="form-control" id="sessionDropdown" required>
+                                <option value="">Select Session</option>
+                                @foreach (var session in ViewBag.Session)
+                                {
+                                    <option value="@session.Value">@session.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>For Fee *</label>
+                        <div class="form-group">
+                            <select name="feeForDropdown" class="form-control" id="feeForDropdown" required>
+                                <option value="">Select Fee</option>
+                                @foreach (var session in ViewBag.feeFor)
+                                {
+                                    <option value="@session.Value">@session.Text</option>
+                                }
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <label>For Fee *</label>
-                    <div class="form-group">
-                        <select name="feeForDropdown" class="form-control" id="feeForDropdown" required>
-                            <option value="">Select Fee</option>
-                            @foreach (var session in ViewBag.feeFor)
-                            {
-                                <option value="@session.Value">@session.Text</option>
-                            }
-                        </select>
+                <div class="row">
+                    <div class="col-md-12" style="display: @ViewBag.adminRoles">
+                        <label>Campus *</label>
+                        <div class="form-group">
+                            <select name="campusDdl" id="campusDdl" class="form-control" required>
+                                <option value="">Select Campus</option>
+                                @if (ViewBag.campusList != null)
+                                {
+                                    foreach (var level in ViewBag.campusList)
+                                    {
+                                        <option value="@level.Value">@level.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+
 
                 <div class="row mt-5">
-                    <div class="col-md-4 mx-auto">
+                    <div class="col-md-6 mx-auto">
+                        <center>
+                            <div class="form-group">
+                                <input type="submit" id="ViewReportBtn" value="View Data" class="btnLogin" />
+                            </div>
+                        </center>
+                    </div>
+
+                    <div class="col-md-6 mx-auto">
                         <center>
                             <div class="form-group">
                                 <input type="submit" id="downloadReportBtn" value="Download Report" class="btnLogin" />
                             </div>
                         </center>
                     </div>
+                </div>
+
+                <div class="table-responsive mt-5">
+                    <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="th-sm">
+                                    NUML ID
+                                </th>
+                                <th class="th-sm">
+                                    Name
+                                </th>
+                                <th class="th-sm">
+                                    Semester
+                                </th>
+                                <th class="th-sm">
+                                    Degree Name
+                                </th>
+                                
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.numl_id)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.semester)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.degree_name)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.fee_status)</td>
+
+
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center text-danger">No data found.</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
@@ -80,16 +157,36 @@
 <script>
     $(document).ready(function () {
         $('#downloadReportBtn').click(function () {
-            var feeFor = $('#feeForDropdown').val(); 
+            var feeFor = $('#feeForDropdown').val();
             var session = $('#sessionDropdown').val();
+            var campus = $('#campusDdl').val();
 
-            if (feeFor && session) {
-                window.location.href = '/DownloadReport/downloadHMBFeeReport?feeFor=' + feeFor + '&session=' + session;
-            } else {
-                console.error('Please select both Fee and Session.');
+            var campusVisible = $('#campusDdl').closest('.col-md-12').is(':visible');
+
+            if (feeFor && session && (!campusVisible || campus)) {
+                window.location.href = '/DownloadReport/downloadHMBFeeReport?feeFor=' + feeFor + '&session=' + session + '&campus=' + campus;
+            } else if (!feeFor || !session) {
+                alert('Please select Fee and Session.');
+            } else if (campusVisible && !campus) {
+                alert('Please select Campus.');
+            }
+        });
+
+        $('#ViewReportBtn').click(function () {
+            var feeFor = $('#feeForDropdown').val();
+            var session = $('#sessionDropdown').val();
+            var campus = $('#campusDdl').val();
+
+            var campusVisible = $('#campusDdl').closest('.col-md-12').is(':visible');
+
+            if (feeFor && session && (!campusVisible || campus)) {
+                window.location.href = '/DownloadReport/viewHMBFeeReport?feeFor=' + feeFor + '&session=' + session + '&campus=' + campus;
+            } else if (!feeFor || !session) {
+                alert('Please select Fee and Session.');
+            } else if (campusVisible && !campus) {
+                alert('Please select Campus.');
             }
         });
     });
-
-
 </script>
+

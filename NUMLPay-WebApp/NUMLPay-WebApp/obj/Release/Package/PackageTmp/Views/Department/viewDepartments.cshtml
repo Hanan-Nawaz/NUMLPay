@@ -64,8 +64,16 @@
                                         <td>@Html.DisplayFor(modelItem => item.campus_name)</td>
                                         <td>@Html.DisplayFor(modelItem => item.added_by)</td>
                                         <td>@Html.DisplayFor(modelItem => item.date)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.status)</td>
-
+                                        <td>
+                                            @if (item.status == "Active")
+                                            {
+                                                <span class="text-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">Inactive</span>
+                                            }
+                                        </td>
                                         <td class="d-flex justify-content-center">
                                             <button type="button" class="btn btn-danger btn-sm delete-btn me-2" title="Delete" data-id="@item.id">
                                                 <i class="fas fa-trash"></i>

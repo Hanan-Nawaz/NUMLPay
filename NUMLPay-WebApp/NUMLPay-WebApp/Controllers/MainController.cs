@@ -19,7 +19,6 @@ using Microsoft.ReportingServices.ReportProcessing.ReportObjectModel;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireUser: true)]
     public class MainController : SessionController
     {
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
@@ -57,6 +56,7 @@ namespace NUMLPay_WebApp.Controllers
         }
 
         // Dashboard
+        [CustomAuthorizationFilter(requireUser: true)]
         public async Task<ActionResult> Dashboard()
         {
            Users user = userAccess();
@@ -146,8 +146,76 @@ namespace NUMLPay_WebApp.Controllers
             }
         }
 
-      
+
+        public async Task<ActionResult> DownloadPdf(int Id, int feeType, int fee_for)
+        {
+            try
+            {
+                JoinedDataChallan challanData = await FetchChallanData(Id, feeType, fee_for);
+
+                float number = challanData.total_fee + challanData.fine;
+
+                int integerPart = (int)Math.Floor(number);
+                string integerWords = integerPart.ToWords();
+
+                string englishWords = $"{integerWords} only";
+
+
+                var parameters = new ReportParameterCollection
+                {
+                    new ReportParameter("challanNumber", challanData.challan_no.ToString()),
+                    new ReportParameter("issueDate", Convert.ToDateTime(challanData.issue_date).ToString("dd/MMM/yyyy")),
+                    new ReportParameter("dueDate", Convert.ToDateTime(challanData.due_date).ToString("dd/MMM/yyyy")),
+                    new ReportParameter("validDate", Convert.ToDateTime(challanData.valid_date).ToString("dd/MMM/yyyy")),
+                    new ReportParameter("degreeName", challanData.degree_name.ToString()),
+                    new ReportParameter("currentSession", challanData.Session.ToString()),
+                    new ReportParameter("currentSemester", challanData.currentSem.ToString()),
+                    new ReportParameter("systemId", challanData.numl_id.ToString()),
+                    new ReportParameter("stdName", challanData.name.ToString()),
+                    new ReportParameter("sonOf", challanData.father_name.ToString()),
+                    new ReportParameter("feeSemester", challanData.feeSem.ToString()),
+                    new ReportParameter("feeplan", challanData.fee_plan.ToString()),
+                    new ReportParameter("installmentNo", challanData.installment_no.ToString()),
+                    new ReportParameter("amountBeforeDueDate", challanData.total_fee.ToString()),
+                    new ReportParameter("lateFine", challanData.fine.ToString()),
+                    new ReportParameter("totalFee", number.ToString()),
+                    new ReportParameter("feeInEnglish", englishWords),
+                };
+
+                List<SubFeeView> subChallanData = await FetchSubChallanData(challanData.fee_id, feeType, challanData.feeSem, challanData.numl_id, challanData.fee_for);
+                if (feeType == 6)
+                {
+                    subChallanData = new List<SubFeeView>();
+
+                    SubFeeView subFeeView = new SubFeeView();
+                    subFeeView.Description = "Repeat Course";
+                    subFeeView.Amount = Convert.ToInt32(challanData.total_fee);
+
+                    subChallanData.Add(subFeeView);
+                }
+
+                var reportViewer = new Microsoft.Reporting.WebForms.ReportViewer();
+                reportViewer.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
+                reportViewer.LocalReport.ReportPath = Server.MapPath("~/Challans/unPaidChallan.rdlc");
+                reportViewer.LocalReport.SetParameters(parameters);
+
+
+                reportViewer.LocalReport.DataSources.Add(new ReportDataSource("UnPaidChallan", subChallanData));
+
+                byte[] pdfBytes = reportViewer.LocalReport.Render("PDF");
+
+                // Return the PDF file for download
+                return File(pdfBytes, "application/pdf", challanData.name.ToString() + "_" + challanData.FeeFor + "_FeeChallan.pdf");
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
         //Profile User
+        [CustomAuthorizationFilter(requireUser: true)]
         public async Task<ActionResult> profileUser()
             {
                 Users user = userAccess();
@@ -160,6 +228,7 @@ namespace NUMLPay_WebApp.Controllers
 
 
         //Helper Method to get Users
+        [CustomAuthorizationFilter(requireUser: true)]
         public async Task<Tuple<int, Users>> getUserbyId(string Id)
         {
             Users userId = new Users();
@@ -232,9 +301,9 @@ namespace NUMLPay_WebApp.Controllers
             return Tuple.Create(stdFees.id, userId);
         }
 
+        [CustomAuthorizationFilter(requireUser: true)]
         public async Task<ActionResult> OnlineMethod(int Id, int feeType, int fee_for)
         {
-            Users user = userAccess();
             ViewBag.Display = "none;";
 
             JoinedDataChallan challanData = await FetchChallanData(Id, feeType, fee_for);
@@ -289,7 +358,59 @@ namespace NUMLPay_WebApp.Controllers
             return Redirect(session.Url);
         }
 
+        public async Task<ActionResult> Online(int Id, int feeType, int fee_for)
+        {
+
+            JoinedDataChallan challanData = await FetchChallanData(Id, feeType, fee_for);
+            int totalFee = Convert.ToInt32(challanData.total_fee);
+            int Fine = Convert.ToInt32(challanData.fine);
+            int totalFeewithFine = totalFee + Fine;
+
+            // Set your Stripe secret key
+            StripeConfiguration.ApiKey = "sk_test_26PHem9AhJZvU623DfE1x4sd";
+            var options = new Stripe.Checkout.SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string> { "card" },
+                LineItems = new List<SessionLineItemOptions>
+                 {
+                    new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            Currency = "pkr",
+                            UnitAmount = totalFeewithFine * 100, // Amount in cents
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = challanData.name + " ("+ (challanData.numl_id) + ")",
+                                Description ="Due Date is " + Convert.ToDateTime(challanData.due_date).ToString("dd/MMM/yyyy") ,
+                                Images = new List<string>
+                                {
+                                    "https://www.numl.edu.pk/images/logo/logo.png"
+                                },
+                                Metadata = new Dictionary<string, string>
+                                {
+                                    { "Student ID", challanData.numl_id },
+                                    { "Category", challanData.FeeFor }
+                                }
+                            }
+                        },
+                        Quantity = 1
+                    }
+                },
+                Mode = "payment",
+                SuccessUrl = domainAddress + "/successPage", // success URL
+                CancelUrl = domainAddress + "/Dashboard" // cancel URL
+            };
+
+            var service = new SessionService();
+            var session = service.Create(options);
+
+            // Redirect the user to the Stripe Checkout page
+            return Redirect(session.Url);
+        }
+
         //Pay by Bank 
+        [CustomAuthorizationFilter(requireUser: true)]
         public async Task<ActionResult> payByBankMethod(int Id, int feeType, int fee_for)
         {
             Users user = userAccess();
@@ -316,6 +437,7 @@ namespace NUMLPay_WebApp.Controllers
 
         //Pay by Bank 
         [HttpPost]
+        [CustomAuthorizationFilter(requireUser: true)]
         public async Task<ActionResult> payByBankMethod(ChallanVerification challanVerification, HttpPostedFileBase imageFile)
         {
             Users user = userAccess();
@@ -383,6 +505,7 @@ namespace NUMLPay_WebApp.Controllers
         }
 
         //Pay by Bank 
+        [CustomAuthorizationFilter(requireUser: true)]
         public async Task<ActionResult> successPage()
         {
             Users user = userAccess();
@@ -487,6 +610,7 @@ namespace NUMLPay_WebApp.Controllers
             return listFee;
         }
 
+        [CustomAuthorizationFilter(requireUser: true)]
         private async Task<List<UnPaidFeeView>> getUnpaidFee(string id)
         {
             List<UnPaidFeeView> listFee = null;

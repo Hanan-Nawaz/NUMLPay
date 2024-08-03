@@ -77,14 +77,14 @@
                                         <td>@Html.DisplayFor(modelItem => item.valid_date)</td>
                                         <td>@Html.DisplayFor(modelItem => item.status)</td>
                                         <td class="d-flex justify-content-center" style="padding-top: 21px; padding-bottom: 21px;">
-                                            <button type="button" class="btn btn-primary btn-sm delete-btn me-2" title="Print" data-id="@item.id,@item.fee_type">
+                                            <button type="button" class="btn btn-primary btn-sm delete-btn me-2" title="Print" data-id="@item.id,@item.fee_type, @item.fee_for">
                                                 <i class="fas fa-download"></i>
                                             </button>
                                             @if (item.status != "Required Verification" && item.status != "fee Arrears")
                                             {
 
 
-                                                <button type="button" class="btn btn-success btn-sm pay-btn me-2" title="Pay" data-id="@item.id,@item.fee_type">
+                                                <button type="button" class="btn btn-success btn-sm pay-btn me-2" title="Pay" data-id="@item.id,@item.fee_type, @item.fee_for">
                                                     Pay
                                                 </button>
                                             }
@@ -142,8 +142,9 @@
 
         var id = values[0];
         var otherValue = values[1];
+        var fee_for = values[2];
 
-        var url = "/Main/DownloadChallanPdf?Id=" + id + "&feeType=" + otherValue;
+        var url = "/Main/DownloadChallanPdf?Id=" + id + "&feeType=" + otherValue + "&fee_for=" + fee_for;
 
         window.location.href = url;
 
@@ -165,14 +166,14 @@
 
             if (selectedOption === '1' || selectedOption === '2') {
                 console.log("DataId: " + selectedDataId);
-                var [itemId, feeType] = selectedDataId.split(',');
+                var [itemId, feeType, fee_for] = selectedDataId.split(',');
 
                 if (selectedOption === '1') {
                     console.log("OnlineMethod selected");
-                    window.location.href = '/Main/OnlineMethod?Id=' + itemId + '&feeType=' + feeType;
+                    window.location.href = '/Main/OnlineMethod?Id=' + itemId + '&feeType=' + feeType + "&fee_for=" + fee_for;
                 } else if (selectedOption === '2') {
                     console.log("payByBankMethod selected");
-                    window.location.href = '/Main/payByBankMethod?Id=' + itemId + '&feeType=' + feeType;
+                    window.location.href = '/Main/payByBankMethod?Id=' + itemId + '&feeType=' + feeType + "&fee_for=" + fee_for;
                 }
             } else {
                 console.log("Invalid selected option");

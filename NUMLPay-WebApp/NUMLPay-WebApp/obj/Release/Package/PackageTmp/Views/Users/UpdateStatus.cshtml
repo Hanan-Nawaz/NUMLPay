@@ -1,0 +1,259 @@
+﻿
+@model NUMLPay_WebApp.Models.Shift
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Add Shift and Academic Level for Degree";
+}
+
+<style>
+    /* Same styling for password-toggle as in the previous code */
+</style>
+
+
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Update Status</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row">
+                        <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                            <label>Campus *</label>
+                            <div class="form-group">
+                                <select id="campusDropdown" class="form-control">
+                                    <option value="">Select Campus</option>
+                                    @if (ViewBag.campusList != null)
+                                    {
+                                        foreach (var campus in ViewBag.campusList)
+                                        {
+                                        <option value="@campus.Value" @(campus.Selected ? "selected" : "")>@campus.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="display: @ViewBag.adminRoles">
+                            <label>Faculty *</label>
+                            <div class="form-group">
+                                <select id="facultyDdl" class="form-control">
+                                    <option value="">Select Faculty</option>
+                                    @{
+                                        var facultyList = ViewBag.facultyList as IEnumerable<SelectListItem>;
+
+                                        if (facultyList != null && facultyList.Any())
+                                        {
+                                            foreach (var faculty in facultyList)
+                                            {
+                                                <option value="@faculty.Value" @(faculty.Selected ? "selected" : "")>@faculty.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12" style="display: @ViewBag.adminRoles">
+                            <label>Department *</label>
+                            <div class="form-group">
+                                <select id="deptDdl" name="deptDdl" class="form-control">
+                                    <option value="">Select Department</option>
+                                    @{
+                                        var deptList = ViewBag.deptList as IEnumerable<SelectListItem>;
+
+                                        if (deptList != null && deptList.Any())
+                                        {
+                                            foreach (var dept in deptList)
+                                            {
+                                                <option value="@dept.Value" @(dept.Selected ? "selected" : "")>@dept.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label>Academic Level *</label>
+                            <div class="form-group">
+                                <select id="academicDdl" class="form-control" required>
+                                    <option value="">Select Academic Level</option>
+                                    @foreach (var level in ViewBag.academicLevels)
+                                    {
+                                        <option value="@level.Value" @(level.Selected ? "selected" : "")>@level.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Degree *</label>
+                            <div class="form-group">
+                                <select id="degreeDdl" name="degreeDdl" class="form-control" required>
+                                    <option value="">Select Degree</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Admission Session *</label>
+                            <div class="form-group">
+                                <select id="sessionDdl" name="sessionDdl" class="form-control" required>
+                                    <option value="">Select Admission Session</option>
+                                    @foreach (var level in ViewBag.admissionSession)
+                                    {
+                                        <option value="@level.Value" @(level.Selected ? "selected" : "")>@level.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Status of Degree *</label>
+                            <div class="form-group">
+                                <select id="degreestatusDdl" name="degreestatusDdl" class="form-control" required>
+                                    <option value="">Select Status of Degree</option>
+                                    @foreach (var level in ViewBag.statusDegree)
+                                    {
+                                        <option value="@level.Value" @(level.Selected ? "selected" : "")>@level.Text</option>
+                                    }
+                                </select>                                
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Admission Session *</label>
+                            <div class="form-group">
+                                <select id="StatusDdl" name="StatusDdl" class="form-control" required>
+                                    <option value="">Select Status</option>
+                                    @foreach (var level in ViewBag.is_active)
+                                    {
+                                        <option value="@level.Value" @(level.Selected ? "selected" : "")>@level.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row mt-5 mb-5">
+                        <div class="col-md-4 mx-auto">
+                            <center>
+                                <div class="form-group">
+                                    <input type="submit" value="Update Status" class="btnLogin" id="btnUpdate" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@if (ViewBag.adminRole != "3")
+{
+    <script src="~/js/cascadingDropdown.js"></script>
+}
+
+<script type="text/javascript">
+
+    var deptIdFromViewBag = '@ViewBag.DeptId';
+
+    if (deptIdFromViewBag) {
+        $('#academicDdl').change(function () {
+            $.getJSON('/Home/getDegrees?deptId=' + deptIdFromViewBag + '&levelId=' + $('#academicDdl').val(), function (data) {
+                var items = '<option value="">Select Degree</option>';
+                $.each(data, function (i, degree) {
+                    items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+                });
+                $('#degreeDdl').html(items);
+            });
+        });
+
+    }
+    else {
+        $('#academicDdl').change(function () {
+            $.getJSON('/Home/getDegrees?deptId=' + $('#deptDdl').val() + '&levelId=' + $('#academicDdl').val(), function (data) {
+                var items = '<option value="">Select Degree</option>';
+                $.each(data, function (i, degree) {
+                    items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+                });
+                $('#degreeDdl').html(items);
+            });
+        });
+
+    }
+
+    $(document).ready(function () {
+        // Submit handler for the form
+        $('#btnUpdate').click(function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            if (deptIdFromViewBag) {
+                var statDegree = $('#degreestatusDdl').val();
+                var isActive = $('#StatusDdl').val();
+                var sessionId = $('#sessionDdl').val();
+                var shiftId = $('#degreeDdl').val();
+
+                // Construct the URL with parameters
+                var url = `/Users/UpdateUserStatus?statDegree=${statDegree}&isActive=${isActive}&sessionId=${sessionId}&shiftId=${shiftId}&deptId=${deptIdFromViewBag}`;
+
+                // Redirect the user to the constructed URL
+                window.location.href = url;
+            }
+            else {
+                var statDegree = $('#degreestatusDdl').val();
+                var isActive = $('#StatusDdl').val();
+                var sessionId = $('#sessionDdl').val();
+                var shiftId = $('#degreeDdl').val();
+                var deptId = $('#deptDdl').val();
+
+                // Construct the URL with parameters
+                var url = `/Users/UpdateUserStatus?statDegree=${statDegree}&isActive=${isActive}&sessionId=${sessionId}&shiftId=${shiftId}&deptId=${deptId}`;
+
+                // Redirect the user to the constructed URL
+                window.location.href = url;
+            }
+
+                   });
+    });
+   
+
+</script>
+

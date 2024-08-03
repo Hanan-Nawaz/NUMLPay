@@ -1,0 +1,100 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="container-fluid">
+
+    <div class="col-md-13">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <center>
+                            <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-tachometer-alt fa-fw me-3 "></i>Dashboard</label>
+                        </center>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="feePaidByCampusChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="tuitionFeeChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="hostelFeeChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="busFeeChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        function createBarChart(chartData, chartId, label) {
+            var campuses = [];
+            var fees = [];
+
+            chartData.forEach(function (item) {
+                campuses.push(item.CampusName);
+                fees.push(item.FeePaid);
+            });
+
+            var maxFee = Math.max(...fees);
+
+            var maxY = maxFee * 1.1;
+
+            var ctx = document.getElementById(chartId).getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: campuses,
+                    datasets: [{
+                        label: label,
+                        data: fees,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                suggestedMax: maxY 
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        // Call the function to create bar charts for each endpoint
+        $(document).ready(function () {
+            createBarChart(@Html.Raw(Json.Encode(ViewBag.FeePaidByCampusData)), 'feePaidByCampusChart', 'Fee Paid by Campus');
+            createBarChart(@Html.Raw(Json.Encode(ViewBag.TuitionFeeData)), 'tuitionFeeChart', 'Tuition Fee');
+            createBarChart(@Html.Raw(Json.Encode(ViewBag.HostelFeeData)), 'hostelFeeChart', 'Hostel Fee');
+            createBarChart(@Html.Raw(Json.Encode(ViewBag.BusFeeData)), 'busFeeChart', 'Bus Fee');
+        });
+    </script>
+}

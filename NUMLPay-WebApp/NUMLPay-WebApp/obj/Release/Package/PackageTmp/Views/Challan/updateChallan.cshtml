@@ -43,54 +43,56 @@
                     <div class="col-md-6">
                         <label>Fee For Session *</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(model => model.session, ViewBag.Sessions as SelectList, "Select Admission Session", new { @class = "form-control", @readonly = "readonly" })
+                            @Html.DropDownListFor(model => model.session, ViewBag.Sessions as SelectList, "Select Admission Session", new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.session, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label>Admission Session *</label>
-                        <div class="form-group">
-                            @Html.DropDownListFor(model => model.admissison_session, ViewBag.admissionSession as SelectList, "Select Admission Session", new { @class = "form-control", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.admissison_session, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                   
-                </div>
 
-                <div class="row">
+
+
                     <div class="col-md-6">
                         <label>Fee For *</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control", @readonly = "readonly" })
+                            @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.fee_for, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label>Due Date *</label>
-                        <div class="form-group">
-                            @Html.EditorFor(model => model.due_date, new { htmlAttributes = new { @class = "form-control", type = "date", } })
-                            @Html.ValidationMessageFor(model => model.due_date, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                   
+
+                    @Html.HiddenFor(model => model.session)
+                    @Html.HiddenFor(model => model.fee_for)
+
+
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>Valid Date *</label>
-                        <div class="form-group">
-                            @Html.EditorFor(model => model.valid_date, new { htmlAttributes = new { @class = "form-control", type = "date", } })
-                            @Html.ValidationMessageFor(model => model.valid_date, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Due Date *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.due_date, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "true" } })
+                                @Html.ValidationMessageFor(model => model.due_date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <label>Valid Date *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.valid_date, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "true" } })
+                                @Html.ValidationMessageFor(model => model.valid_date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Status *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control", @required = "true" })
+                                @Html.ValidationMessageFor(model => model.is_active, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label>Status *</label>
-                        <div class="form-group">
-                            @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.is_active, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
 
                     <div class="row mt-5">
                         <div class="col-md-4 mx-auto">

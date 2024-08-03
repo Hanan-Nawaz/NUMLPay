@@ -1,0 +1,137 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="container-fluid">
+
+    <div class="col-md-13">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <center>
+                            <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-tachometer-alt fa-fw me-3 "></i>Dashboard</label>
+                        </center>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <label>Faculties in campus</label>
+                        <ul class="list-group">
+                            @foreach (var faculty in ViewBag.faculities)
+                            {
+                                <li class="list-group-item">@faculty.FacultyName</li>
+                            }
+                            
+                        </ul>
+                      
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <select id="facultySelect" class="form-select">
+                            <option value="">Select Faculty</option>
+                            @foreach (var faculty in ViewBag.faculities)
+                            {
+                                <option value="@faculty.FacultyId">@faculty.FacultyName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <canvas id="deptChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="hostelBusChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script>
+        var deptChart;
+        var hostelBusChart;
+
+        function createBarChart(chartData, chartId, label) {
+            var labels = [];
+            var data = [];
+
+            chartData.forEach(function (item) {
+                labels.push(item.DeptName || item.Category);
+                data.push(item.TotalStudents);
+            });
+
+            var maxVal = Math.max(...data);
+            var maxY = maxVal * 1.1;
+
+            var ctx = document.getElementById(chartId).getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                suggestedMax: maxY
+                            }
+                        }]
+                    }
+                }
+            });
+
+            if (chartId === 'deptChart') {
+                deptChart = chart;
+            } else if (chartId === 'hostelBusChart') {
+                hostelBusChart = chart;
+            }
+        }
+
+        $('#facultySelect').change(function () {
+            var facultyId = $(this).val();
+            if (facultyId) {
+                if (deptChart) {
+                    deptChart.destroy();
+                }
+                if (hostelBusChart) {
+                    hostelBusChart.destroy();
+                }
+                $.getJSON(`/Dashboard/GetFacultiesDept?id=${facultyId}`, function (data) {
+                    createBarChart(data, 'deptChart', 'Total Students in Departments');
+                });
+                $.getJSON(`/Dashboard/GetHostelBusStudents?id=${facultyId}`, function (data) {
+                    createBarChart(data, 'hostelBusChart', 'Total Students in Hostel/Bus');
+                });
+            }
+        });
+    </script>
+
+}

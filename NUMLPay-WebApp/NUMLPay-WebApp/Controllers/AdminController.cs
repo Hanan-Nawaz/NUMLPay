@@ -60,7 +60,7 @@ namespace NUMLPay_WebApp.Controllers
                 ViewBag.campusList = allCampusesSelectList;
             }
 
-            ViewBag.roles = roleService.getRoles();
+            ViewBag.roles = roleService.getRoles(admin.role);
 
             return View();
         }
@@ -86,7 +86,7 @@ namespace NUMLPay_WebApp.Controllers
                 ViewBag.campusList = allCampusesSelectList;
             }
 
-            ViewBag.roles = roleService.getRoles();
+            ViewBag.roles = roleService.getRoles(admin.role);
 
             if (!ModelState.IsValid)
             {
@@ -141,7 +141,14 @@ namespace NUMLPay_WebApp.Controllers
         // Update Admin
         public async Task<ActionResult> updateAdmin(string Id)
         {
-            Admin admin = userAccessAdmin();
+            Admin admins = userAccessAdmin();
+
+            Admin admin = new Admin();
+
+            if(admins.role == 1)
+            {
+                ViewBag.User = "1";
+            }
 
             Admin adminId = new Admin();
             adminId.email_id = HttpUtility.UrlDecode(Id);
@@ -154,6 +161,8 @@ namespace NUMLPay_WebApp.Controllers
                     admin = JsonConvert.DeserializeObject<Admin>(data);
                 }
             }
+
+            
 
             ViewBag.Display = "none;";
 
@@ -170,7 +179,7 @@ namespace NUMLPay_WebApp.Controllers
 
             ViewBag.is_active = StatusService.getStatus(admin.is_active);
 
-            ViewBag.roles = roleService.getRoles();
+            ViewBag.roles = roleService.getRoles(admins.role);
 
             return View(admin);
         }
@@ -181,6 +190,8 @@ namespace NUMLPay_WebApp.Controllers
             Admin loggedInAdmin = userAccessAdmin();
 
             ViewBag.campusList = await campusService.addCampustoListAsync();
+
+           
 
             ViewBag.Display = "none;";
 

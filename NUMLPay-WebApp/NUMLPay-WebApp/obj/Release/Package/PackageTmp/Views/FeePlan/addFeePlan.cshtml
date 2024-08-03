@@ -41,7 +41,7 @@
                         <div class="col-md-6">
                             <label>Name *</label>
                             <div class="form-group">
-                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                 @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                         <div class="col-md-6">
                             <label>Discount in Percentage *</label>
                             <div class="form-group">
-                                @Html.EditorFor(model => model.discount, new { htmlAttributes = new { @class = "form-control", placeholder="Like if Discount is 5%, write 5" } })
+                                @Html.EditorFor(model => model.discount, new { htmlAttributes = new { @class = "form-control", placeholder = "Like if Discount is 5%, write 5", @id = "discountInput", @required = "true" } })
                                 @Html.ValidationMessageFor(model => model.discount, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -71,3 +71,12 @@
     </div>
 }
 
+
+<script>
+    $(document).ready(function () {
+        $("#discountInput").attr({
+            "type": "number",
+            "max": 100
+        });
+    });
+</script>

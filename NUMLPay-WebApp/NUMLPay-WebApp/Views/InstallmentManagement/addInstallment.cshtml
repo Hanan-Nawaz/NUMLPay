@@ -41,7 +41,7 @@
                     <div class="col-md-6">
                         <label>Mode of Installments *</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(model => model.mode, ViewBag.mode as SelectList, "Select Mode of Installments", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.mode, ViewBag.mode as SelectList, "Select Mode of Installments", new { @class = "form-control", @required = "true" })
                             @Html.ValidationMessageFor(model => model.mode, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     <div class="col-md-6">
                         <label>Fee For *</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control", @required = "true" })
                             @Html.ValidationMessageFor(model => model.fee_for, "", new { @class = "text-danger" })
                         </div>
                     </div>

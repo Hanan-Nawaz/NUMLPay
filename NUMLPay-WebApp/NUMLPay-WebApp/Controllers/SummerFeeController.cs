@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3 })]
+    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 3, 4 })]
     public class SummerFeeController : SessionController
     {
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
@@ -25,6 +25,7 @@ namespace NUMLPay_WebApp.Controllers
         sessionService sessionServices;
         departmentService deptService;
         apiService apiServices;
+        CampusService campusService;
 
         public SummerFeeController()
         {
@@ -38,6 +39,7 @@ namespace NUMLPay_WebApp.Controllers
             deptService = new departmentService(baseAddress);
             sessionServices = new sessionService(baseAddress);
             apiServices = new apiService(baseAddress.ToString());
+            campusService = new CampusService(baseAddress);
         }
 
         // Add SummerFee
@@ -45,7 +47,17 @@ namespace NUMLPay_WebApp.Controllers
         {
             Admin admin = userAccessAdmin();
 
-            ViewBag.Subject = new SelectList(await subjectService.getActiveSubjectsAsync(Convert.ToInt32(admin.dept_id)), "id", "name");
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                ViewBag.DeptId = admin.dept_id;
+            }
+
             ViewBag.Session = new SelectList(sessionServices.getYearsFrom1990ToCurrent(), "Value", "Text");
 
 
@@ -59,11 +71,22 @@ namespace NUMLPay_WebApp.Controllers
         {
             Admin admin = userAccessAdmin();
 
-            ViewBag.Subject = new SelectList(await subjectService.getActiveSubjectsAsync(Convert.ToInt32(admin.dept_id)), "id", "name");
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                ViewBag.DeptId = admin.dept_id;
+            }
+
             ViewBag.Session = new SelectList(sessionServices.getYearsFrom1990ToCurrent(), "Value", "Text");
 
             summerFee.is_active = 1;
             summerFee.added_by = admin.email_id;
+            summerFee.subject_id = Convert.ToInt32(Request.Form["subDdl"]);
 
             HttpResponseMessage responseMessage = await apiServices.PostAsync("SummerFee", summerFee);
 
@@ -86,10 +109,39 @@ namespace NUMLPay_WebApp.Controllers
             return View();
         }
 
+        public async Task<ActionResult> getSubject(int? DeptDdl)
+        {
+            List<Subjects> subjects = await subjectService.getActiveSubjectsAsync(Convert.ToInt32(DeptDdl));
+
+            List<SelectListItem> subOptions = new List<SelectListItem>();
+
+            if (subjects != null)
+            {
+                foreach (var sub in subjects)
+                {
+                    subOptions.Add(new SelectListItem { Value = sub.id.ToString(), Text = sub.name.ToString() });
+                }
+            }
+
+            return Json(subOptions, JsonRequestBehavior.AllowGet);
+        }
+
         // View all SummerFees
         public async Task<ActionResult> viewSummerFees()
         {
             Admin admin = userAccessAdmin();
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+                admin.dept_id = Convert.ToInt32(Session["dept"]);
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+                admin.dept_id = Convert.ToInt32(admin.dept_id);
+            }
 
             List<SummerFeeView> listSummerFees = await summerFeeService.getSummerFeesAsync(Convert.ToInt32(admin.dept_id));
 
@@ -100,6 +152,13 @@ namespace NUMLPay_WebApp.Controllers
             return View(listSummerFees);
         }
 
+        public async Task<ActionResult> sessionGenerator(int dept)
+        {
+            Session["dept"] = dept;
+
+            return RedirectToAction("viewSummerFees");
+        }
+
         // Update SummerFee
         public async Task<ActionResult> updateSummerFee(int Id)
         {
@@ -108,6 +167,9 @@ namespace NUMLPay_WebApp.Controllers
             ViewBag.Display = "none;";
 
             ViewBag.Subject = await subjectService.getSelectedSubject(summerFee.subject_id);
+
+            Session["subject_id_summer_fee"] = summerFee.subject_id;
+
             ViewBag.Session = new SelectList(sessionServices.getYearsFrom1990ToCurrent(), "Value", "Text");
 
             int? selectedValue = summerFee.is_active;
@@ -125,6 +187,20 @@ namespace NUMLPay_WebApp.Controllers
 
             ViewBag.Display = "none;";
             summerFee.added_by = admin.added_by;
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+            }
+            else
+            {
+                ViewBag.adminRoles = "none;";
+            }
+
+            if (summerFee.subject_id == 0)
+            {
+                summerFee.subject_id = Convert.ToInt32(Session["subject_id_summer_fee"]);
+            }
 
             HttpResponseMessage responseMessage = await apiServices.PutAsync($"SummerFee/updateSummerFee/{summerFee.id}", summerFee);
 

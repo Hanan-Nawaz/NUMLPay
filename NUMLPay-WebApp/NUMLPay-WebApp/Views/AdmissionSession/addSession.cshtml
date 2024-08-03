@@ -41,7 +41,7 @@
                         <div class="col-md-6">
                             <label>Name *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.name, ViewBag.nameList as SelectList, "Select Name", new { @class = "form-control", id = "campusDropdown" })
+                                @Html.DropDownListFor(model => model.name, ViewBag.nameList as SelectList, "Select Name", new { @class = "form-control", id = "campusDropdown", @required = "true" })
                                 @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                         <div class="col-md-6">
                             <label>Year *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.year, ViewBag.sessionYear as SelectList, "Select year", new { @class = "form-control", id = "campusDropdown" })
+                                @Html.DropDownListFor(model => model.year, ViewBag.sessionYear as SelectList, "Select year", new { @class = "form-control", id = "campusDropdown", @required = "true" })
                                 @Html.ValidationMessageFor(model => model.year, "", new { @class = "text-danger" })
                             </div>
                         </div>

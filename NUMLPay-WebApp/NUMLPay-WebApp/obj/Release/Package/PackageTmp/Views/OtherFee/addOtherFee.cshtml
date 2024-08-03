@@ -51,7 +51,7 @@
                         <div class="col-md-6">
                             <label>Fee For *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control", @id="challanDropdown" })
                                 @Html.ValidationMessageFor(model => model.fee_for, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <div class="col-md-6">
                             <label>Security (Only For Hostel And Mess) *</label>
                             <div class="form-group">
-                                <input name="securityFee" class="form-control" type="number" />
+                                <input name="securityFee" id="securityFee" class="form-control" type="number" />
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                         <div class="col-md-6">
                             <label>Campus *</label>
                             <div class="form-group">
-                                <select id="campusDropdown" name="campusDropdown" class="form-control">
+                                <select id="campusDropdown" name="campusDropdown" class="form-control" required>
                                     <option value="">Select Campus</option>
                                     @if (ViewBag.campusList != null)
                                     {
@@ -120,15 +120,34 @@
 }
 
 <script>
+
     $('#campusDropdown').change(function () {
         var campusId = $('#campusDropdown').val();
 
         $.getJSON('/OtherFee/getRoutes?campus_id=' + campusId, function (data) {
-            var items = '<option>Select Bus Route</option>';
+            var items = '<option value="">Select Bus Route</option>';
             $.each(data, function (i, degree) {
                 items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
             });
             $('#routeDropdown').html(items);
         });
+    });
+
+    document.getElementById('challanDropdown').addEventListener('change', function () {
+        var challanType = this.value;
+        var routeDropdown = document.getElementById('routeDropdown');
+        var secFee = document.getElementById('securityFee');
+
+        if (challanType === '2' && routeDropdown.value === '') {
+            routeDropdown.setAttribute('required', 'required');
+        } else {
+            routeDropdown.removeAttribute('required');
+        }
+
+        if (challanType === '3' || challanType === '4') {
+            secFee.setAttribute('required', 'required');
+        } else {
+            secFee.removeAttribute('required');
+        }
     });
 </script>

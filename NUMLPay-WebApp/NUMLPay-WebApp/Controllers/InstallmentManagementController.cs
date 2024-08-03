@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 2 })]
+    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 2, 4 })]
     public class InstallmentManagementController : SessionController
     {
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);

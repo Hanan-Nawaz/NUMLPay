@@ -84,13 +84,24 @@ namespace NUMLPay_WebApp.Controllers
         // View all Departments
         public async Task<ActionResult> viewDepartments()
         {
+            List<DeptView> listDepartment = null;
             ViewBag.AlertType = TempData["AlertType"]?.ToString() ?? "";
             ViewBag.AlertMessage = TempData["AlertMessage"]?.ToString() ?? "";
             ViewBag.Display = TempData["Display"] ?? "none;";
 
             Admin admin = userAccessAdmin();
 
-            List<DeptView> listDepartment = await giveRealtiveData(admin.campus_id);
+            if(admin.role == 4)
+            {
+               listDepartment = await giveRealtiveData(null);
+
+            }
+            else
+            {
+                listDepartment = await giveRealtiveData(admin.campus_id);
+
+            }
+
 
             return View(listDepartment);
         }

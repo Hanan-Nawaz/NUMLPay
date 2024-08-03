@@ -41,7 +41,7 @@
                         <div class="col-md-12">
                             <label>Status *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control", @required="true" })
                                 @Html.ValidationMessageFor(model => model.is_active, "", new { @class = "text-danger" })
                             </div>
                         </div>

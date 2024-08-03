@@ -23,7 +23,12 @@ namespace NUMLPay_WebApp.Services
         // Select subject by Id
         public async Task<List<SelectListItem>> getSelectedSubject(int? selectedValue)
         {
-            List<Subjects> subjectList = await getSubjectsAsync(null);
+            List<Subjects> subjectList = new List<Subjects>();
+           
+                Subjects subjects = await getSubjectAsync(Convert.ToInt32(selectedValue));
+
+            subjectList.Add(subjects);
+            
             List<SelectListItem> subjectOptions = subjectList
                     .Select(subject => new SelectListItem
                     {
@@ -93,8 +98,7 @@ namespace NUMLPay_WebApp.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string data = await response.Content.ReadAsStringAsync();
-                    List<Subjects> subjects = JsonConvert.DeserializeObject<List<Subjects>>(data);
-                    subject = subjects.FirstOrDefault();
+                    subject = JsonConvert.DeserializeObject<Subjects>(data);
                 }
             }
 

@@ -205,7 +205,23 @@ namespace NUMLPay_WebApp.Controllers
                     Session["As"] = 2;
                     Session["loggedUser"] = loggedUser;
                     Session["Image"] = "/images/numl-logo.png";
-                    return RedirectToAction("MainDashboard", "Dashboard");
+                    if(loggedUser.role == 2)
+                    {
+                        return RedirectToAction("accountantDashboard", "Dashboard");
+                    }
+                    else if (loggedUser.role == 1)
+                    {
+                        return RedirectToAction("campusDashboard", "Dashboard");
+                    }
+                    else if (loggedUser.role == 3)
+                    {
+                        return RedirectToAction("deptDashboard", "Dashboard");
+                    }
+                    else
+                    {
+                        return RedirectToAction("MainDashboard", "Dashboard");
+
+                    }
                 }
             }
             else

@@ -37,19 +37,19 @@
                     </div>
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Challan Type *</label>
-                            <div class="form-group">
-                                <select name="challanDropDown" class="form-control" required>
-                                    <option value="">Select Challan Type</option>
-                                    @foreach (var challan in ViewBag.challanType)
-                                    {
-                                        <option value="@challan.Value">@challan.Text</option>
-                                    }
-                                </select>
-                            </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Challan Type *</label>
+                        <div class="form-group">
+                            <select name="challanDropDown" id="challanDropDown" class="form-control" required>
+                                <option value="">Select Challan Type</option>
+                                @foreach (var challan in ViewBag.challanType)
+                                {
+                                    <option value="@challan.Value">@challan.Text</option>
+                                }
+                            </select>
                         </div>
+                    </div>
                         <div class="col-md-6">
                             <label>Session *</label>
                             <div class="form-group">
@@ -69,12 +69,8 @@
                         <div class="col-md-6">
                             <label>Installments *</label>
                             <div class="form-group">
-                                <select name="installmentsDropDown" class="form-control" required>
+                                <select name="installmentsDropDown" id="installmentsDropDown" class="form-control" required>
                                     <option value="">Select Installments</option>
-                                    @foreach (var method in ViewBag.installments)
-                                    {
-                                        <option value="@method.Value">@method.Text</option>
-                                    }
                                 </select>
                             </div>
                         </div>
@@ -84,9 +80,14 @@
                             <div class="form-group">
                                 <select id="routeDropdown" name="routeDropdown" class="form-control">
                                     <option value="">Select Bus Route</option>
-                                    @foreach (var method in ViewBag.routes)
-                                    {
-                                        <option value="@method.Value">@method.Text</option>
+                                    @{
+                                        if (ViewBag.routes != null)
+                                        {
+                                            foreach (var method in ViewBag.routes)
+                                            {
+                                                <option value="@method.Value">@method.Text</option>
+                                            }
+                                        }
                                     }
                                 </select>
                             </div>
@@ -119,3 +120,27 @@
         </div>
     </div>
 }
+
+<script>
+    $('#challanDropDown').change(function () {
+        $.getJSON('/GenerateChallan/getInstallments?fee_for=' + $('#challanDropDown').val(), function (data) {
+            var items = '<option value="">Select Installment</option>';
+            $.each(data, function (i, degree) {
+                items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+            });
+            $('#installmentsDropDown').html(items);
+            $('#installmentsDropDown').setAttribute('required', 'required');
+        });
+    });
+
+    document.getElementById('challanDropDown').addEventListener('change', function () {
+        var challanType = this.value; 
+        var routeDropdown = document.getElementById('routeDropdown');
+
+        if (challanType === '2' && routeDropdown.value === '') {
+            routeDropdown.setAttribute('required', 'required');
+        } else {
+            routeDropdown.removeAttribute('required');
+        }
+    });
+</script>

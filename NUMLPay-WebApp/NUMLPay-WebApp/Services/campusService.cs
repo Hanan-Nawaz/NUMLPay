@@ -96,7 +96,7 @@ namespace NUMLPay_WebApp.Services
         public async Task<Campus> getCampusAsync(int Id)
         {
             Campus campus = null;
-            using (var response = await apiServices.GetAsync($"{_apiBaseUrl}/Campus/{Id}"))
+            using (var response = await apiServices.GetAsync($"{_apiBaseUrl}/Campus/GetbyId/{Id}"))
             {
                 if (response.IsSuccessStatusCode)
                 {

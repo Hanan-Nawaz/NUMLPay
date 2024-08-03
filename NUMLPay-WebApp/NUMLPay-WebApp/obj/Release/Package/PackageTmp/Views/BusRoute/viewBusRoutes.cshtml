@@ -28,177 +28,224 @@
                         <hr>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th class="th-sm">
-                                    Route Name
-                                </th>
-                                <th class="th-sm">
-                                    Campus Name
-                                </th>
-                                <th class="th-sm">
-                                    Added By
-                                </th>
-                                <th class="th-sm">
-                                    Status
-                                </th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model != null && Model.Any())
-                            {
-                                foreach (var item in Model)
+
+                <div class="row">
+                    <div class="col-md-8" style="display: @ViewBag.adminRoles">
+                        <label>Campus *</label>
+                        <div class="form-group">
+                            <select id="campusDdl" class="form-control" required>
+                                <option value="">Select Campus</option>
+                                @if (ViewBag.campusList != null)
+                                {
+                                    foreach (var level in ViewBag.campusList)
+                                    {
+                                        <option value="@level.Value">@level.Text</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-4" style="display: @ViewBag.adminRoles">
+                        <label> </label>
+                        <div class="form-group">
+                            <button id="navigateButton" class="btnLogin">Search</button>
+
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="table-responsive mt-5">
+                        <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th class="th-sm">
+                                        Route Name
+                                    </th>
+                                    <th class="th-sm">
+                                        Campus Name
+                                    </th>
+                                    <th class="th-sm">
+                                        Added By
+                                    </th>
+                                    <th class="th-sm">
+                                        Status
+                                    </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.campus_name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.added_by)</td>
+                                            <td>
+                                                @if (item.status == 1)
+                                                {
+                                                    <span class="text-success">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">Inactive</span>
+                                                }
+                                            </td>
+                                            <td class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-danger btn-sm delete-btn me-2" title="Delete" data-id="@item.id">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+
+                                                <button type="button" class="btn btn-primary btn-sm update-btn" title="Update" data-id="@item.id">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.name)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.campus_name)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.added_by)</td>
-                                        <td>
-                                            @if (item.status == 1)
-                                            {
-                                                <span class="text-success">Active</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="text-danger">Inactive</span>
-                                            }
-                                        </td>
-                                        <td class="d-flex justify-content-center">
-                                            <button type="button" class="btn btn-danger btn-sm delete-btn me-2" title="Delete" data-id="@item.id">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-
-                                            <button type="button" class="btn btn-primary btn-sm update-btn" title="Update" data-id="@item.id">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </button>
-                                        </td>
+                                        <td colspan="5" class="text-center text-danger">No data found.</td>
                                     </tr>
                                 }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="5" class="text-center text-danger">No data found.</td>
-                                </tr>
-                            }
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Deletion Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this bus route?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Updation Modal -->
-<div class="modal fade" id="updateConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateConfirmationModalLabel">Confirm Updation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to update this bus route?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="confirmUpdateBtn">Update</button>
+    <!-- Deletion Modal -->
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this bus route?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Updation Modal -->
+    <div class="modal fade" id="updateConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateConfirmationModalLabel">Confirm Updation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to update this bus route?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="confirmUpdateBtn">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var rowIdToDelete;
-        var rowIdToUpdate;
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var rowIdToDelete;
+            var rowIdToUpdate;
 
-        var showDeleteConfirmation = function () {
-            var deleteConfirmationModal = document.getElementById("deleteConfirmationModal");
-            deleteConfirmationModal.classList.add("show");
-            deleteConfirmationModal.style.display = "block";
-            deleteConfirmationModal.setAttribute("aria-hidden", "false");
-        };
+            var showDeleteConfirmation = function () {
+                var deleteConfirmationModal = document.getElementById("deleteConfirmationModal");
+                deleteConfirmationModal.classList.add("show");
+                deleteConfirmationModal.style.display = "block";
+                deleteConfirmationModal.setAttribute("aria-hidden", "false");
+            };
 
-        var showUpdateConfirmation = function () {
-            var updateConfirmationModal = document.getElementById("updateConfirmationModal");
-            updateConfirmationModal.classList.add("show");
-            updateConfirmationModal.style.display = "block";
-            updateConfirmationModal.setAttribute("aria-hidden", "false");
-        };
+            var showUpdateConfirmation = function () {
+                var updateConfirmationModal = document.getElementById("updateConfirmationModal");
+                updateConfirmationModal.classList.add("show");
+                updateConfirmationModal.style.display = "block";
+                updateConfirmationModal.setAttribute("aria-hidden", "false");
+            };
 
-        var deleteBtns = document.querySelectorAll(".delete-btn");
-        deleteBtns.forEach(function (deleteBtn) {
-            deleteBtn.addEventListener("click", function () {
-                rowIdToDelete = this.getAttribute("data-id");
-                showDeleteConfirmation();
+            var deleteBtns = document.querySelectorAll(".delete-btn");
+            deleteBtns.forEach(function (deleteBtn) {
+                deleteBtn.addEventListener("click", function () {
+                    rowIdToDelete = this.getAttribute("data-id");
+                    showDeleteConfirmation();
+                });
+            });
+
+            var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+            confirmDeleteBtn.addEventListener("click", function () {
+                var deleteUrl = "/BusRoute/deleteBusRoute/" + rowIdToDelete;
+                window.location.href = deleteUrl;
+
+                var deleteConfirmationModal = document.getElementById("deleteConfirmationModal");
+                deleteConfirmationModal.classList.remove("show");
+                deleteConfirmationModal.style.display = "none";
+                deleteConfirmationModal.setAttribute("aria-hidden", "true");
+            });
+
+            var updateBtns = document.querySelectorAll(".update-btn");
+            updateBtns.forEach(function (updateBtn) {
+                updateBtn.addEventListener("click", function () {
+                    rowIdToUpdate = this.getAttribute("data-id");
+                    showUpdateConfirmation();
+                });
+            });
+
+            var confirmUpdateBtn = document.getElementById("confirmUpdateBtn");
+            confirmUpdateBtn.addEventListener("click", function () {
+                var updateUrl = "/BusRoute/updateBusRoute/" + rowIdToUpdate;
+                window.location.href = updateUrl;
+
+                var updateConfirmationModal = document.getElementById("updateConfirmationModal");
+                updateConfirmationModal.classList.remove("show");
+                updateConfirmationModal.style.display = "none";
+                updateConfirmationModal.setAttribute("aria-hidden", "true");
+            });
+
+            var closeModalBtns = document.querySelectorAll(".modal .close");
+            closeModalBtns.forEach(function (closeModalBtn) {
+                closeModalBtn.addEventListener("click", function () {
+                    var modal = this.closest(".modal");
+                    modal.classList.remove("show");
+                    modal.style.display = "none";
+                    modal.setAttribute("aria-hidden", "true");
+                });
             });
         });
 
-        var confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-        confirmDeleteBtn.addEventListener("click", function () {
-            var deleteUrl = "/BusRoute/deleteBusRoute/" + rowIdToDelete;
-            window.location.href = deleteUrl;
+        $(document).ready(function () {
+            $('#navigateButton').click(function () {
+                var selectedCampus = $('#campusDdl').val();
 
-            var deleteConfirmationModal = document.getElementById("deleteConfirmationModal");
-            deleteConfirmationModal.classList.remove("show");
-            deleteConfirmationModal.style.display = "none";
-            deleteConfirmationModal.setAttribute("aria-hidden", "true");
-        });
+                if (selectedCampus) {
+                    console.log(selectedCampus);
+                    var url = '/BusRoute/sessionGenerator?campus=' + selectedCampus;
 
-        var updateBtns = document.querySelectorAll(".update-btn");
-        updateBtns.forEach(function (updateBtn) {
-            updateBtn.addEventListener("click", function () {
-                rowIdToUpdate = this.getAttribute("data-id");
-                showUpdateConfirmation();
+                    window.location.href = url;
+                }
+                else {
+                    alert("Please Select Campus");
+                }
+
+                
             });
         });
+    </script>
 
-        var confirmUpdateBtn = document.getElementById("confirmUpdateBtn");
-        confirmUpdateBtn.addEventListener("click", function () {
-            var updateUrl = "/BusRoute/updateBusRoute/" + rowIdToUpdate;
-            window.location.href = updateUrl;
-
-            var updateConfirmationModal = document.getElementById("updateConfirmationModal");
-            updateConfirmationModal.classList.remove("show");
-            updateConfirmationModal.style.display = "none";
-            updateConfirmationModal.setAttribute("aria-hidden", "true");
-        });
-
-        var closeModalBtns = document.querySelectorAll(".modal .close");
-        closeModalBtns.forEach(function (closeModalBtn) {
-            closeModalBtn.addEventListener("click", function () {
-                var modal = this.closest(".modal");
-                modal.classList.remove("show");
-                modal.style.display = "none";
-                modal.setAttribute("aria-hidden", "true");
-            });
-        });
-    });
-</script>

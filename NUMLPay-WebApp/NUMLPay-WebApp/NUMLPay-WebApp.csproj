@@ -279,9 +279,13 @@
     <Compile Include="ViewModel\BusRouteView.cs" />
     <Compile Include="ViewModel\ChllanVerificationView.cs" />
     <Compile Include="ViewModel\DegreeView.cs" />
+    <Compile Include="ViewModel\DepartmentModel.cs" />
     <Compile Include="ViewModel\DeptView.cs" />
     <Compile Include="ViewModel\DownloadFee.cs" />
+    <Compile Include="ViewModel\FacultyModel.cs" />
     <Compile Include="ViewModel\FacultyView.cs" />
+    <Compile Include="ViewModel\FeePaidByCampusModel.cs" />
+    <Compile Include="ViewModel\FeePaidByCategory.cs" />
     <Compile Include="ViewModel\FeeView.cs" />
     <Compile Include="ViewModel\GetFeesForGeneration.cs" />
     <Compile Include="ViewModel\JoinedDataChallan.cs" />
@@ -335,6 +339,7 @@
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="ViewModel\ReportFee.cs" />
     <Compile Include="ViewModel\SeesionView.cs" />
+    <Compile Include="ViewModel\StudentsBycategory.cs" />
     <Compile Include="ViewModel\SubFeeView.cs" />
     <Compile Include="ViewModel\SummerEnrollmentView.cs" />
     <Compile Include="ViewModel\SummerFeeView.cs" />
@@ -343,9 +348,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\alerts.css" />
+    <Content Include="css\all.min.css" />
+    <Content Include="css\bootstrap.home.min.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\dashboard.css" />
+    <Content Include="css\dataTables.bootstrap5.min.css" />
+    <Content Include="css\font.css" />
     <Content Include="css\jquery.mCustomScrollbar.min.css" />
+    <Content Include="css\mdb.min.css" />
     <Content Include="css\owl.carousel.min.css" />
     <Content Include="css\responsive.css" />
     <Content Include="css\style.css" />
@@ -390,9 +400,14 @@
     <Content Include="js\bootstrap.bundle.min.js" />
     <Content Include="js\cascadingDropdown.js" />
     <Content Include="js\custom.js" />
+    <Content Include="js\dataTables.bootstrap5.min.js" />
     <Content Include="js\jquery-3.0.0.min.js" />
+    <Content Include="js\jquery-3.7.0.js" />
+    <Content Include="js\jquery.dataTables.min.js" />
     <Content Include="js\jquery.mCustomScrollbar.concat.min.js" />
     <Content Include="js\jquery.min.js" />
+    <Content Include="js\jquery.validate.min.js" />
+    <Content Include="js\mdb.min.js" />
     <Content Include="js\plugin.js" />
     <Content Include="js\popper.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -556,6 +571,9 @@
     <Content Include="Views\Home\resetPasswordAdmin.cshtml" />
     <Content Include="Views\Home\resetPasswordUser.cshtml" />
     <Content Include="Views\DeleteChallan\DeleteChallan.cshtml" />
+    <Content Include="Views\Dashboard\accountantDashboard.cshtml" />
+    <Content Include="Views\Dashboard\campusDashboard.cshtml" />
+    <Content Include="Views\Users\UpdateStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

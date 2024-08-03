@@ -51,6 +51,17 @@
                         </div>
                     </div>
 
+                    @if (ViewBag.User == "1")
+                    {
+                        @Html.HiddenFor(model => model.campus_id)
+                        @Html.HiddenFor(model => model.faculty_id)
+                        @Html.HiddenFor(model => model.dept_id)
+                    }
+
+
+                    @Html.HiddenFor(model => model.fp_token)
+                    @Html.HiddenFor(model => model.fp_token_expiry)
+
                     <div class="row">
                         <div class="col">
                             <hr>
@@ -69,7 +80,7 @@
                         <div class="col-md-6">
                             <label>Name *</label>
                             <div class="form-group">
-                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
                                 @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -79,14 +90,14 @@
                         <div class="col-md-6">
                             <label>Post *</label>
                             <div class="form-group">
-                                @Html.EditorFor(model => model.post, new { htmlAttributes = new { @class = "form-control", placeholder = "Post Like Admin Staff, Professor or Co-ordinator etc." } })
+                                @Html.EditorFor(model => model.post, new { htmlAttributes = new { @class = "form-control", placeholder = "Post Like Admin Staff, Professor or Co-ordinator etc.", @required = "true" } })
                                 @Html.ValidationMessageFor(model => model.post, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label>Status *</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control", @required = "true" })
                                 @Html.ValidationMessageFor(model => model.is_active, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -98,14 +109,14 @@
                             <div class="col-md-6">
                                 <label>Role *</label>
                                 <div class="form-group">
-                                    @Html.DropDownListFor(model => model.role, ViewBag.roles as SelectList, "Select Role", new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.role, ViewBag.roles as SelectList, "Select Role", new { @class = "form-control", @required = "true", @id="role" })
                                     @Html.ValidationMessageFor(model => model.role, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label>Campus </label>
                                 <div class="form-group">
-                                    @Html.DropDownListFor(model => model.campus_id, ViewBag.campusList as IEnumerable<SelectListItem>, "Select Campus", new { @class = "form-control", id = "campusDropdown" })
+                                    @Html.DropDownListFor(model => model.campus_id, ViewBag.campusList as IEnumerable<SelectListItem>, "Select Campus", new { @class = "form-control", id = "campusDropdown", @required = "true" })
                                     @Html.ValidationMessageFor(model => model.campus_id, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -115,9 +126,6 @@
                             <div class="col-md-6">
                                 <label>Faculty</label>
                                 <div class="form-group">
-
-
-
 
                                     <select id="facultyDdl" class="form-control">
                                         <option value="">Select Faculty</option>
@@ -209,6 +217,8 @@
             }
         });
     });
+
+
 </script>
 
 

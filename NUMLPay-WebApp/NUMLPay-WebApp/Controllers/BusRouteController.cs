@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace NUMLPay_WebApp.Controllers
 {
-    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 1 })]
+    [CustomAuthorizationFilter(requireAdmin: true, requiredRole: new int[] { 1, 4 })]
     public class BusRouteController : SessionController
     {
         Uri baseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
@@ -40,6 +40,13 @@ namespace NUMLPay_WebApp.Controllers
         public async Task<ActionResult> addBusRoute()
         {
             Admin admin = userAccessAdmin();
+            ViewBag.adminRoles = "none;";
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+            }
 
             ViewBag.Display = "none;";
             return View();
@@ -50,8 +57,19 @@ namespace NUMLPay_WebApp.Controllers
         public async Task<ActionResult> addBusRoute(BusRoute busRoute)
         {
             Admin admin = userAccessAdmin();
+            ViewBag.adminRoles = "none;";
 
-            busRoute.campus_id = Convert.ToInt32(admin.campus_id);
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+                busRoute.campus_id = Convert.ToInt32(Request.Form["campusDdl"]);
+            }
+            else
+            {
+                busRoute.campus_id = Convert.ToInt32(admin.campus_id);
+            }
+
             busRoute.added_by = admin.email_id;
             busRoute.is_active = 1;
 
@@ -82,18 +100,37 @@ namespace NUMLPay_WebApp.Controllers
             ViewBag.AlertType = TempData["AlertType"]?.ToString() ?? "";
             ViewBag.AlertMessage = TempData["AlertMessage"]?.ToString() ?? "";
             ViewBag.Display = TempData["Display"] ?? "none;";
+            ViewBag.adminRoles = "none;";
 
             Admin admin = userAccessAdmin();
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block;";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+                admin.campus_id = Convert.ToInt32(Session["campus"]);
+            }
+            else
+            {
+                admin.campus_id = Convert.ToInt32(admin.campus_id);
+            }
 
             List<BusRouteView> listBusRoutes = await getBusRoutes(Convert.ToInt32(admin.campus_id));
 
             return View(listBusRoutes);
         }
 
+        public async Task<ActionResult> sessionGenerator(int campus)
+        {
+            Session["campus"] = campus;
+
+            return RedirectToAction("viewBusRoutes");
+        }
+
         // Update BusRoute
         public async Task<ActionResult> updateBusRoute(int Id)
         {
-            userAccessAdmin();
+            Admin admin = userAccessAdmin();
 
             BusRoute busRoute = null;
 
@@ -104,6 +141,14 @@ namespace NUMLPay_WebApp.Controllers
                     string data = await response.Content.ReadAsStringAsync();
                     busRoute = JsonConvert.DeserializeObject<BusRoute>(data);
                 }
+            }
+
+            ViewBag.adminRoles = "none;";
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block";
+                ViewBag.campusList = await campusService.getSelectedCampus(busRoute.campus_id);
             }
 
             ViewBag.Display = "none;";
@@ -122,9 +167,20 @@ namespace NUMLPay_WebApp.Controllers
             Admin admin = userAccessAdmin();
 
             ViewBag.Display = "none;";
+            ViewBag.adminRoles = "none;";
 
             busRoute.added_by = admin.email_id;
-            busRoute.campus_id = Convert.ToInt32(admin.campus_id);
+
+            if (admin.role == 4)
+            {
+                ViewBag.adminRoles = "block";
+                ViewBag.campusList = await campusService.addCampustoListAsync();
+                busRoute.campus_id = Convert.ToInt32(Request.Form["campusDdl"]);
+            }
+            else
+            {
+                busRoute.campus_id = Convert.ToInt32(admin.campus_id);
+            }
 
             HttpResponseMessage responseMessage = await apiServices.PutAsync($"BusRoute/Update/{busRoute.id}", busRoute);
 

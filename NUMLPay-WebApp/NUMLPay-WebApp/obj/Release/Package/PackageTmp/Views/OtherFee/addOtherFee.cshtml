@@ -1,0 +1,134 @@
+﻿@model NUMLPay_WebApp.Models.FeeStructure
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Add Other Fee Structure";
+}
+
+
+@using (Html.BeginForm("addOtherFee", "OtherFee", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Other Fee Structure</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <label>Admission Session *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.session, ViewBag.admissionSession as SelectList, "Select Fee Session", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.session, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Fee For *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.fee_for, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <label>Total Fee *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.total_fee, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.total_fee, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Security (Only For Hostel And Mess) *</label>
+                            <div class="form-group">
+                                <input name="securityFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Campus *</label>
+                            <div class="form-group">
+                                <select id="campusDropdown" name="campusDropdown" class="form-control">
+                                    <option value="">Select Campus</option>
+                                    @if (ViewBag.campusList != null)
+                                    {
+                                        foreach (var campus in ViewBag.campusList)
+                                        {
+                                            <option value="@campus.Value">@campus.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Route (only for Bus) *</label>
+                            <div class="form-group">
+                                <select id="routeDropdown" name="routeDropdown" class="form-control">
+                                    <option value="">Select Bus Route</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row mt-5 mb-5">
+                        <div class="col-md-4 mx-auto">
+                            <center>
+                                <div class="form-group">
+                                    <input type="submit" value="Add Fee" class="btnLogin" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $('#campusDropdown').change(function () {
+        var campusId = $('#campusDropdown').val();
+
+        $.getJSON('/OtherFee/getRoutes?campus_id=' + campusId, function (data) {
+            var items = '<option>Select Bus Route</option>';
+            $.each(data, function (i, degree) {
+                items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+            });
+            $('#routeDropdown').html(items);
+        });
+    });
+</script>

@@ -1,0 +1,297 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<main>
+    <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+        <div id="customAlert" class="alert @ViewBag.AlertType" role="alert">
+            @ViewBag.AlertMessage
+            <button type="button" style="display: @ViewBag.Display" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <!--header section start -->
+    <div id="home" class="header_section mt-0">
+
+        <div class="header_left">
+            <div class="banner_main">
+                <h1 class="banner_title">NUMLPay</h1>
+                <h2 class="banner_Subtitle">One Click Solution</h2>
+                <p class="banner_text">
+                    A convenient fee paying service designed exclusively for students of NUML, streamlining payments and enhancing financial accessibility within the university community.
+                </p>
+                <div class="btn_main">
+                    <div class="more_bt"><a href="/Home/Login">Login</a></div>
+                    <div class="contact_bt"><a href="/Home/Register">Register</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="header_right">
+            <img src="~/images/banner-img.png" class="banner_img">
+        </div>
+    </div>
+    <!--header section end -->
+    <!--about section start -->
+    <div id="about" class="services_section layout_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="services_title">WELCOME TO NUMLPay</h1>
+                    <p class="services_text">
+                        Simplifying Transactions, Empowering NUML Students. Your trusted companion for hassle-free fee payments at NUML. With our secure and user-friendly platform, managing your financial transactions has been easier. Say goodbye to long queues and paperwork, and embrace the convenience of NUMLPay.
+                    </p>
+                    <div class="moremore_bt"><a href="/Home/Login">Pay Fee </a></div>
+                </div>
+                <div class="col-md-4">
+                    <div><img src="~/images/img-1.png" class="image_1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--about section end -->
+    <!--services section start -->
+    <div id="service" class="what_we_do_section layout_padding">
+        <div class="container">
+            <h1 class="what_title">WHAT WE DO</h1>
+            <p class="what_text">
+                NUMLPay simplifies fee payments, making it effortless for NUML students to manage their financial transactions.
+            </p>
+            <div class="what_we_do_section_2">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="box_main">
+                            <div class="icon_1"><img src="~/images/icon-4.png"></div>
+                            <h3 class="accounting_text">Generate Challans</h3>
+                            <p class="lorem_text">
+                                NumlPay generates Challans with simplicity and efficiency within Seconds.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="box_main">
+                            <div class="icon_1"><img src="~/images/icon-1.png"></div>
+                            <h3 class="accounting_text">Pay Fee Online</h3>
+                            <p class="lorem_text">
+                                Pay educational fees conveniently through NumlPay One Click Solution.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="box_main">
+                            <div class="icon_1"><img src="~/images/icon-2.png"></div>
+                            <h3 class="accounting_text">Account Book</h3>
+                            <p class="lorem_text">
+                                NumlPay allows you to effortlessly view your account book online.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="box_main">
+                            <div class="icon_1"><img src="~/images/icon-3.png"></div>
+                            <h3 class="accounting_text">No Physical Submission</h3>
+                            <p class="lorem_text">
+                                NUMLPay eliminates the need to submit receipts to the coordinator.
+                            </p>
+                            <!-- <div class="moremore_bt_1"><a href="#">Read More </a></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--services section end -->
+    <!--Fee Structure section start -->
+    <div id="service" class="what_we_do_section layout_padding">
+        <div class="container">
+            <h1 class="what_title"> Concerned About Fees? </h1>
+            <p class="what_text">
+                Worried about fees? We're here to provide clarity and assistance regarding your concerns.
+            </p>
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-2">
+                    <div class="form-group">
+                        <select id="campusDropdown" class="form-control" required onchange="updateDownloadLink()">
+                            <option value="">Select Campus</option>
+                            @foreach (var campus in ViewBag.campusList)
+                            {
+                                <option value="@campus.Value" @(campus.Selected ? "selected" : "")>@campus.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="download_bt text-center" id="downloadLinkContainer">
+                        <span class="text-warning">Please select a campus before downloading.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Fee Structure section end -->
+    <!--team section start -->
+    <div id="team" class="team_section layout_padding">
+        <div class="container">
+            <h1 class="what_title">Our Team and experts</h1>
+            <p class="what_text_1">
+                Meet the dedicated team of experts at NUMLPay for seamless transactions.
+            </p>
+            <div class="team_section_2 layout_padding">
+                <div class="row justify-content-center">
+
+                    <div class="col-sm-3">
+                        <img src="~/images/bakht.png" class="image_7">
+                        <p class="readable_text">Muhammad Bakht Jamal</p>
+                        <div class="social_icon">
+                            <ul>
+                                <li><a href="#"><img src="~/images/fb-icon.png"></a></li>
+                                <li><a href="#"><img src="~/images/twitter-icon.png"></a></li>
+                                <li><a href="#"><img src="~/images/linkedin-icon.png"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="~/images/hanan.png" class="image_7">
+                        <p class="readable_text">Abdul Hanan Nawaz</p>
+                        <div class="social_icon">
+                            <ul>
+                                <li><a href="#"><img src="~/images/fb-icon.png"></a></li>
+                                <li><a href="#"><img src="~/images/twitter-icon.png"></a></li>
+                                <li><a href="#"><img src="~/images/linkedin-icon.png"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="~/images/hamza.png" class="image_7">
+                        <p class="readable_text">Muhammad Hamza</p>
+                        <div class="social_icon">
+                            <ul>
+                                <li><a href="#"><img src="~/images/fb-icon.png"></a></li>
+                                <li><a href="#"><img src="~/images/twitter-icon.png"></a></li>
+                                <li><a href="#"><img src="~/images/linkedin-icon.png"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--team section end -->
+    <!--client section start -->
+    <div id="" class="client_section layout_padding">
+        <div class="container">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <h1 class="what_title">what is syas our clients</h1>
+                        <div class="client_section_2 layout_padding">
+                            <ul>
+                                <li><img src="~/images/round-1.png" class="round_1"></li>
+                                <li><img src="~/images/hanan.png" class="image_11" width="200" height="200"></li>
+                                <li><img src="~/images/round-2.png" class="round_2"></li>
+                            </ul>
+                            <p class="readable_text_1">Abdul Hanan Nawaz</p>
+                            <p class="dummy_text">
+                                "NUMLPay has revolutionized my financial transactions, providing seamless and secure payments with unmatched convenience. It's a game-changer!"
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <h1 class="what_title">what is syas our clients</h1>
+                        <div class="client_section_2 layout_padding">
+                            <ul>
+                                <li><img src="~/images/round-1.png" class="round_1"></li>
+                                <li><img src="~/images/bakht.png" class="image_11" width="200" height="200"></li>
+                                <li><img src="~/images/round-2.png" class="round_2"></li>
+                            </ul>
+                            <p class="readable_text_1">Muhammad Bakht Jamal</p>
+                            <p class="dummy_text">
+                                "NUMLPay's user-friendly interface and lightning-fast transactions have made managing my finances a breeze. Highly recommend!"
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <h1 class="what_title">what is syas our clients</h1>
+                        <div class="client_section_2 layout_padding">
+                            <ul>
+                                <li><img src="~/images/round-1.png" class="round_1"></li>
+                                <li><img src="~/images/hamza.png" class="image_11" width="200" height="200"></li>
+                                <li><img src="~/images/round-2.png" class="round_2"></li>
+                            </ul>
+                            <p class="readable_text_1">Muhammad Hamza</p>
+                            <p class="dummy_text">
+                                "NUMLPay's user-friendly interface and lightning-fast transactions have made managing my finances a breeze. Highly recommend!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--client section end -->
+    <!-- contact section start -->
+    <div id="contact" class="contact_section layout_padding">
+        <div class="container-fluid">
+            <h1 class="what_title">Contact us</h1>
+            <p class="amet_text">Get in touch with NUMLPay today and experience the future of effortless and secure financial transactions. </p>
+            <div class="contact_section2">
+                <div class="row">
+                    <div class="col-md-6 padding_left_0">
+                        <div class="mail_section">
+                            <input class="mail_text_1" placeholder="Name" id="nameInput">
+                            <input class="mail_text_1" placeholder="Phone Number" id="phoneNumberInput">
+                            <input class="mail_text_1" placeholder="Email" id="emailInput">
+                            <textarea class="massage_text" placeholder="Message" rows="8" id="messageInput"></textarea>
+                            <div class="send_bt"><a href="#" id="sendEmailBtn">send</a></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding_0 p-3">
+                        <div class="map-responsive">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3320.637687632754!2d73.04900257467519!3d33.666548637999334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df9570806ed9ed%3A0x894fbeb9e70954d4!2sNational%20University%20Of%20Modern%20Languages!5e0!3m2!1sen!2s!4v1688308227836!5m2!1sen!2s;q=NUMLPay+Office,+ NUML+Islamabad" width="600" height="400" frameborder="0" style="border:0; width: 100%;" allowfullscreen=""></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- contact section end -->
+
+</main>
+
+
+<script>
+    function updateDownloadLink() {
+        var selectedCampus = document.getElementById("campusDropdown").value;
+        var downloadLinkContainer = document.getElementById("downloadLinkContainer");
+
+        if (selectedCampus !== "") {
+            var downloadLink = '<a href="/Home/DownloadFeePdf?campusId=' + selectedCampus + '">Download Fee Structure</a>';
+            downloadLinkContainer.innerHTML = downloadLink;
+        } else {
+            downloadLinkContainer.innerHTML = '<span>Please select a campus before downloading.</span>';
+        }
+    }
+
+    document.getElementById('sendEmailBtn').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        var name = document.getElementById('nameInput').value.trim();
+        var phoneNumber = document.getElementById('phoneNumberInput').value.trim();
+        var email = document.getElementById('emailInput').value.trim();
+        var message = document.getElementById('messageInput').value.trim();
+
+        var url = '/Home/sendEmail?name=' + encodeURIComponent(name) + '&phoneNumber=' + encodeURIComponent(phoneNumber) + '&email=' + encodeURIComponent(email) + '&message=' + encodeURIComponent(message);
+
+        window.location.href = url;
+    });
+
+
+</script>

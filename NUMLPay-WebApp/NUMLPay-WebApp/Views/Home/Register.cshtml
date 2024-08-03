@@ -1,0 +1,255 @@
+﻿
+@model NUMLPay_WebApp.Models.Users
+
+@{
+    ViewBag.Title = "Register as Student";
+}
+
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet" />
+<style>
+    .password-input {
+        position: relative;
+    }
+
+    .password-field {
+        padding-right: 35px; /* Adjust the value as needed */
+    }
+
+    .password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 10px; /* Adjust the value as needed */
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
+<section class="vh-100 mt-5 mb-5">
+
+    <div class="container">
+
+        <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+            <div id="customAlert" class="alert @ViewBag.AlertType" role="alert">
+                @ViewBag.AlertMessage
+                <button type="button" style="display: @ViewBag.Display" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            @Html.AntiForgeryToken()
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="col-md-6">
+
+                            <img src="~/images/logo.png" height="250" width="250" />
+
+                            <h3 class="fw-normal mb-3 pb-3 w-100" style="letter-spacing: 1px;">Register <small>as Student</small></h3>
+                            <h4 class="fw-normal mb-5" style="color: #0e96eb;">Personal Infomation</h4>
+
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.numl_id, new { htmlAttributes = new { @class = "form-control", placeholder = "Please Enter NUML Id" } })
+                                @Html.ValidationMessageFor(model => model.numl_id, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", placeholder = "Please Enter Name" } })
+                                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                <div class="password-input">
+                                    @Html.PasswordFor(model => model.password, new { @class = "form-control password-field", placholder = "Please Enter Password", type="password" })
+                                    <i class="password-toggle fas fa-eye"></i>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.father_name, new { htmlAttributes = new { @class = "form-control", placeholder = "Please Enter Father Name" } })
+                                @Html.ValidationMessageFor(model => model.father_name, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.date_of_birth, new { htmlAttributes = new { @class = "form-control", type = "text", onfocus = "(this.type='date')", onblur = "if(!this.value)this.type='text'", placeholder = "Please Enter Date of Birth" } })
+                                @Html.ValidationMessageFor(model => model.date_of_birth, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "Please Enter Email" } })
+                                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.contact, new { htmlAttributes = new { @class = "form-control", placeholder = "Please Enter Contact Number" } })
+                                @Html.ValidationMessageFor(model => model.contact, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.nic, new { htmlAttributes = new { @class = "form-control", placeholder = "Please Enter CNIC" } })
+                                @Html.ValidationMessageFor(model => model.nic, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h4 class="fw-normal mb-5 text-primary">University Details</h4>
+
+                            <div class="form-group">
+                                <select id="campusDropdown" class="form-control">
+                                    <option value="">Select Campus</option>
+                                    @foreach (var campus in ViewBag.campusList)
+                                    {
+                                        <option value="@campus.Value" @(campus.Selected ? "selected" : "")>@campus.Text</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select id="facultyDdl" class="form-control">
+                                    <option>Select Faculty</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select id="deptDdl" class="form-control">
+                                    <option value="">Select Department</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.dept_id, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.dept_id) <!-- Add a hidden input field -->
+                            </div>
+
+                            <div class="form-group">
+                                <select id="academicDdl" class="form-control">
+                                    <option value="">Select Academic Level</option>
+                                    @foreach (var level in ViewBag.academicLevels)
+                                    {
+                                        <option value="@level.Value" @(level.Selected ? "selected" : "")>@level.Text</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <select id="degreeDdl" class="form-control">
+                                    <option value="">Select Degree</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.degree_id, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.degree_id) <!-- Add a hidden input field -->
+                            </div>
+                           
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.admission_session, ViewBag.admissionSession as SelectList, "Select Admission Session", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.admission_session, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.fee_plan, ViewBag.feePlan as SelectList, "Select Fee Plan", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.fee_plan, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Hostel Fees</label>
+                                <select name="hostelDdl" class="form-control">
+                                    <option>Select Hostel Fees</option>
+                                    <option value="1">Yes</option>
+                                    <option value="2">NO</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Bus Fees</label>
+                                <select name="busDdl" class="form-control">
+                                    <option>Select Bus Fees</option>
+                                    <option value="1">Yes</option>
+                                    <option value="2">NO</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="imageInput" class="form-label">Upload Your Picture:</label>
+                                <input type="file" id="imageInput" name="imageFile" class="form-control" accept="image/*">
+                            </div>
+
+                            <div class="mb-4 text-center">
+                                <img id="imageView" src="#" alt="Your Picture" class="img-fluid" style="max-width: 200px; display: none;">
+                            </div>
+
+                            <div class="pt-1 mb-4">
+                                <input class="btnLogin mb-4" type="submit" value="Register" />
+                            </div>
+
+                            <div class="form-outline mb-2 mt-5">
+                                <p class="text-center fw-bold text-muted ">OR</p>
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                <p class="mb-3 pb-lg-2 float-right">Already have an Account?  <a class="text-muted text-primary" href="/Home/Login"> Login as Student</a></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/jscript">
+
+    $('#academicDdl').change(function () {
+        $.getJSON('/Home/getDegrees?deptId=' + $('#deptDdl').val() + '&levelId=' + $('#academicDdl').val(), function (data) {
+            var items = '<option>Select Degree</option>';
+            $.each(data, function (i, degree) {
+                items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+            });
+            $('#degreeDdl').html(items);
+        });
+    });
+
+    $(function () {
+        $("#imageInput").change(function () {
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#imageView").attr("src", reader.result).show();
+            };
+            if (this.files && this.files[0]) {
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    });
+
+    $(function () {
+        $(document).on('click', '.password-toggle', function () {
+            var passwordField = $(this).prev(".password-field");
+
+            if (passwordField.attr("type") === "password") {
+                passwordField.attr("type", "text");
+                passwordField.attr("placeholder", "");
+                $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+            } else {
+                passwordField.attr("type", "password");
+                passwordField.attr("placeholder", "Please Enter Password");
+                $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+            }
+        });
+    });
+
+
+</script>
+
+<script src="~/js/cascadingDropdown.js"></script>
+
+
+
+

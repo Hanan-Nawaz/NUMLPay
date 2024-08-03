@@ -1,0 +1,193 @@
+﻿@model NUMLPay_WebApp.Models.Admin
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Add Admin";
+}
+
+
+<style>
+    .password-input {
+        position: relative;
+    }
+
+    .password-field {
+        padding-right: 35px; /* Adjust the value as needed */
+    }
+
+    .password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 10px; /* Adjust the value as needed */
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
+
+@using (Html.BeginForm("addAdmin", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Admin</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Name *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Email Id *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.email_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.email_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Password *</label>
+                            <div class="form-group">
+                                <div class="password-input">
+                                    @Html.PasswordFor(model => model.password, new { @class = "form-control password-field" })
+                                    <i class="password-toggle fas fa-eye"></i>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Post *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.post, new { htmlAttributes = new { @class = "form-control", placeholder = "Post Like Admin Staff, Professor or Co-ordinator etc." } })
+                                @Html.ValidationMessageFor(model => model.post, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Role *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.role, ViewBag.roles as SelectList, "Select Role", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.role, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Campus </label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.campus_id, ViewBag.campusList as SelectList, "Select Campus", new { @class = "form-control", id = "campusDropdown" })
+                                @Html.ValidationMessageFor(model => model.campus_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Faculty</label>
+                            <div class="form-group">
+                                <select id="facultyDdl" class="form-control">
+                                </select>
+                                @Html.ValidationMessageFor(model => model.faculty_id, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.faculty_id) <!-- Add a hidden input field -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Department</label>
+                            <div class="form-group">
+                                <select id="deptDdl" class="form-control">
+                                </select>
+                                @Html.ValidationMessageFor(model => model.dept_id, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.dept_id) <!-- Add a hidden input field -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container mt-4 ">
+                        <div class="alert alert-info w-100">
+                            <strong>Note:</strong> When assigning roles to users, please ensure the following guidelines are followed for providing access to specific information:
+                            <ul>
+                                <li><strong class="text-primary">Campus Admin Role:</strong> Users with the "Campus Admin" role should have access to campus selected only.</li>
+                                <li><strong class="text-warning">Coordinator / Department Admin Role:</strong> Users with the "Coordinator" or "Dept Admin" role should have access to campus, department, and faculty information.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-5 mb-5">
+                        <div class="col-md-4 mx-auto">
+                            <center>
+                                <div class="form-group">
+                                    <input type="submit" value="Add Admin" class="btnLogin" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/jscript">
+
+
+
+    $(function () {
+        $(document).on('click', '.password-toggle', function () {
+            var passwordField = $(this).prev(".password-field");
+
+            if (passwordField.attr("type") === "password") {
+                passwordField.attr("type", "text");
+                $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+            } else {
+                passwordField.attr("type", "password");
+                $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+            }
+        });
+    });
+</script>
+
+<script src="~/js/cascadingDropdown.js"></script>
+
+
+
+
+

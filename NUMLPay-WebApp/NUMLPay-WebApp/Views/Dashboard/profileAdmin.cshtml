@@ -1,0 +1,151 @@
+﻿@model NUMLPay_WebApp.Models.Admin
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Profile";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-eye fa-fw "></i>Profile</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Email Id *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.email_id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.email_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Name *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Role *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.role, ViewBag.roles as SelectList, "Select Role", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.role, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Campus </label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.campus_id, ViewBag.campusList as IEnumerable<SelectListItem>, "Select Campus", new { @class = "form-control", id = "campusDropdown", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.campus_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Faculty</label>
+                            <div class="form-group">
+                                <select id="facultyDdl" class="form-control" readonly = "readonly">
+                                    <option value="">Select Faculty</option>
+                                    @{
+                                        var facultyList = ViewBag.facultyList as IEnumerable<SelectListItem>;
+
+                                        if (facultyList != null && facultyList.Any())
+                                        {
+                                            foreach (var faculty in facultyList)
+                                            {
+                                                <option value="@faculty.Value" @(faculty.Selected ? "selected" : "")>@faculty.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+
+
+                                @Html.ValidationMessageFor(model => model.faculty_id, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.faculty_id) <!-- Add a hidden input field -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Department</label>
+                            <div class="form-group">
+                                <select id="deptDdl" class="form-control" readonly = "readonly">
+                                    <option value="">Select Department</option>
+                                    @{
+                                        var deptList = ViewBag.deptList as IEnumerable<SelectListItem>;
+
+                                        if (deptList != null && deptList.Any())
+                                        {
+                                            foreach (var dept in deptList)
+                                            {
+                                                <option value="@dept.Value" @(dept.Selected ? "selected" : "")>@dept.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+
+                                @Html.ValidationMessageFor(model => model.dept_id, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.dept_id) <!-- Add a hidden input field -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Post *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.post, new { htmlAttributes = new { @class = "form-control", placeholder = "Post Like Admin Staff, Professor or Co-ordinator etc.", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.post, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Status *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.is_active, ViewBag.is_active as SelectList, "Select Status", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.is_active, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+
+
+

@@ -1,0 +1,130 @@
+﻿@model NUMLPay_WebApp.Models.UnpaidFees
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Generate Challan";
+}
+
+@using (Html.BeginForm("generateChallan", "GenerateChallan", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-file-alt fa-fw "></i>Generate Challan</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Challan Type *</label>
+                        <div class="form-group">
+                            <select name="challanDropDown" id="challanDropDown" class="form-control" required>
+                                <option value="">Select Challan Type</option>
+                                @foreach (var challan in ViewBag.challanType)
+                                {
+                                    <option value="@challan.Value">@challan.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                        <div class="col-md-6">
+                            <label>Session *</label>
+                            <div class="form-group">
+                                <select name="sessionDropdown" class="form-control" required>
+                                    <option value="">Select Session</option>
+                                    @foreach (var session in ViewBag.Session)
+                                    {
+                                        <option value="@session.Value">@session.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Installments *</label>
+                            <div class="form-group">
+                                <select name="installmentsDropDown" id="installmentsDropDown" class="form-control" required>
+                                    <option value="">Select Installments</option>
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Route (only for Bus) *</label>
+                            <div class="form-group">
+                                <select id="routeDropdown" name="routeDropdown" class="form-control">
+                                    <option value="">Select Bus Route</option>
+                                    @foreach (var method in ViewBag.routes)
+                                    {
+                                        <option value="@method.Value">@method.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-md-4 mx-auto">
+                            <label></label>
+                            <center>
+                                <div class="form-group">
+                                    <input type="submit" value="Generate Challan" class="btnLogin" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5" style="display: @ViewBag.gernerate;">
+                        <div class="col-md-12">
+                            <center>
+                                <h2 style="color: #0e96eb; ">
+                                    Generating <br /><span style="font-size: 55px;"><i class="fas fa-spinner fa-spin"></i></span>
+                                </h2>
+                            </center>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $('#challanDropDown').change(function () {
+        $.getJSON('/GenerateChallan/getInstallments?fee_for=' + $('#challanDropDown').val(), function (data) {
+            var items = '<option>Select Installment</option>';
+            $.each(data, function (i, degree) {
+                items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+            });
+            $('#installmentsDropDown').html(items);
+        });
+    });
+</script>

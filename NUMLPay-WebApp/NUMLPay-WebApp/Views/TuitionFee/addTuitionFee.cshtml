@@ -1,0 +1,284 @@
+﻿@model NUMLPay_WebApp.Models.FeeStructure
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Add Tuition Fee";
+}
+
+
+@using (Html.BeginForm("addTuitionFee", "TuitionFee", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Tuition Fee</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <label>Admission Session *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.session, ViewBag.admissionSession as SelectList, "Select Fee Session", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.session, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Fee For *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.fee_for, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Total Fee *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.total_fee, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.total_fee, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Campus *</label>
+                            <div class="form-group">
+                                <select id="campusDropdown" class="form-control">
+                                    <option value="">Select Campus</option>
+                                    @foreach (var campus in ViewBag.campusList)
+                                    {
+                                        <option value="@campus.Value" @(campus.Selected ? "selected" : "")>@campus.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Faculty *</label>
+                            <div class="form-group">
+                                <select id="facultyDdl" class="form-control">
+                                    <option>Select Faculty</option>
+                                    @{
+                                        var facultyList = ViewBag.facultyList as IEnumerable<SelectListItem>;
+
+                                        if (facultyList != null && facultyList.Any())
+                                        {
+                                            foreach (var faculty in facultyList)
+                                            {
+                                                <option value="@faculty.Value" @(faculty.Selected ? "selected" : "")>@faculty.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Department *</label>
+                            <div class="form-group">
+                                <select id="deptDdl" class="form-control">
+                                    <option value="">Select Department</option>
+                                    @{
+                                        var deptList = ViewBag.deptList as IEnumerable<SelectListItem>;
+
+                                        if (deptList != null && deptList.Any())
+                                        {
+                                            foreach (var dept in deptList)
+                                            {
+                                                <option value="@dept.Value" @(dept.Selected ? "selected" : "")>@dept.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Academic Level *</label>
+                            <div class="form-group">
+                                <select id="academicDdl" class="form-control">
+                                    <option value="">Select Academic Level</option>
+                                    @foreach (var level in ViewBag.academicLevels)
+                                    {
+                                        <option value="@level.Value" @(level.Selected ? "selected" : "")>@level.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Degree *</label>
+                            <div class="form-group">
+                                <select id="degreeDdl" class="form-control">
+                                    <option value="">Select Degree</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.shift_id, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.shift_id) <!-- Add a hidden input field -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Examination Fee *</label>
+                            <div class="form-group">
+                                <input name="examFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Maintainence Charges *</label>
+                            <div class="form-group">
+                                <input name="maintainceFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Magazine Fund *</label>
+                            <div class="form-group">
+                                <input name="magazineFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Computer Lab Charges *</label>
+                            <div class="form-group">
+                                <input name="computerLabFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Admission Fee *</label>
+                            <div class="form-group">
+                                <input name="admissionFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Medical Facility </label>
+                            <div class="form-group">
+                                <input name="medicalFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Sports Fund *</label>
+                            <div class="form-group">
+                                <input name="sportsFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Audio Visual Aids Fund & I.T Services  *</label>
+                            <div class="form-group">
+                                <input name="audioFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Library Security (Refundable) *</label>
+                            <div class="form-group">
+                                <input name="librarySecFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Tuition Fee *</label>
+                            <div class="form-group">
+                                <input name="tuitionFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Registration Fee *</label>
+                            <div class="form-group">
+                                <input name="registrationFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Library Subscription *</label>
+                            <div class="form-group">
+                                <input name="libraryFee" class="form-control" type="number" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5 mb-5">
+                        <div class="col-md-4 mx-auto">
+                            <center>
+                                <div class="form-group">
+                                    <input type="submit" value="Add Fee" class="btnLogin" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/jscript">
+
+    $('#academicDdl').change(function () {
+        $.getJSON('/Home/getDegrees?deptId=' + $('#deptDdl').val() + '&levelId=' + $('#academicDdl').val(), function (data) {
+            var items = '<option>Select Degree</option>';
+            $.each(data, function (i, degree) {
+                items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+            });
+            $('#degreeDdl').html(items);
+        });
+    });
+
+    $("form").submit(function () {
+        var selectedValueDegree = $("#degreeDdl").val();
+
+        $("input[name='shift_id']").val(selectedValueDegree);
+    });
+</script>
+
+@if (ViewBag.adminRole == "2")
+{
+    <script src="~/js/cascadingDropdown.js"></script>
+
+}
+
+
+
+

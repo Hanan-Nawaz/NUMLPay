@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Download Tuition Fee Reports";
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+}
+
+
+<div class="container-fluid">
+
+    <div class="col-md-13">
+
+        <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+            <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                @ViewBag.AlertMessage
+                <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <center>
+                            <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-download fa-fw "></i>Download Tuition fee Report</label>
+                        </center>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                    </div>
+                </div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Academic Level *</label>
+                        <div class="form-group">
+                            <select id="academicDdl" class="form-control" required>
+                                <option value="">Select Academic Level</option>
+                                @foreach (var level in ViewBag.academicLevels)
+                                {
+                                    <option value="@level.Value">@level.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Degree *</label>
+                        <div class="form-group">
+                            <select id="degreeDdl" class="form-control" required>
+                                <option value="">Select Degree</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Semester (Optional)</label>
+                        <div class="form-group">
+                            <select id="semDdl" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>For Session *</label>
+                        <div class="form-group">
+                            <select name="sessionDropdown" class="form-control" id="sessionDropdown" required>
+                                <option value="">Select Session</option>
+                                @foreach (var session in ViewBag.Session)
+                                {
+                                    <option value="@session.Value">@session.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-md-4 mx-auto">
+                        <center>
+                            <div class="form-group">
+                                <input type="submit" id="downloadReportBtn" value="Download Report" class="btnLogin" />
+                            </div>
+                        </center>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var deptIdFromViewBag = '@ViewBag.departmentId';
+        $('#academicDdl').change(function () {
+            $.getJSON('/Home/getDegrees?deptId=' + deptIdFromViewBag + '&levelId=' + $('#academicDdl').val(), function (data) {
+                var items = '<option>Select Degree</option>';
+                $.each(data, function (i, degree) {
+                    items += "<option value='" + degree.Value + "'>" + degree.Text + "</option>";
+                });
+                $('#degreeDdl').html(items);
+            });
+
+            var selectedAcademicLevel = $('#academicDdl').val();
+            var semesterDropdown = $("#semDdl");
+
+            semesterDropdown.empty();
+
+            semesterDropdown.append($("<option>").val("").text("Select Semester"));
+
+            if (selectedAcademicLevel === "1") {
+                for (var i = 1; i <= 8; i++) {
+                    semesterDropdown.append($("<option>").val(i).text(i));
+                }
+            } else if (selectedAcademicLevel === "2" || selectedAcademicLevel === "3") {
+                for (var i = 1; i <= 4; i++) {
+                    semesterDropdown.append($("<option>").val(i).text(i));
+                }
+            }
+        });
+
+        $('#downloadReportBtn').click(function () {
+
+            var academicLevel = $('#academicDdl').val();
+            var shiftId = $('#degreeDdl').val();
+            var sessionId = $('#sessionDropdown').val();
+
+            if (academicLevel && shiftId && sessionId) {
+                console.log(shiftId);
+                window.location.href = '/DownloadReport/downloadTuitionReport?shiftId=' + $('#degreeDdl').val() + '&semester=' + $('#semDdl').val() + '&session=' + $('#sessionDropdown').val();
+                   
+            } else {
+                window.alert('Please select Academic Level and Degree and Session');
+            }
+        });
+    });
+
+</script>

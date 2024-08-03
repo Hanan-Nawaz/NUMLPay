@@ -1,0 +1,77 @@
+﻿@model NUMLPay_WebApp.Models.UnpaidFees
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Add Repeat Courses Fee";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+        <div class="col-md-13">
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Repeat Courses Fee</label>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>NUML Id *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.std_numl_id, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.std_numl_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Fee *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.security, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.security, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Session *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.fee_id, ViewBag.admissionSession as SelectList, "Select Fee Session", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.fee_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-md-4 mx-auto">
+                            <center>
+                                <div class="form-group">
+                                    <input type="submit" value="Add Fee" class="btnLogin" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

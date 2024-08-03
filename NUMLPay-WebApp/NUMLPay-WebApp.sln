@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUMLPay-WebApp", "NUMLPay-WebApp\NUMLPay-WebApp.csproj", "{48A3E9EB-4616-4E3E-9300-68613904DA83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUMLPay-Api", "..\NUMLPay-Api\NUMLPay-Api\NUMLPay-Api.csproj", "{212AD086-1AB2-4793-A8FE-2C54A4136EBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48A3E9EB-4616-4E3E-9300-68613904DA83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48A3E9EB-4616-4E3E-9300-68613904DA83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48A3E9EB-4616-4E3E-9300-68613904DA83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48A3E9EB-4616-4E3E-9300-68613904DA83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{212AD086-1AB2-4793-A8FE-2C54A4136EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{212AD086-1AB2-4793-A8FE-2C54A4136EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{212AD086-1AB2-4793-A8FE-2C54A4136EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{212AD086-1AB2-4793-A8FE-2C54A4136EBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A44F8BED-BC3B-4045-8E48-9B756A8A124D}
+	EndGlobalSection
+EndGlobal

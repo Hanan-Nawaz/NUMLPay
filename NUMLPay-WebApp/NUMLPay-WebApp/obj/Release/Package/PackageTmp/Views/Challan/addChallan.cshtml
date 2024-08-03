@@ -1,0 +1,145 @@
+﻿@model NUMLPay_WebApp.Models.Challans
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Add Challan";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Challan</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Fee For Session *</label>
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.session, ViewBag.session as SelectList, "Select Fee For Session", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.session, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Admission Session *</label>
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.admissison_session, ViewBag.admissionSession as SelectList, "Select Admission Session", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.admissison_session, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Fee For *</label>
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.fee_for, ViewBag.feeFor as SelectList, "Select Fee For", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.fee_for, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Due Date *</label>
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.due_date, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.due_date, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Valid Date *</label>
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.valid_date, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.valid_date, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <table class="table table-striped table-bordered mt-5 justify-content-center" cellspacing="0" id="tableContainer" style="display: none; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="th-sm">
+                                            Fine After 10 Days
+                                        </th>
+                                        <th class="th-sm">
+                                            Fine After 30 Days
+                                        </th>
+                                        <th class="th-sm">
+                                            Fine After 60 Days
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@ViewBag.fine_after_10_days %</td>
+                                        <td>@ViewBag.fine_after_30_days %</td>
+                                        <td>@ViewBag.fine_after_60_days %</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-md-4 mx-auto">
+                            <center>
+                                <div class="form-group">
+                                    <input type="submit" value="Add Challan" class="btnLogin" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var radioOptions = document.querySelectorAll('input[name="inlineRadioOptions"]');
+
+        radioOptions.forEach(function (radio) {
+            radio.addEventListener("change", function () {
+                var tableContainer = document.getElementById("tableContainer");
+                if (this.value === "1") {
+                    tableContainer.style.display = "block";
+                } else {
+                    tableContainer.style.display = "none";
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,171 @@
+﻿@model NUMLPay_WebApp.Models.Users
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Add Users";
+}
+
+<!-- bootstrap css -->
+<link rel="stylesheet" type="text/css" href="~/css/bootstrap.min.css">
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: blue; font-size: 20px; user-select: none;"><i class="fas fa-plus fa-fw "></i>Add Users</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">NUML ID *</label>
+                            <div class="form-group">
+                              
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Name *</label>
+                            <div class="form-group">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Password *</label>
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Father Name *</label>
+                            <div class="form-group">
+                              
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Date Of Birth *</label>
+                            <div class="form-group">
+                               
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Email *</label>
+                            <div class="form-group">
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Contact Number *</label>
+                            <div class="form-group">
+                            
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">CNIC *</label>
+                            <div class="form-group">
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Campus *</label>
+                            <div class="form-group">
+                               
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Faculty *</label>
+                            <div class="form-group">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Department *</label>
+                            <div class="form-group">
+                               
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Academic Level *</label>
+                            <div class="form-group">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Degree *</label>
+                            <div class="form-group">
+                               
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Session *</label>
+                            <div class="form-group">
+                              
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Fee Plan *</label>
+                            <div class="form-group">
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-md-8 mx-auto">
+                            <center>
+                                <div class="form-group">
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

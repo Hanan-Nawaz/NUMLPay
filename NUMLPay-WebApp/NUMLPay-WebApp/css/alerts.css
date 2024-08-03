@@ -1,0 +1,32 @@
+﻿#customAlertContainer {
+    z-index: 9999;
+}
+
+#customAlert {
+    position: fixed;
+    top: 140px;
+    right: 10px;
+    left: auto;
+}
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    width: 350px;
+}
+
+.alert-danger {
+    color: white;
+    background-color: darkred;
+}
+
+.alert-success {
+    color: white;
+    background-color: darkgreen;
+}
+
+.alert-dismissible {
+    padding-right: 2.5rem;
+}

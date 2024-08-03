@@ -1,0 +1,74 @@
+﻿@model NUMLPay_WebApp.Models.Admin
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Profile";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-eye fa-fw "></i>Profile</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-4 bg-primary">
+                        <div class="form-group">
+                            <h1>@ViewBag.total_stds</h1>
+                            <label>Total Students in Department </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 bg-warning">
+                        <div class="form-group">
+                            <h1>@ViewBag.total_paid</h1>
+                            <label>Total Paid Fee </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 bg-success">
+                        <div class="form-group">
+                            <h1>@ViewBag.total_degrees</h1>
+                            <label>Total Degrees </label>
+                        </div>
+                    </div>
+                </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+
+
+

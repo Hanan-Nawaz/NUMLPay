@@ -1,0 +1,69 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Delete Challan";
+}
+
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-trash fa-fw "></i>Delete Challan</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Challan Number *</label>
+                            <div class="form-group">
+                                <input id="challanNum" required placeholder="Enter Challan Number" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-md-4 mx-auto">
+                            <center>
+                                <div class="form-group">
+                                    <button class="btnLogin" onclick="redirectToDeleteChallan()">Delete Challan</button>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+        // Function to handle button click
+        function redirectToDeleteChallan() {
+            // Get the value of the Challan Number input
+            var challanNum = document.getElementById("challanNum").value;
+
+            // Redirect to the appropriate URL with the Challan Number
+            window.location.href = "/DeleteChallan/DeleteChallans?ChallanNumber=" + parseInt(challanNum);
+        }
+</script>

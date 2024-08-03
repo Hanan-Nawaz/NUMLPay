@@ -1,0 +1,156 @@
+﻿@model IEnumerable<NUMLPay_WebApp.ViewModel.UnPaidFeeView>
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "View Account Book";
+}
+
+<div class="container-fluid">
+    <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+        <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+            @ViewBag.AlertMessage
+            <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="col-md-13">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <center>
+                            <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-book fa-fw "></i>View Account Book</label>
+                        </center>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <label class="text-primary">Personal Data</label>
+                    <div class="col-md-6">
+                        <label>NUML Id *</label>
+                        <div class="form-group">
+                            <input class="form-control" value="@ViewBag.numlId" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Name *</label>
+                        <div class="form-group">
+                            <input class="form-control" value="@ViewBag.name" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Status of Account *</label>
+                        <div class="form-group">
+                            <input class="form-control" value="@ViewBag.is_active" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Status of Degree *</label>
+                        <div class="form-group">
+                            <input class="form-control" value="@ViewBag.statusOfDegree" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive mt-2">
+                    <label class="text-primary mb-3">Account Book</label>
+
+                    <table id="dtOrderExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="th-sm">Challan No</th>
+                                <th class="th-sm">Challan Type</th>
+                                <th class="th-sm">Semester</th>
+                                <th class="th-sm">Installment No</th>
+                                <th class="th-sm">Total Fee</th>
+                                <th class="th-sm">Fine</th>
+                                <th class="th-sm">Amount Received</th>
+                                <th class="th-sm">Issue Date</th>
+                                <th class="th-sm">Due Date</th>
+                                <th class="th-sm">Paid Date</th>
+                                <th class="th-sm">Payment Method</th>
+                                <th class="th-sm">Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.challan_no)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.FeeFor)</td>
+                                        <td>
+                                            @if (item.semester > 15)
+                                            {
+                                                <p>Summer - @item.semester</p>
+                                            }
+                                            else
+                                            {
+                                                <p>@item.semester</p>
+                                            }
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.installment_no)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.total_fee)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.fine)</td>
+                                        <td>@(item.fine + item.total_fee)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.issue_date)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.due_date)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.paid_date)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.payment_method)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.status)</td>
+
+                                        <td class="d-flex justify-content-center" style="padding-top: 21px; padding-bottom: 21px;">
+                                            @if (item.status != "fee Arreard")
+                                            {
+
+                                                <button type="button" class="btn btn-primary btn-sm delete-btn me-2" title="Print" data-id="@item.id,@item.fee_type">
+                                                    <i class="fas fa-download"></i>
+                                                </button>
+                                            }
+                                        </td>
+
+                                        
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="13" class="text-center txet-danger">No Fee found.</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".delete-btn").click(function () {
+        var dataId = $(this).data("id");
+
+        var values = dataId.split(",");
+        var id = values[0];
+        var otherValue = values[1];
+
+        var url = "/AccountBook/DownloadChallanPdf?Id=" + id +"&feeType=" + otherValue;
+
+        window.location.href = url;
+
+    });
+</script>
+
+

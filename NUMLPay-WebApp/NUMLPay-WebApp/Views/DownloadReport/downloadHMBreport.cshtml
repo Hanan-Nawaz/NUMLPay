@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Download Hostel / Mess/ Bus Fee Reports";
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+}
+
+
+<div class="container-fluid">
+
+    <div class="col-md-13">
+
+        <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+            <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                @ViewBag.AlertMessage
+                <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <center>
+                            <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-download fa-fw "></i>Download Hostel / Mess/ Bus Fee Report</label>
+                        </center>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                    </div>
+                </div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label>For Session *</label>
+                    <div class="form-group">
+                        <select name="sessionDropdown" class="form-control" id="sessionDropdown" required>
+                            <option value="">Select Session</option>
+                            @foreach (var session in ViewBag.Session)
+                            {
+                                <option value="@session.Value">@session.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label>For Fee *</label>
+                    <div class="form-group">
+                        <select name="feeForDropdown" class="form-control" id="feeForDropdown" required>
+                            <option value="">Select Fee</option>
+                            @foreach (var session in ViewBag.feeFor)
+                            {
+                                <option value="@session.Value">@session.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+                <div class="row mt-5">
+                    <div class="col-md-4 mx-auto">
+                        <center>
+                            <div class="form-group">
+                                <input type="submit" id="downloadReportBtn" value="Download Report" class="btnLogin" />
+                            </div>
+                        </center>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#downloadReportBtn').click(function () {
+            var feeFor = $('#feeForDropdown').val(); 
+            var session = $('#sessionDropdown').val();
+
+            if (feeFor && session) {
+                window.location.href = '/DownloadReport/downloadHMBFeeReport?feeFor=' + feeFor + '&session=' + session;
+            } else {
+                console.error('Please select both Fee and Session.');
+            }
+        });
+    });
+
+
+</script>

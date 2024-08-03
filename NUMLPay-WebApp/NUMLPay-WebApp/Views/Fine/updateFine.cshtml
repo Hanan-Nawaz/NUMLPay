@@ -1,0 +1,100 @@
+﻿@model NUMLPay_WebApp.Models.Fines
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Update Fine";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+            <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+                <div id="customAlert" class="alert @ViewBag.AlertType alert-dismissible fade show" role="alert">
+                    @ViewBag.AlertMessage
+                    <button type="button" class="btn-close" style="display: @ViewBag.Display" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-pencil-alt fa-fw "></i>Update Fine</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Admission Session *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.session, ViewBag.admissionSession as SelectList, "Select Session", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.session, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Fine For *</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.fine_for, ViewBag.feeFor as SelectList, "Select Fine For", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => model.fine_for, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Fine Til 10 Days of Due Date *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.fine_after_10_days, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.fine_after_10_days, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Fine Til 30 Days of Due Date *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.fine_after_30_days, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.fine_after_30_days, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Fine After 60 Days of Due Date *</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.fine_after_60_days, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.fine_after_60_days, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-md-4 mx-auto">
+                            <center>
+                                <div class="form-group">
+                                    <input type="submit" value="Update Fine" class="btnLogin" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

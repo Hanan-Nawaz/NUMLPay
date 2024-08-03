@@ -1,0 +1,127 @@
+﻿@model NUMLPay_WebApp.Models.Users
+
+@{
+    ViewBag.Title = "Login as Student";
+}
+
+<style>
+    .password-input {
+        position: relative;
+    }
+
+    .password-field {
+        padding-right: 35px; /* Adjust the value as needed */
+    }
+
+    .password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 10px; /* Adjust the value as needed */
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
+
+<section class="vh-100 mt-5 mb-5">
+    <div class="container">
+
+        <div id="customAlertContainer" class="position-fixed top-0 end-0 p-3">
+            <div id="customAlert" class="alert @ViewBag.AlertType" role="alert">
+                @ViewBag.AlertMessage
+                <button type="button" style="display: @ViewBag.Display" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow">
+
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <img src="~/images/logo.png" height="250" width="250" />
+
+                        @using (Html.BeginForm())
+                        {
+
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <h3 class="fw-normal mb-3 pb-3 w-100" style="letter-spacing: 1px;">Log in <small>as Student</small></h3>
+
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="numlId">NUML ID *</label>
+                                @Html.EditorFor(model => model.numl_id, new { htmlAttributes = new { @class = "form-control form-control-lg w-100 txt", type = "text", id = "numlId" } })
+                                @Html.ValidationMessageFor(model => model.numl_id, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="numlPassword">Password *</label>
+                                <div class="password-input">
+                                    @Html.PasswordFor(model => model.password, new { @class = "form-control password-field" })
+                                    <i class="password-toggle fas fa-eye"></i>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                            </div>
+
+                            <p class="small mb-3 pb-lg-2 float-right"><a class="text-muted text-primary" href="/Home/forgotPasswordUser">Forgot password?</a></p>
+
+                            <div class="pt-1 mb-4">
+                                <input class="btnLogin mb-4" type="submit" value="Login" />
+                            </div>
+
+                            <div class="form-outline mb-2 mt-5">
+                                <p class="text-center fw-bold text-muted">OR</p>
+                            </div>
+
+                            <div class="form-outline mb-2">
+                                <p class="mb-3 pb-lg-2 float-right">Don't have an Account? <a class="text-muted text-primary" href="/Home/Register">Register as Student</a></p>
+                            </div>
+
+                            <a class="btnLogin text-white mb-4" href="/Home/loginAdmin"
+                               role="button">
+                                Login as Admin
+                            </a>
+
+                        }
+
+
+
+                    </div>
+
+                    <div class="col-sm-6">
+
+                        <img src="~/images/NUML.jpg" alt="Login image" class="card-img-top" style="object-fit: cover; height: 690px !important;">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function () {
+        $(document).on('click', '.password-toggle', function () {
+            var passwordField = $(this).prev(".password-field");
+
+            if (passwordField.attr("type") === "password") {
+                passwordField.attr("type", "text");
+                $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+            } else {
+                passwordField.attr("type", "password");
+                $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+            }
+        });
+    });
+</script>
+
+
+
+
+

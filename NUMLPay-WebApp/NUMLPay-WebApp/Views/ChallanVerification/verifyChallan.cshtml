@@ -1,0 +1,160 @@
+﻿@model NUMLPay_WebApp.Models.ChallanVerification
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageDashboard.cshtml";
+    ViewBag.Title = "Verify Challan";
+}
+
+@using (Html.BeginForm("verifyChallan", "ChallanVerification", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid">
+
+        <div class="col-md-13">
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <label style="color: #0e96eb; font-size: 20px; user-select: none;"><i class="fas fa-check fa-fw "></i>Verify Challan</label>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="col-md-12">
+                    <label class="text-primary">Challan Data</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>NUML Id *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.numlId" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Name *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.name" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Challan No *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.challanNo" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Fee Plan *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.feePlan" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Degree Name *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.degreeName" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Challan Type *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.challanType" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Fee Semester *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.feeSem" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Due Date *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.dueDate" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Total Fee *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.totalFee" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Fine *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.fine" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Total Fee with Fine *</label>
+                            <div class="form-group">
+                                <input class="form-control" value="@ViewBag.totalFeewithFine" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Decision *</label>
+                            <div class="form-group">
+                                <select name="decision" class="form-control" required>
+                                    <option value="">Select Decision</option>
+                                    <option value="1">Approve</option>
+                                    <option value="3">Dis-Approve</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Reason if Disapproved</label>
+                            <div class="form-group">
+                                <textarea class="form-control" name="disapproved" rows="5" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mt-5">
+                            <div class="text-center">
+                                <label class="mb-2">Challan Image *</label>
+                                <div class="form-group">
+                                    <img id="imageView" src="@ViewBag.image" class="img-fluid rounded mx-auto d-block" style="max-width: 50%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-md-4 mx-auto">
+                            <label></label>
+                            <center>
+                                <div class="form-group">
+                                    <input type="submit" value="Update" class="btnLogin" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+        </div>
+    </div>
+</div>
+}

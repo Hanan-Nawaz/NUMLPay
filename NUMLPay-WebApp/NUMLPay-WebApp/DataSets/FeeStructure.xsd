@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="FeeStructure" targetNamespace="http://tempuri.org/FeeStructure.xsd" xmlns:mstns="http://tempuri.org/FeeStructure.xsd" xmlns="http://tempuri.org/FeeStructure.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="FeeStructure" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="FeeStructure" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="FeeStructure">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="FeeStructure" msprop:Generator_RowEvHandlerName="FeeStructureRowChangeEventHandler" msprop:Generator_RowDeletedName="FeeStructureRowDeleted" msprop:Generator_RowDeletingName="FeeStructureRowDeleting" msprop:Generator_RowEvArgName="FeeStructureRowChangeEvent" msprop:Generator_TablePropName="_FeeStructure" msprop:Generator_RowChangedName="FeeStructureRowChanged" msprop:Generator_UserTableName="FeeStructure" msprop:Generator_RowChangingName="FeeStructureRowChanging" msprop:Generator_RowClassName="FeeStructureRow" msprop:Generator_TableClassName="FeeStructureDataTable" msprop:Generator_TableVarName="tableFeeStructure">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="sr_no" msprop:Generator_ColumnPropNameInTable="sr_noColumn" msprop:Generator_ColumnPropNameInRow="sr_no" msprop:Generator_UserColumnName="sr_no" msprop:Generator_ColumnVarNameInTable="columnsr_no" type="xs:string" minOccurs="0" />
+              <xs:element name="degree_name" msprop:Generator_ColumnPropNameInTable="degree_nameColumn" msprop:Generator_ColumnPropNameInRow="degree_name" msprop:Generator_UserColumnName="degree_name" msprop:Generator_ColumnVarNameInTable="columndegree_name" type="xs:string" minOccurs="0" />
+              <xs:element name="total_fee" msprop:Generator_ColumnPropNameInTable="total_feeColumn" msprop:Generator_ColumnPropNameInRow="total_fee" msprop:Generator_UserColumnName="total_fee" msprop:Generator_ColumnVarNameInTable="columntotal_fee" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
